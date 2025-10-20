@@ -16,3 +16,8 @@ macOS/Linux
 ```
    source venv/bin/activate
 ```
+
+## Install pip packages
+```
+  pip install -r .\src\requirements.txt
+```
