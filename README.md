@@ -1,5 +1,6 @@
 # NextGenTeamBlue
 
+## Using Python 3.13.9
 
 ## Create a Virtual Environment
 ```
