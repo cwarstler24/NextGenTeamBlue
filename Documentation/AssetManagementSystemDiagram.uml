@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>d5416388-8c5c-4175-9584-7000bd191965</OriginalElement>
+  <nodes>
+    <node x="-587.174157303371" y="222.0">d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.AssetTypes</node>
+    <node x="-1102.2303370786517" y="150.0">d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Employee</node>
+    <node x="-863.7022471910113" y="314.1348314606741">d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Asset</node>
+    <node x="-836.2022471910113" y="58.19775280898881">d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Locations</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Asset" target="d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Employee" relationship="REFERENCES">
+      <point x="-70.33333333333334" y="-116.0" />
+      <point x="-828.5355805243447" y="446.0" />
+      <point x="-1015.7303370786517" y="446.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Asset" target="d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.AssetTypes" relationship="REFERENCES">
+      <point x="70.33333333333334" y="-116.0" />
+      <point x="-687.868913857678" y="446.0" />
+      <point x="-479.174157303371" y="446.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Employee" target="d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Locations" relationship="REFERENCES">
+      <point x="0.0" y="-116.0" />
+      <point x="-1015.7303370786517" y="126.0" />
+      <point x="-797.2022471910113" y="126.0" />
+      <point x="-39.0" y="80.0" />
+    </edge>
+    <edge source="d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Asset" target="d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Locations" relationship="REFERENCES">
+      <point x="0.0" y="-116.0" />
+      <point x="-758.2022471910113" y="126.0" />
+      <point x="-719.2022471910113" y="126.0" />
+      <point x="39.0" y="80.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.5453431372549019" showDependencies="false" x="-553.5" y="314.0" />
+  <SelectedNodes>
+    <node>d5416388-8c5c-4175-9584-7000bd191965.TABLE:asset.Locations</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
