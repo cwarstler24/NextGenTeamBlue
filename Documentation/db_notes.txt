@@ -1,0 +1,2 @@
+mysql -u teamblue -p -h 172.16.0.122
+
