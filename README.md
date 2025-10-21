@@ -14,7 +14,7 @@ Windows
 
 macOS/Linux
 ```
-   source venv/bin/activate
+  source venv/bin/activate
 ```
 
 ## Install pip packages
