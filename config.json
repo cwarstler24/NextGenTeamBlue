@@ -1,7 +1,13 @@
 {
-  "log_file": "demo.log",
-  "log_level": "INFO",
   "format": "<green>{time:YYYY-MM-DD HH:mm:ss}</green> <level>{level}</level> <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
   "rotation": "10 MB",
-  "retention": "1 week"
+  "retention": "1 week",
+  "console_levels": {
+    "security": "WARNING",
+    "event": "WARNING"
+  },
+  "additional_logs": [
+    {"name": "security", "file": "security.log", "level": "TRACE"},
+    {"name": "event", "file": "event.log", "level": "TRACE"}
+  ]
 }
