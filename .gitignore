@@ -6,3 +6,6 @@ __pycache__/
 
 # Config files
 *.ini
+
+# Logging files
+*.log
