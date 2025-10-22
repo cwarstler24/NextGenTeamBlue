@@ -15,6 +15,9 @@ Usage: from logger import logger; logger.security("Security alert", level="warni
 import json
 import os
 import sys
+import shutil
+import glob
+import datetime
 from typing import Any
 from loguru import logger as _logger
 from cryptography.fernet import Fernet
@@ -23,12 +26,36 @@ from cryptography.fernet import Fernet
 key = Fernet.generate_key()
 cipher = Fernet(key)
 
+
 def security_sink(message):
     # message is the formatted log string
-    encrypted = cipher.encrypt(message.encode())
+
+    security_log_backup_path = os.path.join(os.path.dirname(__file__), '..', 'security')
     security_log_path = os.path.join(os.path.dirname(__file__), '..', 'security.log')
+
+    # Implement rotation: if file > 10 MB, rotate
+    if os.path.exists(security_log_path):
+        size = os.path.getsize(security_log_path)
+        #TODO: read from config
+        max_size = int(config['security_rotation']) * 1024 * 1024
+        if size > max_size: 
+            # Rotate backups
+            datetime_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            new = f"{security_log_backup_path}.{datetime_str}.log"
+            shutil.move(security_log_path, new)
+
+    # Implement retention: delete files older than 1 week
+    now = datetime.datetime.now()
+    retention_days = int(config['security_retention'])
+    for logfile in glob.glob(f"{security_log_path}.*"):
+        mtime = datetime.datetime.fromtimestamp(os.path.getmtime(logfile))
+        if (now - mtime).days > retention_days:
+            os.remove(logfile)
+
+    encrypted = cipher.encrypt(message.encode())
     with open(security_log_path, 'ab') as file:
         file.write(encrypted + b'\n')
+
 
 config_path = os.path.join(os.path.dirname(__file__), '..', 'config.json')
 with open(config_path) as f:
@@ -44,12 +71,15 @@ for log_config in config.get('additional_logs', []):
             sink,
             level=log_config['level'],
             format=config['format'],
-            filter=lambda record, name=log_config['name']: record["extra"].get("type") == name
+            filter=lambda record, name=log_config['name']: record["extra"]
+            .get("type") == name
         )
     else:
         _logger.add(
             log_config['file'],
             level=log_config['level'],
+            retention=config['retention'],
+            rotation=config['rotation'],
             format=config['format'],
             filter=lambda record, name=log_config['name']: record["extra"].get("type") == name
         )

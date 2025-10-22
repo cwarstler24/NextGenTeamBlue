@@ -1,7 +1,9 @@
 {
   "format": "<green>{time:YYYY-MM-DD HH:mm:ss}</green> <level>{level}</level> <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",
   "rotation": "10 MB",
+  "security_rotation": "10",
   "retention": "1 week",
+  "security_retention": "1",
   "console_levels": {
     "security": "WARNING",
     "event": "WARNING"
