@@ -1,7 +1,7 @@
 import configparser
 import mysql.connector
 
-def get_db_config(filename='db-docker/config.ini', section='mysql'):
+def get_db_config(filename='config.ini', section='mysql'):
     """
     Reads database configuration from an INI file.
     """
