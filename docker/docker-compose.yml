@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-teamblue
+    environment:
+      MYSQL_ROOT_PASSWORD: lnx4you!
+      # uncomment below if you want to automatically create and select a database
+      MYSQL_DATABASE: teamblue-asset-ms
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+
+# To get the container running on the local machine.
+# docker-compose up -d
+
+# To run MySQL as root
+# docker exec -it mysql-container mysql -u root -p
