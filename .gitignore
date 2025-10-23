@@ -5,7 +5,7 @@ venv/
 __pycache__/
 
 # Config files
-*.ini
+./*.ini
 
 # Logging files
 *.log
