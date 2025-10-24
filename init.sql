@@ -56,4 +56,4 @@ BEGIN
                       v_type_name, '-', YEAR(NEW.date_added), '-', LPAD(NEW.id, 3, '0')
                       )
     WHERE id = NEW.id;
-end
+end;
