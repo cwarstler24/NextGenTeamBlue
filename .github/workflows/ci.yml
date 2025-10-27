@@ -1,0 +1,36 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Pylint
+        run: pylint src
+      - name: Unit tests
+        run: pytest -m unit --cov=src --cov-report=term-missing
+      - name: Integration tests (mocked DB)
+        run: pytest -m integration --cov=src --cov-append --cov-report=xml:coverage.xml --cov-report=term
+      - name: Enforce coverage >= 85%
+        run: |
+          python - <<'PY'
+          import xml.etree.ElementTree as ET, sys
+          pct = float(ET.parse("coverage.xml").getroot().attrib["line-rate"]) * 100
+          print(f"Total coverage: {pct:.2f}%")
+          sys.exit(0 if pct >= 85 else 1)
+          PY
