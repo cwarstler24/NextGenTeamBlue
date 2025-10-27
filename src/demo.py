@@ -1,10 +1,11 @@
-from core.utils import do_something
-from logger import logger
+from src.core.utils import do_something
+from src.logger import logger
 
 if __name__ == "__main__":
     for i in range(1000):
         #logger.event("Looping", level="trace")
-        logger.security("Security alert", level="trace")
+        #logger.security("Security alert", level="trace")
+        pass
     logger.event("Starting main application")
     # Demo of all log levels
     logger.event("Trace level demo", level="trace")
