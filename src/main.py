@@ -8,8 +8,8 @@ def connect_with_connector():
         connector = Connector()
         # Replace with your project ID, region, and instance name
         instance_connection_name = f"teamblue-asset-ms:us-central1:teamblue-asset-ms" 
-        db_user = "cwarstler"  # If using basic authentication
-        db_password = "ClootBooters24!" # If using basic authentication
+        db_user = "teamblue"  # If using basic authentication
+        db_password = "Lnx4you!" # If using basic authentication
         db_name = "teamblue-asset-ms"
 
         # Use IAM database authentication (recommended)
