@@ -42,10 +42,6 @@ CREATE TABLE Asset (
     )
 );
 
-ALTER TABLE Asset
-    add column is_decommissioned binary default 0 after notes;
-
-DROP TRIGGER IF EXISTS after_insert_assets $$
 CREATE TRIGGER after_insert_assets
 AFTER INSERT ON Asset
 FOR EACH ROW
