@@ -29,6 +29,6 @@ def connect_with_connector():
 if __name__ == "__main__":
     engine = connect_with_connector()
     with engine.connect() as conn:
-        result = conn.execute(sqlalchemy.text("SELECT * FROM Asset"))
+        result = conn.execute(sqlalchemy.text("SELECT * FROM Employee"))
         for row in result:
             print(row)
