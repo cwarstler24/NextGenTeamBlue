@@ -1,0 +1,36 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: teamblue-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: lnx4you!root
+      MYSQL_DATABASE: teamblue-asset-ms
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql-data:
+
+
+# To get the container running on the local machine.
+# docker-compose up -d
+
+# To run MySQL as root
+# docker exec -it mysql-container mysql -u root -p
+
+# Get the ID of the container by using the docker ps command.
+# docker ps
+
+# Use the docker stop command to stop the container. Replace <the-container-id> with the ID from docker ps.
+# docker stop <the-container-id>
+
+# Once the container has stopped, you can remove it by using the docker rm command.
+# docker rm <the-container-id>
+
+# Start the todo app container, but add the --mount option to specify a volume mount. 
+# Give the volume a name, and mount it to /etc/todos in the container, which captures all files created at the path.
+# docker run -dp 127.0.0.1:3000:3000 --mount type=volume,src=todo-db,target=/etc/todos getting-started

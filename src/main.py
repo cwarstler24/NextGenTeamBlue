@@ -28,9 +28,9 @@ if __name__ == "__main__":
         cursor = conn.cursor()
 
         # Example: Execute a query
-        cursor.execute("SELECT VERSION()")
-        db_version = cursor.fetchone()
-        print(f"MySQL Database version: {db_version[0]}")
+        cursor.execute("SELECT * from Employee")
+        db_version = cursor.fetchall()
+        print(db_version)
 
         cursor.close()
         conn.close()
