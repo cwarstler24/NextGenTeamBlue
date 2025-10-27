@@ -1,34 +1,30 @@
 # src/validate.py
 from fastapi import HTTPException, Request
 import jwt
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-SECRET_KEY = os.getenv("API_SECRET_KEY", "defaultsecret")  # must match the key used when generating tokens
 
 async def validate_request(request: Request, token: str):
     """
-    Validates:
-    1. Token readability (valid JWT format and signature)
-    2. Body presence for POST/PUT requests
+    Validates that:
+    1. The token exists and looks like a proper JWT.
+    2. The request has a valid JSON body if it's a POST or PUT.
     """
-    # --- Step 1: Token format ---
-    if not token.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Invalid token format. Must start with 'Bearer '")
+    if not token or not token.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
 
     token_value = token.split(" ")[1]
 
-    # --- Step 2: Try decoding the token ---
-    try:
-        payload = jwt.decode(token_value, SECRET_KEY, algorithms=["HS256"])
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Token has expired")
-    except jwt.InvalidTokenError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+    # --- Step 1: Check token structure (optional sanity check) ---
+    parts = token_value.split(".")
+    if len(parts) != 3:
+        raise HTTPException(status_code=401, detail="Malformed token format")
 
-    # --- Step 3: For POST/PUT, check body ---
+    # --- Step 2: Try to read payload (without verifying signature) ---
+    try:
+        payload = jwt.decode(token_value, options={"verify_signature": False})
+    except Exception:
+        raise HTTPException(status_code=401, detail="Unreadable token")
+
+    # --- Step 3: Check JSON body if applicable ---
     if request.method in ["POST", "PUT"]:
         try:
             body = await request.json()

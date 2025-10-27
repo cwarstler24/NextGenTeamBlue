@@ -1,9 +1,6 @@
 # Virtual environment
 venv/
 
-# Ignore environment files
-.env
-
 # Python compiled bytecode
 __pycache__/
 
