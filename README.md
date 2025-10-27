@@ -21,3 +21,6 @@ macOS/Linux
 ```
   pip install -r .\src\requirements.txt
 ```
+
+
+<!-- Add postman link: https://app.getpostman.com/join-team?invite_code=ab7344646b2880073777a5bb776ac96f69630cdd797209261c2d5da5114dbb94&target_code=09cb41bcbfab941002074de5f23bfb5b -->
