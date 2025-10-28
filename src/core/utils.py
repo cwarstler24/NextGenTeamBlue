@@ -1,4 +1,4 @@
-from logger import logger
+from src.logger import logger
 
 def do_something():
     logger.event("Doing something in core.utils")
