@@ -1,34 +1,37 @@
-import os
+# src/main.py
+from fastapi import FastAPI, Request, HTTPException
+from src.validate import validate_request
+from src.authenticate import authorize_request
 
-from google.cloud.sql.connector import Connector, IPTypes
-import pymysql
-import sqlalchemy
+app = FastAPI(
+    title="Team Blue Inventory Listener",
+    description="Listens for GET, POST, PUT, DELETE requests, validates tokens, and authorizes by role.",
+    version="1.0.0"
+)
 
-def connect_with_connector():
-        connector = Connector()
-        # Replace with your project ID, region, and instance name
-        instance_connection_name = f"teamblue-asset-ms:us-central1:teamblue-asset-ms" 
-        db_user = "teamblue"  # If using basic authentication
-        db_password = "Lnx4you!" # If using basic authentication
-        db_name = "teamblue-asset-ms"
+@app.get("/")
+async def root():
+    return {"message": "Listener active on localhost"}
 
-        # Use IAM database authentication (recommended)
-        engine = sqlalchemy.create_engine(
-            "mysql+pymysql://",
-            creator=lambda: connector.connect(
-                instance_connection_name,
-                "pymysql",
-                user=db_user, # Omit if using IAM database authentication
-                password=db_password, # Omit if using IAM database authentication
-                db=db_name,
-                ip_type=IPTypes.PUBLIC, # Or IPTypes.PRIVATE if using private IP
-            ),
-        )
-        return engine
+@app.api_route("/listener", methods=["GET", "POST", "PUT", "DELETE"])
+async def handle_request(request: Request):
+    token = request.headers.get("Authorization")
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing Authorization header")
 
-if __name__ == "__main__":
-    engine = connect_with_connector()
-    with engine.connect() as conn:
-        result = conn.execute(sqlalchemy.text("SELECT * FROM Employee"))
-        for row in result:
-            print(row)
+    # Step 1: Validate token and request body
+    validation_result = await validate_request(request, token)
+    decoded_payload = validation_result["decoded_payload"]
+
+    # Step 2: Authorize the request
+    authorization_result = await authorize_request(request, decoded_payload)
+
+    # Step 3: Return results
+    return {
+        "method": request.method,
+        "path": str(request.url),
+        "user": f"{decoded_payload.get('first_name', '')} {decoded_payload.get('last_name', '')}".strip(),
+        "role": authorization_result["role"],
+        "validation_result": validation_result,
+        "authorization_result": authorization_result
+    }
