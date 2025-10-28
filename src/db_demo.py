@@ -1,21 +1,5 @@
 import db  # Import our database module
-import time
-
-def get_all_employees():
-    """
-    Fetches all users from the database and prints them.
-    """
-    print("\n--- Fetching all employees ---")
-    
-    select_query = "SELECT * FROM Employee;"
-    results = db.execute_query(select_query)
-    
-    if results is not None:
-        if results:
-            for row in results:
-                print(row)
-        else:
-            print("  No users found in the database.")
+import query.get_queries
             
 def main():
     """
@@ -40,7 +24,14 @@ def main():
     # find_user_by_name("Charlie") # Example of a user not in the DB
 
     # 5. Fetch all employees
-    get_all_employees()
+    # query.get_queries.get_all_employees()
+
+    # 6. Fetch all assets
+    # query.get_queries.get_all_assets()
+
+    query.get_queries.insert_new_asset(type_id=1, location_id=1, employee_id=None, notes='Python Test', is_decommissioned=0)
+
+    query.get_queries.get_all_assets()
 
     print("\nApplication finished.")
     
