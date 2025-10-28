@@ -1,0 +1,13 @@
+# .pylintrc
+[MASTER]
+ignore=venv,tests
+jobs=0
+
+[MESSAGES CONTROL]
+disable=
+    C0114,C0115,C0116,  # docstrings
+    R0903,              # too-few-public-methods
+    W1203               # f-string-in-logging (loguru is fine)
+
+[FORMAT]
+max-line-length=100

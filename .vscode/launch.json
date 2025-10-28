@@ -13,10 +13,13 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Run demo.py",
+            "name": "Run unit tests",
             "type": "python",
             "request": "launch",
-            "module": "src.demo",
+            "module": "pytest",
+            "args": [
+                "-m", "unit"
+            ],
             "python": "${workspaceFolder}/venv/bin/python",
             "console": "integratedTerminal"
         }
