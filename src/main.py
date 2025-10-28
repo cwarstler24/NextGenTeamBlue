@@ -6,7 +6,7 @@ import sqlalchemy
 from fastapi import FastAPI, Request, HTTPException
 from src.logger import logger # Logger() instance
 from src.validate import validate_request
-from src.authenticate import authenticate_request
+from src.authenticate import authorize_request
 
 # --- add near the top ---
 import time
