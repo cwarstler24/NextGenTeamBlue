@@ -28,3 +28,18 @@ def sqlite_engine():
     with engine.connect() as conn:
         conn.execute(sqlalchemy.text("SELECT 1"))  # warm up
     return engine
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--with-db",
+        action="store_true",
+        default=False,
+        help="Run tests marked with @pytest.mark.db (real database required).",
+    )
+
+def pytest_collection_modifyitems(config, items):
+    if not config.getoption("--with-db"):
+        skip_db = pytest.mark.skip(reason="skipped: enable with --with-db")
+        for item in items:
+            if "db" in item.keywords:
+                item.add_marker(skip_db)

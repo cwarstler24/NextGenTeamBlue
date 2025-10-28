@@ -1,6 +1,6 @@
 # tests/unit/test_logger_api.py
 import pytest
-from logger import logger
+from src.logger import logger
 
 pytestmark = pytest.mark.unit
 
