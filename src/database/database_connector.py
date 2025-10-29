@@ -57,7 +57,7 @@ def get_db_connection():
             creator=create_connection,
             pool_size=5,        # Number of connections to keep open in the pool
             max_overflow=2,     # Max connections to allow beyond pool_size
-            pool_timeout=30,    # Seconds to wait before giving up on getting a connection
+            pool_timeout=15,    # Seconds to wait before giving up on getting a connection
             pool_recycle=1800,  # Seconds to recycle connections (e.g., 30 min)
         )
         
