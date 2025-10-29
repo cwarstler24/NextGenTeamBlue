@@ -1,5 +1,5 @@
-import DatabaseController.database_connector as database_connector  # Import our database module
-import src.DatabaseController.database_controller            
+import database.database_connector as database_connector  # Import our database module
+import src.database.database_controller            
 def main():
     """
     Main function to run the application logic.

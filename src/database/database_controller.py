@@ -1,5 +1,5 @@
 import datetime
-import DatabaseController.database_connector as database_connector
+import database.database_connector as database_connector
 from typing import Optional
 
 def AddResourceType(user_position: str, resource) -> int:
