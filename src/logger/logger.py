@@ -1,17 +1,27 @@
 import os
 import sys
-import shutil
-import glob
-import datetime
 import configparser
-from src.config import config as _config
 from typing import Any
 from loguru import logger as _logger
 from cryptography.fernet import Fernet
 
-# Encryption key for security logs (in production, use a secure key management)
-key = Fernet.generate_key()
+
+encryption_key_path = os.path.join(os.path.dirname(__file__),
+                                   "../../env/log_key")
+if os.path.exists(encryption_key_path):
+    with open(encryption_key_path, 'rb') as file:
+        key = file.read()
+    if len(key) != 44:
+        key = Fernet.generate_key()
+        with open(encryption_key_path, 'wb') as file:
+            file.write(key)
+else:
+    key = Fernet.generate_key()
+    with open(encryption_key_path, 'wb') as file:
+        file.write(key)
+
 cipher = Fernet(key)
+# Encryption key for security logs (in production, use a secure key management)
 
 config_file = configparser.ConfigParser()
 config_file.read('./config.ini')
@@ -21,52 +31,36 @@ security_log_config = config_file['security_log']
 log_path = os.path.join(os.path.dirname(__file__), log_config['log_path'])
 
 
-def security_sink(message):
-    # message is the formatted log string
-
-    security_log_backup_path = os.path.join(log_path, 'security')
-    security_log_path = os.path.join(log_path, 'security.log')
-
-    # Implement rotation: if file > 10 MB, rotate
-    if os.path.exists(security_log_path):
-        size = os.path.getsize(security_log_path)
-        max_size = int(log_config['rotation_size']) * 1024 * 1024
-        if size > max_size:
-            # Rotate backups
-            datetime_str = datetime.datetime.now().strftime(
-                    "%Y-%m-%d_%H-%M-%S")
-            new = f"{security_log_backup_path}.{datetime_str}.log"
-            shutil.move(security_log_path, new)
-
-    # Implement retention: delete files older than 1 week
-    now = datetime.datetime.now()
-    retention_days = int(log_config['retention_time'])
-    for logfile in glob.glob(f"{security_log_path}.*"):
-        mtime = datetime.datetime.fromtimestamp(os.path.getmtime(logfile))
-        if (now - mtime).days > retention_days:
-            os.remove(logfile)
-
+def encrypt_message(message: str) -> bytes:
     encrypted = cipher.encrypt(message.encode())
-    with open(security_log_path, 'ab') as file:
-        file.write(encrypted + b'\n')
+    return encrypted
+
+
+def encrypted_formatter(record):
+    formatted = log_config['format'].format(**record)
+    encrypted = cipher.encrypt(formatted.encode())
+    return encrypted.decode() + '\n'
 
 
 # Remove default stderr handler
 _logger.remove()
 
+retention = f"{log_config['retention_time']} {log_config['retention_unit']}"
+rotation = f"{log_config['rotation_size']} {log_config['rotation_unit']}"
+
 # Add security log
-sink = security_sink
+security_log_file = os.path.join(log_path, security_log_config['file'])
 _logger.add(
-        sink,
+        security_log_file,
+        rotation=rotation,
+        retention=retention,
         level=security_log_config['file_level'],
-        format=log_config['format'],
+        format=encrypted_formatter,
         filter=lambda record, name="security": record["extra"]
         .get("type") == name
         )
 
 # Add event log
-retention = f"{log_config['retention_time']} {log_config['retention_unit']}"
-rotation = f"{log_config['rotation_size']} {log_config['rotation_unit']}"
 event_log_file = os.path.join(log_path, event_log_config['file'])
 _logger.add(
         event_log_file,
