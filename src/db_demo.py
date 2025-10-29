@@ -1,5 +1,5 @@
 import DatabaseController.database_connector as database_connector  # Import our database module
-import DatabaseController.Database            
+import src.DatabaseController.database_controller            
 def main():
     """
     Main function to run the application logic.
@@ -35,12 +35,12 @@ def main():
         "notes": 'Python Test',
         "is_decommissioned": 1
     }
-    results = DatabaseController.Database.AddResourceAsset("Manager", resource)
+    results = DatabaseController.database_controller.AddResourceAsset("Manager", resource)
 
     # query.get_queries.get_all_asset_types()
 
     # query.get_queries.decommission_asset(asset_id=36)
-    results = DatabaseController.Database.GetResources()
+    results = DatabaseController.database_controller.GetResources()
 
     print(results)
     
