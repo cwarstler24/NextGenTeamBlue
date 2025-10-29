@@ -13,15 +13,19 @@ def test_connect_with_connector_uses_creator(monkeypatch):
 
     def fake_create_engine(url, creator):
         calls["url"] = url
-        calls["creator_result"] = creator()
+        calls["creator_result"] = creator()  # call the creator once
         return SimpleNamespace(kind="engine")
 
-    import src.main as m
-    monkeypatch.setattr(m, "Connector", lambda: FakeConnector())
-    monkeypatch.setattr(m.sqlalchemy, "create_engine", fake_create_engine)
+    # IMPORTANT: patch where the symbols are USED now
+    import src.DatabaseController.engine as dbm
 
-    engine = m.connect_with_connector()
+    monkeypatch.setattr(dbm, "Connector", lambda: FakeConnector())
+    monkeypatch.setattr(dbm.sqlalchemy, "create_engine", fake_create_engine)
+
+    engine = dbm.connect_with_connector()
+
     assert engine.kind == "engine"
     assert calls["url"] == "mysql+pymysql://"
-    _, drv, user, pwd, db, _ = calls["args"]
-    assert drv == "pymysql" and user and pwd and db
+    instance, driver, user, pwd, db, ip_type = calls["args"]
+    assert driver == "pymysql"
+    assert user and pwd and db
