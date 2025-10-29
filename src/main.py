@@ -4,6 +4,7 @@ from google.cloud.sql.connector import Connector, IPTypes
 import pymysql
 import sqlalchemy
 from fastapi import FastAPI, Request, HTTPException
+from src.API.assets import router as assets_router
 from src.logger import logger # Logger() instance
 from src.validate import validate_request
 from src.authenticate import authorize_request
@@ -69,7 +70,8 @@ async def handle_request(request: Request):
 
 @app.get("/health")
 def health():
-    logger.event("health check called")
+    from src.logger import logger
+    logger.event("health check called", level="info")
     return {"status": "ok"}
 
 # Optional sample route that uses the engine (tests will mock it):
