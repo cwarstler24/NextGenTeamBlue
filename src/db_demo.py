@@ -29,7 +29,7 @@ def main():
     # 6. Fetch all assets
     # query.get_queries.get_all_assets()
 
-    query.get_queries.insert_new_asset(type_id=1, location_id=1, employee_id=None, notes='Python Test', is_decommissioned=0)
+    query.get_queries.insert_new_asset(type_id=2, location_id=None, employee_id=25, notes='Python Test', is_decommissioned=0)
 
     query.get_queries.get_all_assets()
 
