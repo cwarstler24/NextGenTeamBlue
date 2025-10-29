@@ -1,6 +1,5 @@
-import db  # Import our database module
-import query.get_queries
-            
+import database.database_connector as database_connector  # Import our database module
+import src.database.database_controller            
 def main():
     """
     Main function to run the application logic.
@@ -29,18 +28,28 @@ def main():
     # 6. Fetch all assets
     # query.get_queries.get_all_assets()
 
-    query.get_queries.insert_new_asset(type_id=2, location_id=None, employee_id=25, notes='Python Test', is_decommissioned=0)
+    resource = {
+        "type_id": 4,
+        "location_id": None,
+        "employee_id": 79,
+        "notes": 'Python Test',
+        "is_decommissioned": 1
+    }
+    results = DatabaseController.database_controller.AddResourceAsset("Manager", resource)
 
-    query.get_queries.get_all_assets()
+    # query.get_queries.get_all_asset_types()
 
-    print("\nApplication finished.")
+    # query.get_queries.decommission_asset(asset_id=36)
+    results = DatabaseController.database_controller.GetResources()
+
+    print(results)
     
     # Clean up connections when the app is done
-    db.close_db_connection()
+    database_connector.close_db_connection()
 
 if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
         print("\nApplication shutting down...")
-        db.close_db_connection()
+        database_connector.close_db_connection()
