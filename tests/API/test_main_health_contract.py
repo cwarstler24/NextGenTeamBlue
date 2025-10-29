@@ -9,4 +9,5 @@ def test_health_returns_ok_and_logs(loguru_capture):
     r = client.get("/health")
     assert r.status_code == 200
     assert r.json() == {"status": "ok"}
+    # optional: also check the log text
     assert any("health" in rec.record["message"].lower() for rec in loguru_capture)
