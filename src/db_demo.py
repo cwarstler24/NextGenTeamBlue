@@ -1,5 +1,10 @@
-import database.database_connector as database_connector  # Import our database module
-import src.database.database_controller            
+"""
+Sample Docstring
+"""
+
+from src.database import database_connector  # Import our database module
+from src.database import database_controller
+            
 def main():
     """
     Main function to run the application logic.
@@ -28,21 +33,21 @@ def main():
     # 6. Fetch all assets
     # query.get_queries.get_all_assets()
 
-    resource = {
-        "type_id": 4,
-        "location_id": None,
-        "employee_id": 79,
-        "notes": 'Python Test',
-        "is_decommissioned": 1
-    }
-    results = DatabaseController.database_controller.AddResourceAsset("Manager", resource)
+    # resource = {
+    #     "type_id": 4,
+    #     "location_id": None,
+    #     "employee_id": 79,
+    #     "notes": 'Python Test',
+    #     "is_decommissioned": 1
+    # }
+    # results = DatabaseController.database_controller.AddResourceAsset("Manager", resource)
 
     # query.get_queries.get_all_asset_types()
 
     # query.get_queries.decommission_asset(asset_id=36)
-    results = DatabaseController.database_controller.GetResources()
+    # results = DatabaseController.database_controller.GetResources()
 
-    print(results)
+    # print(results)
     
     # Clean up connections when the app is done
     database_connector.close_db_connection()
