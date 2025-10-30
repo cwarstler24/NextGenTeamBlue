@@ -1,87 +1,84 @@
 import os
 import sys
-import shutil
-import glob
-import datetime
-from src.config import config as _config
+import configparser
 from typing import Any
 from loguru import logger as _logger
 from cryptography.fernet import Fernet
 
-# Encryption key for security logs (in production, use a secure key management)
-key = Fernet.generate_key()
+
+encryption_key_path = os.path.join(os.path.dirname(__file__),
+                                   "../../env/log_key")
+if os.path.exists(encryption_key_path):
+    with open(encryption_key_path, 'rb') as file:
+        key = file.read()
+    if len(key) != 44:
+        key = Fernet.generate_key()
+        with open(encryption_key_path, 'wb') as file:
+            file.write(key)
+else:
+    key = Fernet.generate_key()
+    with open(encryption_key_path, 'wb') as file:
+        file.write(key)
+
 cipher = Fernet(key)
-config = _config.getLogConfig()
+# Encryption key for security logs (in production, use a secure key management)
+
+config_file = configparser.ConfigParser()
+config_file.read('./config.ini')
+log_config = config_file['log']
+event_log_config = config_file['event_log']
+security_log_config = config_file['security_log']
+log_path = os.path.join(os.path.dirname(__file__), log_config['log_path'])
 
 
-def security_sink(message):
-    # message is the formatted log string
-
-    security_log_backup_path = os.path.join(os.path.dirname(__file__), '..',
-                                            'security')
-    security_log_path = os.path.join(os.path.dirname(__file__), '..',
-                                     'security.log')
-
-    # Implement rotation: if file > 10 MB, rotate
-    if os.path.exists(security_log_path):
-        size = os.path.getsize(security_log_path)
-        max_size = int(config['security_rotation']) * 1024 * 1024
-        if size > max_size:
-            # Rotate backups
-            datetime_str = datetime.datetime.now().strftime(
-                    "%Y-%m-%d_%H-%M-%S")
-            new = f"{security_log_backup_path}.{datetime_str}.log"
-            shutil.move(security_log_path, new)
-
-    # Implement retention: delete files older than 1 week
-    now = datetime.datetime.now()
-    retention_days = int(config['security_retention'])
-    for logfile in glob.glob(f"{security_log_path}.*"):
-        mtime = datetime.datetime.fromtimestamp(os.path.getmtime(logfile))
-        if (now - mtime).days > retention_days:
-            os.remove(logfile)
-
+def encrypt_message(message: str) -> bytes:
     encrypted = cipher.encrypt(message.encode())
-    with open(security_log_path, 'ab') as file:
-        file.write(encrypted + b'\n')
+    return encrypted
 
 
-#config_path = os.path.join(os.path.dirname(__file__), '../..', 'config.json')
-#with open(config_path, encoding='utf-8') as f:
-    #config = json.load(f)
+def encrypted_formatter(record):
+    formatted = log_config['format'].format(**record)
+    encrypted = cipher.encrypt(formatted.encode())
+    return encrypted.decode() + '\n'
+
 
 # Remove default stderr handler
 _logger.remove()
 
-for log_config in config.get('additional_logs', []):
-    if log_config['name'] == 'security':
-        sink = security_sink
-        _logger.add(
-            sink,
-            level=log_config['level'],
-            format=config['format'],
-            filter=lambda record, name=log_config['name']: record["extra"]
-            .get("type") == name
+retention = f"{log_config['retention_time']} {log_config['retention_unit']}"
+rotation = f"{log_config['rotation_size']} {log_config['rotation_unit']}"
+
+# Add security log
+security_log_file = os.path.join(log_path, security_log_config['file'])
+_logger.add(
+        security_log_file,
+        rotation=rotation,
+        retention=retention,
+        level=security_log_config['file_level'],
+        format=encrypted_formatter,
+        filter=lambda record, name="security": record["extra"]
+        .get("type") == name
         )
-    else:
-        _logger.add(
-            log_config['file'],
-            level=log_config['level'],
-            retention=config['retention'],
-            rotation=config['rotation'],
-            format=config['format'],
-            filter=lambda record, name=log_config['name']: record["extra"]
-            .get("type") == name
+
+# Add event log
+event_log_file = os.path.join(log_path, event_log_config['file'])
+_logger.add(
+        event_log_file,
+        level=event_log_config['file_level'],
+        retention=retention,
+        rotation=rotation,
+        format=log_config['format'],
+        filter=lambda record, name=event_log_config['name']: record["extra"]
+        .get("type") == name
         )
 
 # Configure separate console (stdout) logging levels for security and event
-console_levels = config.get('console_levels', {})
-_logger.add(sys.stderr, level=console_levels.get('security', 'DEBUG'),
+_logger.add(sys.stderr, level=event_log_config['console_level'],
             filter=lambda record: record["extra"].get("type") == "security",
-            format=config['format'])
-_logger.add(sys.stderr, level=console_levels.get('event', 'DEBUG'),
+            format=log_config['format'])
+_logger.add(sys.stderr, level=security_log_config['console_level'],
             filter=lambda record: record["extra"].get("type") == "event",
-            format=config['format'])
+            format=log_config['format'])
 
 
 class Logger:

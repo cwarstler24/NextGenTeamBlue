@@ -14,12 +14,12 @@ cd <your-repository-directory>
 B. Create a Python Virtual Environment  
 It is highly recommended to use a virtual environment to manage project dependencies.
 
-# Create the virtual environment
+## Create the virtual environment
 ```
 python3 -m venv venv
 ```
 
-# Activate the environment
+## Activate the environment
 ### On macOS/Linux:
 ```
 source venv/bin/activate
@@ -90,4 +90,15 @@ Authenticated with gcloud auth application-default login
 python main.py
 ```
 
-You should see output in your terminal indicating a successful connection, table setup, and data fetching.
+## Test API (Linux)
+1. Start up listener in terminal:
+```
+  uvicorn src.main:app --reload
+```
+2. Open a new terminal and run:
+```
+  curl -X POST "http://127.0.0.1:8000/listener" \
+  -H "Authorization: Bearer <insert_token_here>" \
+  -H "Content-Type: application/json" \
+  -d '{"type_id": "2", "location_id": "1", "employee_id": 31, "notes": "This is a test", "is_decommissoned": "0"}'
+```
