@@ -1,18 +1,32 @@
 # tests/conftest.py
-import types
+import os
+import sys
 import pytest
-import sqlalchemy
-from fastapi.testclient import TestClient
-from src.main import app
-import os, sys, pytest
 
-# --- make src importable no matter where pytest runs ---
+# --- auto-logging every test via your wrapper ---
+from loguru import logger as _core
+from src.logger import logger  # safe now
+
+# --- make src importable ---
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT not in sys.path:
     sys.path.append(ROOT)
 
+# --- PREP LOGGER: ensure env/log_key path exists BEFORE importing src.main ---
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+ENV_DIR = os.path.join(PROJECT_ROOT, "env")
+LOG_KEY_PATH = os.path.join(ENV_DIR, "log_key")
 
-# --- DB gating (off by default) ---
+os.makedirs(ENV_DIR, exist_ok=True)
+# Write a dummy key only if absent; keep deterministic for CI
+if not os.path.exists(LOG_KEY_PATH):
+    with open(LOG_KEY_PATH, "wb") as f:
+        f.write(b"dummy-test-key-32bytes____dummy-test-key")  # 40 bytes is fine; your logger just needs a file
+
+# (Optional) if your logger reads an env var for key path, set it here:
+# os.environ["LOG_KEY_PATH"] = LOG_KEY_PATH
+
+# --- DB gating (keep) ---
 def pytest_addoption(parser):
     parser.addoption(
         "--with-db",
@@ -27,10 +41,6 @@ def pytest_collection_modifyitems(config, items):
         for item in items:
             if "db" in item.keywords:
                 item.add_marker(skip_db)
-
-# --- logging to your wrapper: every test annotates logs ---
-from src.logger import logger # <- your Logger() instance
-from loguru import logger as _core # for capture when needed
 
 @pytest.fixture(autouse=True)
 def _log_test_start_end(request):
@@ -49,13 +59,11 @@ def pytest_runtest_makereport(item, call):
     if rep.passed:
         logger.event(f"TEST PASS  :: {nodeid}", level="info")
     elif rep.failed:
-        # keep message short to avoid noisy logs
         msg = str(rep.longrepr)[:500]
         logger.security(f"TEST FAIL  :: {nodeid} :: {msg}", level="error")
     elif rep.skipped:
         logger.event(f"TEST SKIP  :: {nodeid}", level="warning")
 
-# Optional sink to assert on log content inside specific tests
 @pytest.fixture
 def loguru_capture():
     records = []
@@ -65,12 +73,5 @@ def loguru_capture():
     finally:
         _core.remove(sink_id)
 
-# A tiny in-memory sqlite engine used by integration tests
-@pytest.fixture
-def sqlite_engine():
-    engine = sqlalchemy.create_engine("sqlite:///:memory:")
-    with engine.connect() as conn:
-        conn.execute(sqlalchemy.text("SELECT 1"))  # warm up
-    return engine
-
-
+# --- finally import app (after logger prep) ---
+from src.main import app

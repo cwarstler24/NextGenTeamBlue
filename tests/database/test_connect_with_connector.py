@@ -1,31 +1,41 @@
-import pytest
 from types import SimpleNamespace
+import pytest
+import src.database.database_connector as dbm
 
 pytestmark = pytest.mark.unit
 
-def test_connect_with_connector_uses_creator(monkeypatch):
+def test_get_db_connection_uses_connector_and_creator(monkeypatch):
+    # We patch inside the module under test (dbm) where symbols are USED.
+    
     calls = {}
 
     class FakeConnector:
         def connect(self, instance, driver, user, password, db, ip_type):
-            calls["args"] = (instance, driver, user, password, db, str(ip_type))
+            calls["connect_args"] = (instance, driver, user, password, db, str(ip_type))
             return object()
 
-    def fake_create_engine(url, creator):
+    def fake_create_engine(url, creator, **kwargs):
         calls["url"] = url
-        calls["creator_result"] = creator()  # call the creator once
+        # call the creator once to verify it's wired
+        conn = creator()
+        calls["creator_conn_type"] = type(conn).__name__
+        # capture some pool kwargs for sanity
+        calls["pool_size"] = kwargs.get("pool_size")
         return SimpleNamespace(kind="engine")
 
-    # IMPORTANT: patch where the symbols are USED now
-    import src.DatabaseController.engine as dbm
-
+    # monkeypatch module globals that config may have set at import
     monkeypatch.setattr(dbm, "Connector", lambda: FakeConnector())
     monkeypatch.setattr(dbm.sqlalchemy, "create_engine", fake_create_engine)
 
-    engine = dbm.connect_with_connector()
+    # also ensure config-derived constants are present (if config.ini is missing in CI)
+    monkeypatch.setattr(dbm, "INSTANCE_CONNECTION_NAME", "proj:region:instance")
+    monkeypatch.setattr(dbm, "DB_USER", "user")
+    monkeypatch.setattr(dbm, "DB_PASS", "pass")
+    monkeypatch.setattr(dbm, "DB_NAME", "db")
 
+    engine = dbm.get_db_connection()
     assert engine.kind == "engine"
     assert calls["url"] == "mysql+pymysql://"
-    instance, driver, user, pwd, db, ip_type = calls["args"]
-    assert driver == "pymysql"
-    assert user and pwd and db
+    inst, drv, user, pwd, db, ip_type = calls["connect_args"]
+    assert drv == "pymysql" and user and pwd and db
+    assert calls["pool_size"] == 5
