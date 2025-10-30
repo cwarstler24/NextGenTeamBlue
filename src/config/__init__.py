@@ -1,2 +1,2 @@
-import src.config.Config as Config
+import src.config.config as Config
 config = Config.Config()

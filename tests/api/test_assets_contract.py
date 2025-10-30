@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from src.main import app
-from src.API.assets import get_service
+from src.api.assets import get_service
 
 pytestmark = pytest.mark.unit
 
