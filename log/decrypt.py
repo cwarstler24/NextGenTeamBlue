@@ -7,7 +7,7 @@ Throws FileNotFoundError if encryption key is not found.
 """
 from cryptography.fernet import Fernet
 import os
-from rich import print
+from rich import print as rich_print
 
 encryption_key_path = os.path.join(os.path.dirname(__file__), "../env/log_key")
 if os.path.exists(encryption_key_path):
@@ -27,4 +27,4 @@ with open(security_log_path, 'rb') as file:
         if encrypted:
             decrypted = cipher.decrypt(encrypted)
             colored = decrypted.decode().replace('<', '[').replace('>', ']')
-            print(colored)
+            rich_print(colored)
