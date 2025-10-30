@@ -17,6 +17,9 @@ if os.path.exists(encryption_key_path):
             file.write(key)
 else:
     key = Fernet.generate_key()
+    touch_dir = os.path.dirname(encryption_key_path)
+    if not os.path.exists(touch_dir):
+        os.makedirs(touch_dir)
     with open(encryption_key_path, 'wb') as file:
         file.write(key)
 
