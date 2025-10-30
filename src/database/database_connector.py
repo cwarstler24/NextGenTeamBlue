@@ -1,3 +1,8 @@
+"""
+Sample Docstring
+"""
+
+import sys
 import configparser
 import sqlalchemy
 from google.cloud.sql.connector import Connector, IPTypes
@@ -15,32 +20,32 @@ try:
     DB_NAME = settings['db_name']
 except KeyError:
     print("Error: 'config.ini' is missing or incomplete. Please check the file.")
-    exit(1)
+    sys.exit(1)
 
 # --- Global variables for database connection ---
-connector = None
-pool = None
+CONNECTOR = None
+POOL = None
 
 def get_db_connection():
     """
     Initializes and returns a database connection pool.
     This function is designed to be called once to set up the connection.
     """
-    global connector, pool
-    
+    global CONNECTOR, POOL
+
     # Only initialize if the pool doesn't exist
-    if pool:
-        return pool
+    if POOL:
+        return POOL
 
     print(f"Initializing connection pool for {INSTANCE_CONNECTION_NAME}...")
 
     # Initialize the Cloud SQL connector
-    connector = Connector()
+    CONNECTOR = Connector()
 
     try:
         # Function to create a new database connection
         def create_connection() -> sqlalchemy.engine.base.Connection:
-            conn = connector.connect(
+            conn = CONNECTOR.connect(
                 INSTANCE_CONNECTION_NAME,
                 "pymysql",
                 user=DB_USER,
@@ -52,7 +57,7 @@ def get_db_connection():
 
         # Create a SQLAlchemy connection pool
         # This pool will manage connections for us, reusing them efficiently.
-        pool = sqlalchemy.create_engine(
+        POOL = sqlalchemy.create_engine(
             "mysql+pymysql://",
             creator=create_connection,
             pool_size=5,        # Number of connections to keep open in the pool
@@ -60,15 +65,15 @@ def get_db_connection():
             pool_timeout=15,    # Seconds to wait before giving up on getting a connection
             pool_recycle=1800,  # Seconds to recycle connections (e.g., 30 min)
         )
-        
+
         print("Connection pool initialized successfully.")
-        return pool
+        return POOL
 
     except Exception as e:
         print(f"Error initializing database connection: {e}")
         # Clean up the connector if initialization failed
-        if connector:
-            connector.close()
+        if CONNECTOR:
+            CONNECTOR.close()
         return None
 
 def execute_query(query: str, params: dict = None):
@@ -79,24 +84,24 @@ def execute_query(query: str, params: dict = None):
     :param params: A dictionary of parameters to bind to the query (e.g., {"user_id": 1})
     :return: A list of result rows, or None if an error occurs.
     """
-    global pool
-    
+    global POOL
+
     # Initialize the pool if it hasn't been already
-    if not pool:
-        pool = get_db_connection()
-        if not pool:
+    if not POOL:
+        POOL = get_db_connection()
+        if not POOL:
             print("Failed to get database pool. Cannot execute query.")
             return None
 
     try:
         # Use the .connect() method on the engine to get a connection from the pool
-        with pool.connect() as db_conn:
+        with POOL.connect() as db_conn:
             # Prepare the query as a text object for SQLAlchemy
             text_query = sqlalchemy.text(query)
-            
+
             # Execute the query
             result = db_conn.execute(text_query, params or {})
-            
+
             # For SELECT statements, fetch all results
             if result.returns_rows:
                 rows = result.fetchall()
@@ -106,12 +111,11 @@ def execute_query(query: str, params: dict = None):
                 # We'll convert to dicts using _asdict()
                 print(f"Query executed successfully. Fetched {len(rows)} rows.")
                 return [row._asdict() for row in rows]
-            
+
             # For INSERT, UPDATE, DELETE, commit the transaction
-            else:
-                db_conn.commit()
-                print(f"Query executed successfully. Rows affected: {result.rowcount}")
-                return {"status": "success", "rows_affected": result.rowcount}
+            db_conn.commit()
+            print(f"Query executed successfully. Rows affected: {result.rowcount}")
+            return {"status": "success", "rows_affected": result.rowcount}
 
     except sqlalchemy.exc.OperationalError as e:
         print(f"Database connection error: {e}")
@@ -123,7 +127,7 @@ def execute_query(query: str, params: dict = None):
             db_conn.rollback()
         except:
             pass # Ignore rollback error
-            
+
     return None
 
 def close_db_connection():
@@ -131,14 +135,14 @@ def close_db_connection():
     Cleans up the connector and disposes of the connection pool.
     Call this when your application is shutting down.
     """
-    global connector, pool
-    
-    if pool:
-        pool.dispose()
-        pool = None
+    global CONNECTOR, POOL
+
+    if POOL:
+        POOL.dispose()
+        POOL = None
         print("Database connection pool disposed.")
-        
-    if connector:
-        connector.close()
-        connector = None
+
+    if CONNECTOR:
+        CONNECTOR.close()
+        CONNECTOR = None
         print("Cloud SQL connector closed.")
