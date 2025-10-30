@@ -21,7 +21,6 @@ async def validate_request(request: Request, token: str):
         # Required fields and expected types
         required_fields = {
             "type_id": int,
-            "location_id": int,
             "employee_id": int,
             "notes": str,
             "is_decommissoned": int
