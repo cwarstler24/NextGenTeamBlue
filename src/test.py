@@ -1,3 +1,4 @@
+from datetime import date, datetime
 import os
 import time
 import sqlalchemy
@@ -10,6 +11,18 @@ from src.authorize import authorize_request
 import src.database.database_controller as db # teammate’s DB controller
 from google.cloud.sql.connector import Connector, IPTypes
 import pymysql
+
+def convert_bytes_to_strings(obj):
+    if isinstance(obj, bytes):
+        return obj.decode('utf-8')
+    elif isinstance(obj, (date, datetime)):
+        return obj.isoformat()
+    elif isinstance(obj, list):
+        return [convert_bytes_to_strings(item) for item in obj]
+    elif isinstance(obj, dict):
+        return {key: convert_bytes_to_strings(value) for key, value in obj.items()}
+    else:
+        return obj
 
 app = FastAPI(
     title="Team Blue Inventory Listener",
@@ -39,10 +52,10 @@ async def get_resources(request: Request):
     await authorize_request(request, decoded_payload)
 
     # Step 4: DB call (team function)
-    result = db.GetResources()
+    result = db.get_resources()
 
-    logger.info(f"GET /resources successful for {decoded_payload.get('fName')} {decoded_payload.get('lName')}")
-    return JSONResponse(content=result[1], status_code=status.HTTP_200_OK)
+    # logger.info(f"GET /resources successful for {decoded_payload.get('fName')} {decoded_payload.get('lName')}")
+    return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
 
 # GET /resourcetypes
 @app.get("/resourcetypes")
@@ -74,12 +87,14 @@ async def post_resources(request: Request):
     body = await request.json()
 
     # title pulled from token payload
-    title = decoded_payload.get("title", "").lower()
+    title = decoded_payload.get("title", "")
 
-    result = db.AddResource(title, body)
-
-    logger.info(f"POST /resources created by {decoded_payload.get('fName')} {decoded_payload.get('lName')}")
-    return JSONResponse(content=result, status_code=status.HTTP_201_CREATED)
+    result = db.add_resource_asset(title, await request.json())
+    logger.event(f"Result Code: {result}", level="info")
+    if result == 200:
+        return JSONResponse(status_code=result, content="Resource Added")
+    else:
+        return JSONResponse(status_code=result, content="Error Adding Resource")
 
 # PUT /resources/{id}
 @app.put("/resources/{id}")
