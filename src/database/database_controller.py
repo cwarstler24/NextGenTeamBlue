@@ -14,8 +14,26 @@ def add_resource_type(user_position: str, resource) -> int:
     Returns:
         int: the status code
     """
-    #TODO: implement
-    pass
+
+    # Only Managers can add resource types
+    if user_position == "Manager":
+        asset_type_name = resource.get("asset_type_name")
+
+        update_query = """
+        INSERT INTO AssetTypes (asset_type_name)
+        VALUES (:asset_type_name); 
+        """
+
+        params = {
+            "asset_type_name": asset_type_name
+        }
+
+        result = database_connector.execute_query(update_query, params)
+
+        if result is not None:
+            return 200
+        return 400
+    return 401
 
 def add_resource_asset(user_position: str, resource) -> int:
     """
@@ -154,8 +172,40 @@ def update_resource(user_position: str, resource) -> int:
         int: the status code
     """
 
-    #TODO: implement
-    pass
+    # Only Managers can update resources
+    if user_position == "Manager":
+        asset_id = resource.get("asset_id")
+        type_id = resource.get("type_id")
+        location_id = resource.get("location_id")
+        employee_id = resource.get("employee_id")
+        notes = resource.get("notes")
+        is_decommissioned = resource.get("is_decommissioned")
+
+        update_query = """
+        UPDATE Asset
+        SET type_id = :type_id,
+            location_id = :location_id,
+            employee_id = :employee_id,
+            notes = :notes,
+            is_decommissioned = :is_decommissioned
+        WHERE id = :asset_id;
+        """
+
+        params = {
+            "type_id": type_id,
+            "location_id": location_id,
+            "employee_id": employee_id,
+            "notes": notes,
+            "is_decommissioned": is_decommissioned,
+            "asset_id": asset_id
+        }
+
+        result = database_connector.execute_query(update_query, params)
+
+        if result is not None:
+            return 200
+        return 400
+    return 401
 
 def get_resources() -> tuple[int, list]:
     """
