@@ -8,6 +8,10 @@ from cryptography.fernet import Fernet
 
 encryption_key_path = os.path.join(os.path.dirname(__file__),
                                    "../../env/log_key")
+
+# ensure directory exists before opening
+os.makedirs(os.path.dirname(encryption_key_path), exist_ok=True)
+
 if os.path.exists(encryption_key_path):
     with open(encryption_key_path, 'rb') as file:
         key = file.read()
