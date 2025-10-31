@@ -6,6 +6,10 @@ from src.logger import logger
 
 app = create_app()
 
+@app.get("/")
+async def root():
+    return {"message": "Team Blue API is live 🚀"}
+
 # Optional sample route that uses the engine (kept for parity with your tests)
 @app.get("/employees/count")
 def employees_count():
