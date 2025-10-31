@@ -12,4 +12,5 @@ def create_app() -> FastAPI:
     app.include_router(health_router)
     app.include_router(listener_router)
     app.include_router(assets_router)
+    app.include_router(resources.router)
     return app
