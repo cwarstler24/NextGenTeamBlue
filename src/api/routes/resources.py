@@ -54,7 +54,7 @@ async def update_resource(request: Request, id: int):
     await authorize_request(request, decoded)
 
     body = await request.json()
-    result = db.UpdateResource(decoded.get("title", ""), id, body)
+    result = db.update_resource(decoded.get("title", ""), body)
     return JSONResponse(content=result, status_code=status.HTTP_200_OK)
 
 
@@ -70,5 +70,5 @@ async def delete_resource(request: Request, id: int):
     decoded = auth_result["decoded_payload"]
     await authorize_request(request, decoded)
 
-    result = db.DeleteResource(decoded.get("title", ""), id)
+    result = db.delete_resource(decoded.get("title", ""), id)
     return JSONResponse(content=result, status_code=status.HTTP_200_OK)
