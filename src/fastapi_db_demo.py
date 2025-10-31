@@ -8,9 +8,11 @@ import sqlalchemy
 from fastapi import FastAPI, Request, HTTPException
 from src.logger import logger # Logger() instance
 from src.validate import validate_request
-from src.authenticate import authorize_request
+from src.authorize import authorize_request
 
 import logging
+
+from fastapi.middleware.cors import CORSMiddleware
 
 class InterceptHandler(logging.Handler):
     def emit(self, record):
@@ -51,6 +53,14 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # For development only - restrict in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root():
@@ -60,7 +70,7 @@ async def root():
 async def get_resources(request: Request):
     #auth ......
 
-    result = db.GetResources()
+    result = db.get_resources()
     logger.event(f"Result Code: {result[0]}", level="info")
     return JSONResponse(status_code=result[0], content=convert_bytes_to_strings(result[1]))
 
@@ -70,7 +80,7 @@ async def get_resources(request: Request):
 async def get_resource_types(request: Request):
     #auth ......
 
-    result = db.GetResourceTypes()
+    result = db.get_resource_types()
     logger.event(f"Result Code: {result[0]}", level="info")
     return JSONResponse(status_code=result[0], content=convert_bytes_to_strings(result[1]))
 
@@ -79,7 +89,7 @@ async def post_resources(request: Request):
     #auth ......
     title = "Manager"
 
-    result = db.AddResourceAsset(title, await request.json())
+    result = db.add_resource_asset(title, await request.json())
     logger.event(f"Result Code: {result}", level="info")
     if result == 200:
         return JSONResponse(status_code=result, content="Resource Added")
@@ -91,6 +101,6 @@ async def put_resources(request: Request):
 
     #auth ......
     title = "manager"
-    result = db.UpdateResource(title, request.json())
+    result = db.update_resource(title, request.json())
     return result
 
