@@ -1,4 +1,5 @@
 import sqlalchemy
+from fastapi import FastAPI
 from src.app_factory import create_app
 from src.database.database_connector import get_db_connection
 from src.logger import logger
