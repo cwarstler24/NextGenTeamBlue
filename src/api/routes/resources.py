@@ -54,9 +54,13 @@ async def update_resource(request: Request, id: int):
     await authorize_request(request, decoded)
 
     body = await request.json()
-    result = db.update_resource(decoded.get("title", ""), body)
-    return JSONResponse(content=result, status_code=status.HTTP_200_OK)
+    body["asset_id"] = id
 
+    result = db.update_resource(decoded.get("title", ""), body)
+    if result == 200:
+        return JSONResponse(content={"message": f"Resource {id} updated successfully"}, status_code=200)
+    else:
+        raise HTTPException(status_code=400, detail="Database update failed")
 
 # --- DELETE /resources/{id} ---
 @router.delete("/{id}")
