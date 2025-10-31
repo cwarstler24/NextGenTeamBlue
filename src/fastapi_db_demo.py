@@ -7,8 +7,8 @@ import pymysql
 import sqlalchemy
 from fastapi import FastAPI, Request, HTTPException
 from src.logger import logger # Logger() instance
-from src.validate import validate_request
-from src.authenticate import authorize_request
+from src.api.validate import validate_request
+from src.api.authenticate import authorize_request
 
 import logging
 

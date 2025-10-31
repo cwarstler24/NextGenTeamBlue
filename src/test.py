@@ -5,9 +5,9 @@ import sqlalchemy
 from fastapi import FastAPI, Request, HTTPException, status
 from fastapi.responses import JSONResponse
 from src.logger import logger  # Logger() instance
-from src.validate import validate_request
-from src.authenticate import authenticate_request
-from src.authorize import authorize_request
+from src.api.validate import validate_request
+from src.api.authenticate import authenticate_request
+from src.api.authorize import authorize_request
 import src.database.database_controller as db # teammate’s DB controller
 from google.cloud.sql.connector import Connector, IPTypes
 import pymysql
