@@ -4,7 +4,8 @@ import sqlalchemy
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 from src.logger import logger
-from src.database.database_connector import get_db_connection  # dependency you can monkeypatch in tests
+# dependency you can monkeypatch in tests
+from src.database.database_connector import get_db_connection  
 
 router = APIRouter(tags=["health"])
 
@@ -13,7 +14,9 @@ def health():
     logger.event("health check called", level="info")
     return {"status": "ok"}
 
-def _probe_db(engine_factory=get_db_connection):
+def _probe_db(engine_factory=None):
+    if engine_factory is None:
+        engine_factory = get_db_connection
     started = time.monotonic()
     try:
         engine = engine_factory()

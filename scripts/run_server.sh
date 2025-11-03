@@ -18,7 +18,7 @@ while getopts "dkh" opt; do
         d)
             echo "Starting in debug mode..."
             source_venv
-            uvicorn src.test:app --reload
+            uvicorn src.main:app --reload
             exit 0
             ;;
         k)
@@ -43,4 +43,4 @@ while getopts "dkh" opt; do
     shift $((OPTIND-1))
 
 source_venv
-nohup uvicorn src.test:app --reload &
+nohup uvicorn src.main:app --reload &

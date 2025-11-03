@@ -23,6 +23,77 @@ async def get_resources(request: Request):
     result = db.get_resources()
     return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
 
+# --- GET /resources/types/ ---
+@router.get("/types/")
+async def get_resource_types(request: Request):
+    token = request.headers.get("Authorization")
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing Authorization header")
+
+    await validate_request(request, token)
+    auth_result = await authenticate_request(request, token)
+    decoded = auth_result["decoded_payload"]
+    await authorize_request(request, decoded)
+
+    result = db.get_resource_types()
+    return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
+
+# --- GET /resources/{resource_id} ---
+@router.get("/{resource_id}")
+async def get_resource_by_id(request: Request, resource_id: int):
+    token = request.headers.get("Authorization")
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing Authorization header")
+
+    await validate_request(request, token)
+    auth_result = await authenticate_request(request, token)
+    decoded = auth_result["decoded_payload"]
+    await authorize_request(request, decoded)
+
+    result = db.get_resource_by_id(resource_id)
+    if not result or not result[1]:
+        raise HTTPException(status_code=404, detail="Resource not found")
+
+    return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
+
+
+# --- GET /resources/employee/{employee_id} ---
+@router.get("/employee/{employee_id}")
+async def get_resources_by_employee(request: Request, employee_id: int):
+    token = request.headers.get("Authorization")
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing Authorization header")
+
+    await validate_request(request, token)
+    auth_result = await authenticate_request(request, token)
+    decoded = auth_result["decoded_payload"]
+    await authorize_request(request, decoded)
+
+    result = db.get_resource_by_employee_id(employee_id)
+    if not result or not result[1]:
+        raise HTTPException(status_code=404, detail="No resources found for this employee")
+
+    return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
+
+
+# --- GET /resources/location/{location_id} ---
+@router.get("/location/{location_id}")
+async def get_resources_by_location(request: Request, location_id: int):
+    token = request.headers.get("Authorization")
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing Authorization header")
+
+    await validate_request(request, token)
+    auth_result = await authenticate_request(request, token)
+    decoded = auth_result["decoded_payload"]
+    await authorize_request(request, decoded)
+
+    result = db.get_resource_by_location_id(location_id)
+    if not result or not result[1]:
+        raise HTTPException(status_code=404, detail="No resources found for this location")
+
+    return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
+
 
 # --- POST /resources ---
 @router.post("/")
@@ -75,4 +146,7 @@ async def delete_resource(request: Request, id: int):
     await authorize_request(request, decoded)
 
     result = db.delete_resource(decoded.get("title", ""), id)
-    return JSONResponse(content=result, status_code=status.HTTP_200_OK)
+    return JSONResponse(
+            content={"status": "success", "message": f"Resource {id} successfully deleted"},
+            status_code=status.HTTP_200_OK
+        )

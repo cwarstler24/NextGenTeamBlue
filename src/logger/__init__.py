@@ -16,4 +16,7 @@ Usage: from logger import logger; logger.security("Security alert",
 level="warning"); logger.event("Event occurred")
 """
 from .logger import Logger
+from .logger import init_logger
+
+init_logger()
 logger = Logger()

@@ -1,5 +1,4 @@
 from fastapi import HTTPException, Request
-import httpx
 import jsonschema
 from jsonschema import validate as json_validate
 
