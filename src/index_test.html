@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Team Blue API Tester</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .api-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+        .output {
+            width: 100%;
+            min-height: 200px;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #0b4a6f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #083857;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Team Blue API Tester</h1>
+
+        <div class="api-section">
+            <h2>Root Check</h2>
+            <button onclick="callApi('/')">Check Root</button>
+            <textarea id="rootOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Resources</h2>
+            <button onclick="callApi('/resources')">Get Resources</button>
+            <textarea id="resourceOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Resource Types</h2>
+            <button onclick="callApi('/resourcetypes')">Get Resource Types</button>
+            <textarea id="resourceTypesOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Add Resource</h2>
+            <div style="margin-bottom: 10px;">
+                <textarea id="postData" class="output" style="height: 100px;">{"type_id": 4, "location_id": null, "employee_id": 24, "notes": "HTML Test", "is_decommissioned": 0}</textarea>
+            </div>
+            <button onclick="postResource()">Add Resource</button>
+            <textarea id="postOutput" class="output" readonly></textarea>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:8000';
+        
+        async function callApi(endpoint) {
+            const outputId = {
+                '/': 'rootOutput',
+                '/resources': 'resourceOutput',
+                '/resourcetypes': 'resourceTypesOutput'
+            }[endpoint];
+            
+            const output = document.getElementById(outputId);
+            output.value = 'Loading...';
+            
+            try {
+                const response = await fetch(API_BASE + endpoint);
+                const data = await response.json();
+                output.value = JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.value = `Error: ${error.message}\n\nMake sure the API server is running:\nuvicorn src.fastapi_db_demo:app --reload`;
+            }
+        }
+
+        async function postResource() {
+            const output = document.getElementById('postOutput');
+            output.value = 'Sending...';
+            
+            try {
+                const data = JSON.parse(document.getElementById('postData').value);
+                const response = await fetch(API_BASE + '/resources', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                output.value = JSON.stringify(result, null, 2);
+            } catch (error) {
+                output.value = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
