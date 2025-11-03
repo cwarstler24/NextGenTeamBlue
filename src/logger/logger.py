@@ -49,7 +49,6 @@ def init_key():
 
     global CIPHER
     CIPHER = Fernet(key)
-    # Encryption key for security logs (in production, use a secure key management)
 
 
 def init_logger():
@@ -60,51 +59,51 @@ def init_logger():
 
     config_file = configparser.ConfigParser()
     config_file.read('./config.ini')
+    global LOG_CONFIG
     LOG_CONFIG = config_file['log']
-    event_LOG_CONFIG = config_file['event_log']
-    security_LOG_CONFIG = config_file['security_log']
+    event_log_config = config_file['event_log']
+    security_log_config = config_file['security_log']
     log_path = os.path.join(os.path.dirname(__file__), LOG_CONFIG['log_path'])
-
 
     # Remove default stderr handler
     _logger.remove()
 
-    retention = f"{LOG_CONFIG['retention_time']} {LOG_CONFIG['retention_unit']}"
+    reten = f"{LOG_CONFIG['retention_time']} {LOG_CONFIG['retention_unit']}"
     rotation = f"{LOG_CONFIG['rotation_size']} {LOG_CONFIG['rotation_unit']}"
 
     # Add security log
-    security_log_file = os.path.join(log_path, security_LOG_CONFIG['file'])
+    security_log_file = os.path.join(log_path, security_log_config['file'])
     _logger.add(
             security_log_file,
             rotation=rotation,
-            retention=retention,
-            level=security_LOG_CONFIG['file_level'],
+            retention=reten,
+            level=security_log_config['file_level'],
             format=encrypted_formatter,
             filter=lambda record, name="security": record["extra"]
             .get("type") == name
             )
 
     # Add event log
-    event_log_file = os.path.join(log_path, event_LOG_CONFIG['file'])
+    event_log_file = os.path.join(log_path, event_log_config['file'])
     _logger.add(
             event_log_file,
-            level=event_LOG_CONFIG['file_level'],
-            retention=retention,
+            level=event_log_config['file_level'],
+            retention=reten,
             rotation=rotation,
             format=LOG_CONFIG['format'],
-            filter=lambda record, name=event_LOG_CONFIG['name']: record["extra"]
+            filter=lambda record,
+            name=event_log_config['name']: record["extra"]
             .get("type") == name
             )
 
     # Configure separate console (stdout) logging levels for security and event
-    _logger.add(sys.stderr, level=event_LOG_CONFIG['console_level'],
-                filter=lambda record: record["extra"].get("type") == "security",
+    _logger.add(sys.stderr, level=event_log_config['console_level'],
+                filter=lambda record:
+                record["extra"].get("type") == "security",
                 format=LOG_CONFIG['format'])
-    _logger.add(sys.stderr, level=security_LOG_CONFIG['console_level'],
+    _logger.add(sys.stderr, level=security_log_config['console_level'],
                 filter=lambda record: record["extra"].get("type") == "event",
                 format=LOG_CONFIG['format'])
-
-
 
 
 class Logger:
@@ -118,8 +117,8 @@ class Logger:
         """
         self._logger = _logger
 
-    def security(self, message: str, level: str = "info",
-                 *args: Any, **kwargs: Any) -> None:
+    def security(self, message: str, *args: Any, level: str = "info",
+                 **kwargs: Any) -> None:
         """
         Logs security-related messages to security.log at the specified level.
         Messages are encrypted for security.
@@ -130,7 +129,7 @@ class Logger:
         getattr(self._logger.bind(type="security").opt(depth=1), level)(
                 message, *args, **kwargs)
 
-    def event(self, message: str, level: str = "info", *args: Any,
+    def event(self, message: str, *args: Any, level: str = "info",
               **kwargs: Any) -> None:
         """
         Logs event-related messages to event.log at the specified level.
