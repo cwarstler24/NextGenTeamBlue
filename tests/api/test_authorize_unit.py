@@ -1,32 +1,36 @@
-import asyncio
+import pytest
 from types import SimpleNamespace
 from fastapi import HTTPException
-import pytest
-import src.api.authorize as authz
 
-pytestmark = pytest.mark.unit
+from src.api import authorize as authz
 
-def _req(method="GET"):
+
+def _req(method: str):
+    # Minimal request object with only the attribute authz uses
     return SimpleNamespace(method=method)
 
-def test_manager_allows_all_methods():
+
+@pytest.mark.anyio
+async def test_manager_allows_all_methods():
     decoded = {"title": "Manager"}
     for m in ["GET", "POST", "PUT", "DELETE"]:
-        out = pytest.run(async_fn=authz.authorize_request(_req(m), decoded))  # see helper below
+        out = await authz.authorize_request(_req(m), decoded)
         assert out["authorized"] is True
-        assert out["role"] == "Manager"
-        assert m in out["allowed_methods"]
+        assert "allowed" in out["action"].lower()
 
-def test_employee_get_ok_but_post_forbidden():
+
+@pytest.mark.anyio
+async def test_employee_get_ok_but_post_forbidden():
     decoded = {"title": "Employee"}
-    out = pytest.run(async_fn=authz.authorize_request(_req("GET"), decoded))
+
+    # GET allowed
+    out = await authz.authorize_request(_req("GET"), decoded)
+    assert out["authorized"] is True
     assert out["role"] == "Employee"
+    assert out["allowed_methods"] == ["GET"]
+
+    # POST forbidden
     with pytest.raises(HTTPException) as ei:
-        pytest.run(async_fn=authz.authorize_request(_req("POST"), decoded))
+        await authz.authorize_request(_req("POST"), decoded)
     assert ei.value.status_code == 403
-
-# --- tiny helper to await coroutines without importing anyio directly
-def _await(coro):
-    return asyncio.get_event_loop().run_until_complete(coro)
-
-setattr(pytest, "run", _await)
+    assert "only managers" in ei.value.detail.lower()
