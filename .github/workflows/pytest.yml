@@ -34,13 +34,3 @@ jobs:
       - name: Run tests
         run: |
           PYTHONPATH=$PYTHONPATH:$(pwd) pytest -v --cov --junitxml=pytest-results.xml
-
-      - name: Upload pytest results
-        if: always()
-        uses: pmeier/pytest-results-action@main
-        with:
-          path: pytest-results.xml
-          summary: true
-          display-options: fEX
-          fail-on-empty: true
-          title: 'Pytest Results'
