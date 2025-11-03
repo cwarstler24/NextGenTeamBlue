@@ -77,6 +77,13 @@
         </div>
 
         <div class="api-section">
+            <h2>Get Resource by ID</h2>
+            <input type="number" id="getResourceId" placeholder="Resource ID" style="width:100px;" />
+            <button onclick="getResourceById()">Get Resource</button>
+            <textarea id="getResourceOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
             <h2>Search by Location ID</h2>
             <input type="number" id="locationId" placeholder="Location ID" style="width:100px;" />
             <button onclick="searchByLocation()">Search</button>
@@ -102,7 +109,7 @@
         <div class="api-section">
             <h2>Update Asset</h2>
             <input type="number" id="updateResourceId" placeholder="Resource ID" style="width:100px;" />
-            <textarea id="updateData" class="output" style="height: 100px;">{"notes": "Updated via HTML", "is_decommissioned": 1}</textarea>
+            <textarea id="updateData" class="output" style="height: 100px;">{"type_id": 4, "location_id": null, "employee_id": 24, "notes": "HTML Test", "is_decommissioned": 0}</textarea>
             <button onclick="updateResource()">Update Resource</button>
             <textarea id="updateOutput" class="output" readonly></textarea>
         </div>
@@ -127,8 +134,7 @@
             const outputId = {
                 '/': 'rootOutput',
                 '/resources/': 'resourceOutput',
-                '/assets/': 'assetsOutput',
-                '/assettypes/': 'assetTypesOutput'
+                '/resources/types/': 'assetTypesOutput'
             }[endpoint];
             const output = document.getElementById(outputId);
             output.value = 'Loading...';
@@ -188,6 +194,23 @@
             output.value = 'Searching...';
             try {
                 const response = await fetch(`${API_BASE}/resources/employee/${employeeId}`, {
+                    headers: {
+                        'Authorization': getToken()
+                    }
+                });
+                const data = await response.json();
+                output.value = JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.value = `Error: ${error.message}`;
+            }
+        }
+
+        async function getResourceById() {
+            const resourceId = document.getElementById('getResourceId').value;
+            const output = document.getElementById('getResourceOutput');
+            output.value = 'Loading...';
+            try {
+                const response = await fetch(`${API_BASE}/resources/${resourceId}`, {
                     headers: {
                         'Authorization': getToken()
                     }
