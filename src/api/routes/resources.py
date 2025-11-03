@@ -23,6 +23,20 @@ async def get_resources(request: Request):
     result = db.get_resources()
     return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
 
+# --- GET /resources/types/ ---
+@router.get("/types/")
+async def get_resource_types(request: Request):
+    token = request.headers.get("Authorization")
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing Authorization header")
+
+    await validate_request(request, token)
+    auth_result = await authenticate_request(request, token)
+    decoded = auth_result["decoded_payload"]
+    await authorize_request(request, decoded)
+
+    result = db.get_resource_types()
+    return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
 
 # --- POST /resources ---
 @router.post("/")

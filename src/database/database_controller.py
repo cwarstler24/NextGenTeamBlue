@@ -239,3 +239,63 @@ def get_resource_types() -> tuple[int, list]:
     if results is not None:
         return 200, results
     return 400, []
+
+def get_resource_by_id(resource_id: int) -> tuple[int, dict]:
+    """
+    Gets the resource by ID from the database.
+    Args:
+        resource_id (int): the resource ID
+    Returns:
+        int: the status code
+        dict: the resource
+    """
+
+    select_query = "SELECT * FROM Asset WHERE id = :asset_id;"
+    params = {
+        "asset_id": resource_id
+    }
+    results = database_connector.execute_query(select_query, params)
+
+    if results is not None and len(results) > 0:
+        return 200, results[0]
+    return 400, {}
+
+def get_resource_by_employee(employee_id: int) -> tuple[int, list]:
+    """
+    Gets the resources by employee ID from the database.
+    Args:
+        employee_id (int): the employee ID
+    Returns:
+        int: the status code
+        list: the resources
+    """
+
+    select_query = "SELECT * FROM Asset WHERE employee_id = :employee_id;"
+    params = {
+        "employee_id": employee_id
+    }
+    results = database_connector.execute_query(select_query, params)
+
+    if results is not None:
+        return 200, results
+    return 400, []
+
+def get_resource_by_location_id(location_id: int) -> tuple[int, list]:
+    """
+    Gets the resources by location ID from the database.
+    Args:
+        location_id (int): the location ID
+    Returns:
+        int: the status code
+        list: the resources
+    """
+
+    select_query = "SELECT * FROM Asset WHERE location_id = :location_id;"
+    params = {
+        "location_id": location_id
+    }
+    results = database_connector.execute_query(select_query, params)
+
+    if results is not None:
+        return 200, results
+    return 400, []
