@@ -260,7 +260,7 @@ def get_resource_by_id(resource_id: int) -> tuple[int, dict]:
         return 200, results[0]
     return 400, {}
 
-def get_resource_by_employee(employee_id: int) -> tuple[int, list]:
+def get_resource_by_employee_id(employee_id: int) -> tuple[int, list]:
     """
     Gets the resources by employee ID from the database.
     Args:
