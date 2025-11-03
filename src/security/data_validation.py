@@ -37,6 +37,7 @@ Example
 
 import jsonschema
 from jsonschema import validate
+from src.logger import logger
 
 
 def data_validation (data):
@@ -73,9 +74,11 @@ def data_validation (data):
     # Validate data
     try:
         validate(instance=data, schema=schema)
+        logger.security("Data validation succeeded", level="info")  
         print("JSON data is valid.")
         return True
     except jsonschema.exceptions.ValidationError as e:
+        logger.security(f"Data validation failed: {e.message}", level="warning")
         print(f"JSON data is invalid:")
         return False
     
