@@ -146,4 +146,7 @@ async def delete_resource(request: Request, id: int):
     await authorize_request(request, decoded)
 
     result = db.delete_resource(decoded.get("title", ""), id)
-    return JSONResponse(content=result, status_code=status.HTTP_200_OK)
+    return JSONResponse(
+            content={"status": "success", "message": f"Resource {id} successfully deleted"},
+            status_code=status.HTTP_200_OK
+        )
