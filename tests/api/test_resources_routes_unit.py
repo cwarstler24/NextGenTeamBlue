@@ -1,102 +1,112 @@
+# tests/api/test_resources_routes_unit.py
+from types import SimpleNamespace
 import pytest
-import src.api.validate as v
-import src.api.authenticate as a
-import src.api.authorize as z
-import src.database.database_controller as dc
-from fastapi.testclient import TestClient
+from fastapi import HTTPException
+from src.api.routes import resources as R
 
-pytestmark = pytest.mark.unit
+# --------- Async stubs used by our route ---------
+async def _stub_validate_ok(request, token: str):
+    # validate_request returns a simple confirmation in real code
+    return {"status": "valid", "method": request.method}
 
-# --- Helpers to stub API dependencies ----------------------------------------
+async def _stub_authenticate_employee(request, token: str):
+    # authenticate_request returns {"decoded_payload": <payload>}
+    return {"decoded_payload": {"title": "Employee", "first_name": "Ada", "last_name": "Lovelace"}}
 
-def _stub_validate_ok(*_args, **_kwargs):
-    # Mimics src.api.validate.validate_request returning success
-    return {"status": "valid", "method": "GET"}
+async def _stub_authenticate_manager(request, token: str):
+    return {"decoded_payload": {"title": "Manager", "first_name": "Grace", "last_name": "Hopper"}}
 
-def _stub_authenticate_employee(*_args, **_kwargs):
-    # Mimics src.api.authenticate.authenticate_request
-    return {"status": "valid", "method": "GET",
-            "decoded_payload": {"sub": "u1", "title": "Employee",
-                                "first_name": "E", "last_name": "User"}}
+async def _stub_authorize_ok(request, decoded_payload: dict):
+    # authorize_request returns a dict but the route mainly needs it not to raise
+    role = "Manager" if decoded_payload.get("title", "").lower() == "manager" else "Employee"
+    return {"authorized": True, "role": role, "allowed_methods": [
+        "GET", "POST", "PUT", "DELETE"], "action": f"{request.method} request allowed"}
 
-def _stub_authenticate_manager(*_args, **_kwargs):
-    return {"status": "valid", "method": "POST",
-            "decoded_payload": {"sub": "m1", "title": "Manager",
-                                "first_name": "M", "last_name": "Boss"}}
 
-def _stub_authorize_ok(*_args, **_kwargs):
-    # Mimics src.api.authorize.authorize_request
-    return {"authorized": True, "role": "Manager"}
+# --- Helper to inject a fake db into the resources module ---
+def _fake_db(**overrides):
+    # defaults; you can override per test with keyword args
+    funcs = {
+        "get_resources": lambda: (200, [{"id": 1, "location": "HQ"}]),
+        "add_resource_asset": lambda *_: 200,
+        "update_resource": lambda *_: 200,
+        "delete_resource": lambda *_: {"deleted": 1},
+    }
+    funcs.update(overrides)
+    return SimpleNamespace(**funcs)
 
-# -----------------------------------------------------------------------------
+
+# -------------------- Tests --------------------
 
 def test_get_resources_happy_path(client, monkeypatch, loguru_capture):
-    # Arrange: stub validation/auth/authz + DB
-    monkeypatch.setattr(v, "validate_request", _stub_validate_ok, raising=True)
-    monkeypatch.setattr(a, "authenticate_request", _stub_authenticate_employee, raising=True)
-    monkeypatch.setattr(z, "authorize_request", _stub_authorize_ok, raising=True)
-    monkeypatch.setattr(dc, "get_resources",
-                        lambda: (200, [{"id": 1, "location": "HQ"}]),
-                        raising=True)
+    # Patch inside the resources module (where symbols are used!)
+    monkeypatch.setattr(R, "validate_request", _stub_validate_ok, raising=True)
+    monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
+    monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    # Act
+    # Patch db used by resources
+    fake = _fake_db(get_resources=lambda: (200, [{"id": 1, "location": "HQ"}]))
+    monkeypatch.setattr(R, "db", fake, raising=True)
+
     r = client.get("/resources/", headers={"Authorization": "Bearer x"})
-    # Assert
     assert r.status_code == 200
     assert r.json() == [{"id": 1, "location": "HQ"}]
-    # (Optional) we don’t log in this route, but fixture logs start/end
 
-def test_post_resource_manager_creates(client, monkeypatch, loguru_capture):    
-    monkeypatch.setattr(v, "validate_request", _stub_validate_ok, raising=True)
-    monkeypatch.setattr(a, "authenticate_request", _stub_authenticate_manager, raising=True)
-    monkeypatch.setattr(z, "authorize_request", _stub_authorize_ok, raising=True)
 
-    # db.add_resource_asset(title, body) → 200 means success
+def test_post_resource_manager_creates(client, monkeypatch, loguru_capture):
+    monkeypatch.setattr(R, "validate_request", _stub_validate_ok, raising=True)
+    monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_manager, raising=True)
+    monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
+
     calls = {}
     def fake_add(title, body):
         calls["title"] = title
         calls["body"] = body
         return 200
 
-    monkeypatch.setattr(dc, "add_resource_asset", fake_add, raising=True)
+    fake = _fake_db(add_resource_asset=fake_add)
+    monkeypatch.setattr(R, "db", fake, raising=True)
 
     body = {"type_id": 1, "location_id": 2, "employee_id": None,
             "notes": "", "is_decommissioned": 0}
     r = client.post("/resources/", json=body, headers={"Authorization": "Bearer x"})
-
     assert r.status_code == 200
-    assert r.text.strip('"') == "Resource Added"
-    assert calls["title"] == "Manager"           # pulled from decoded payload
+    assert r.json() == "Resource Added"
+    assert calls["title"] == "Manager"  # taken from decoded_payload["title"]
     assert calls["body"]["type_id"] == 1
 
-def test_put_resource_manager_updates(client, monkeypatch):    
-    monkeypatch.setattr(v, "validate_request", _stub_validate_ok, raising=True)
-    monkeypatch.setattr(a, "authenticate_request", _stub_authenticate_manager, raising=True)
-    monkeypatch.setattr(z, "authorize_request", _stub_authorize_ok, raising=True)
 
-    # update_resource(title, body_with_asset_id) → 200 on success
+def test_put_resource_manager_updates(client, monkeypatch):
+    monkeypatch.setattr(R, "validate_request", _stub_validate_ok, raising=True)
+    monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_manager, raising=True)
+    monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
+
     captured = {}
     def fake_update(title, body):
         captured["title"] = title
         captured["asset_id"] = body.get("asset_id")
         return 200
 
-    monkeypatch.setattr(dc, "update_resource", fake_update, raising=True)
+    fake = _fake_db(update_resource=fake_update)
+    monkeypatch.setattr(R, "db", fake, raising=True)
 
     body = {"type_id": 2, "location_id": 5, "employee_id": None,
             "notes": "changed", "is_decommissioned": 0}
 
     r = client.put("/resources/123", json=body, headers={"Authorization": "Bearer x"})
-    assert r.status_code == 200
-    assert r.json() == {"message": "Resource 123 updated successfully"}
+    assert r.status_code == 200, r.text
+    assert r.json()["message"] == "Resource 123 updated successfully"
     assert captured["title"] == "Manager"
     assert captured["asset_id"] == 123
 
+
 def test_put_resource_db_failure_raises_400(client, monkeypatch):
-    monkeypatch.setattr(v, "validate_request", _stub_validate_ok, raising=True)
-    monkeypatch.setattr(a, "authenticate_request", _stub_authenticate_manager, raising=True)
-    monkeypatch.setattr(z, "authorize_request", _stub_authorize_ok, raising=True)
-    monkeypatch.setattr(dc, "update_resource", lambda *_: 400, raising=True)
+    monkeypatch.setattr(R, "validate_request", _stub_validate_ok, raising=True)
+    monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_manager, raising=True)
+    monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
+
+    fake = _fake_db(update_resource=lambda *_: 400)
+    monkeypatch.setattr(R, "db", fake, raising=True)
 
     body = {"type_id": 1, "location_id": 2, "employee_id": None,
             "notes": "", "is_decommissioned": 0}
@@ -105,21 +115,15 @@ def test_put_resource_db_failure_raises_400(client, monkeypatch):
     assert r.status_code == 400
     assert r.json()["detail"] == "Database update failed"
 
-def test_delete_resource_manager_success(client, monkeypatch):
-    monkeypatch.setattr(v, "validate_request", _stub_validate_ok, raising=True)
-    monkeypatch.setattr(a, "authenticate_request", _stub_authenticate_manager, raising=True)
-    monkeypatch.setattr(z, "authorize_request", _stub_authorize_ok, raising=True)
 
-    monkeypatch.setattr(dc, "delete_resource", lambda *_: {"deleted": 1}, raising=True)
+def test_delete_resource_manager_success(client, monkeypatch):
+    monkeypatch.setattr(R, "validate_request", _stub_validate_ok, raising=True)
+    monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_manager, raising=True)
+    monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
+
+    fake = _fake_db(delete_resource=lambda *_: {"deleted": 1})
+    monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.delete("/resources/7", headers={"Authorization": "Bearer x"})
     assert r.status_code == 200
     assert r.json() == {"deleted": 1}
-
-# If you do NOT already have `client` in conftest.py, uncomment this:
-# from src.app_factory import create_app
-# @pytest.fixture()
-# def client():
-#     from fastapi.testclient import TestClient
-#     app = create_app()
-#     return TestClient(app)

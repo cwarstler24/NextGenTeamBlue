@@ -81,5 +81,9 @@ def client():
     """Starlette TestClient bound to our FastAPI app."""
     return TestClient(app)
 
+@pytest.fixture
+def anyio_backend():
+    return "asyncio"
+
 # --- finally import app (after logger prep) ---
 from src.main import app
