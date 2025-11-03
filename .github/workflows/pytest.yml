@@ -36,7 +36,10 @@ jobs:
           PYTHONPATH=$PYTHONPATH:$(pwd) pytest -v --cov --junitxml=pytest-results.xml
 
       - name: Upload pytest results
-        uses: actions/upload-artifact@v4
+        uses: pmeier/pytest-results-action@main
         with:
-          name: pytest-results
           path: pytest-results.xml
+          summary: true
+          display-options: fEX
+          fail-on-empty: true
+          title: 'Pytest Results'
