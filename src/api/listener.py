@@ -4,11 +4,11 @@ from src.logger import logger
 
 # Wrap your existing async functions so we can override them in tests
 async def _validate_request_dep(request: Request, token: str):
-    from src.validate import validate_request
+    from src.api.validate import validate_request
     return await validate_request(request, token)
 
 async def _authorize_request_dep(request: Request, decoded_payload: dict):
-    from src.authenticate import authorize_request
+    from src.api.authenticate import authorize_request
     return await authorize_request(request, decoded_payload)
 
 router = APIRouter(tags=["listener"])

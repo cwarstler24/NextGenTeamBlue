@@ -97,8 +97,8 @@ python main.py
 ```
 2. Open a new terminal and run:
 ```
-  curl -X POST "http://127.0.0.1:8000/listener" \
+  curl -X POST "http://127.0.0.1:8000/resources/" \
   -H "Authorization: Bearer <insert_token_here>" \
   -H "Content-Type: application/json" \
-  -d '{"type_id": "2", "location_id": "1", "employee_id": 31, "notes": "This is a test", "is_decommissoned": "0"}'
+  -d '{"type_id": 2, "employee_id": 31, "notes": "Testing", "is_decommissioned": 0}'
 ```
