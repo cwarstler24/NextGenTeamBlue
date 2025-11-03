@@ -41,6 +41,6 @@ jobs:
         with:
           path: pytest-results.xml
           summary: true
-          display-options: fEX
+          display-options: fEX --cov
           fail-on-empty: true
           title: 'Pytest Results'
