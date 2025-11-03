@@ -3,8 +3,11 @@ import os
 import sys
 import pytest
 
+# --- FastAPI test client ---
+from starlette.testclient import TestClient
 # --- auto-logging every test via your wrapper ---
 from loguru import logger as _core
+from src.main import app
 from src.logger import logger  # safe now
 
 # --- make src importable ---
@@ -72,6 +75,15 @@ def loguru_capture():
         yield records
     finally:
         _core.remove(sink_id)
+
+@pytest.fixture
+def client():
+    """Starlette TestClient bound to our FastAPI app."""
+    return TestClient(app)
+
+@pytest.fixture
+def anyio_backend():
+    return "asyncio"
 
 # --- finally import app (after logger prep) ---
 from src.main import app
