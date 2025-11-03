@@ -36,6 +36,7 @@ jobs:
           PYTHONPATH=$PYTHONPATH:$(pwd) pytest -v --cov --junitxml=pytest-results.xml
 
       - name: Upload pytest results
+        if: always()
         uses: pmeier/pytest-results-action@main
         with:
           path: pytest-results.xml
