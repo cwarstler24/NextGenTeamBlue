@@ -48,7 +48,7 @@ def data_validation (data):
             "type_id": {"type": "integer"},
             "location_id": {"type": ["integer", "null"]},
             "employee_id": {"type": ["integer", "null"]},
-            "notes": {"type": ["string", "null"], "maxLength": 50},
+            "notes": {"type": ["string", "null"], "maxLength": 1000},
             "is_decommissioned": {"type": "integer", "enum": [0, 1]},
         },
         "required": ["type_id", "is_decommissioned"],
@@ -74,10 +74,9 @@ def data_validation (data):
     # Validate data
     try:
         validate(instance=data, schema=schema)
-        logger.security("Data validation succeeded", level="info")  
-        print("JSON data is valid.")
+        logger.security("Data validation succeeded", level="warning")  
         return True
     except jsonschema.exceptions.ValidationError as e:
         logger.security(f"Data validation failed: {e.message}", level="warning")
-        print(f"JSON data is invalid:")
         return False
+   

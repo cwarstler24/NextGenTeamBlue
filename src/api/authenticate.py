@@ -6,8 +6,7 @@ import httpx
 AUTH_SERVER_URL = "http://172.16.0.51:8080/auth_service/api/auth/verify"
 
 async def authenticate_request(request: Request, token: str):
-    """Validate JWT tokens through the external authorization service and check request body."""
-    
+    """Validate JWT tokens through the external authorization service and check request body."""   
     # --- Step 1: Basic token presence check ---
     if not token or not token.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
