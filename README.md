@@ -391,8 +391,27 @@ tail -f log/security.log
 
 ## License
 
-[Add your license information here]
+This project is licensed under the **Apache License 2.0**.
+
+Key points:
+- Free for commercial and private use
+- Permissive: modifications and redistribution allowed
+- Includes explicit patent grant
+- Must retain `LICENSE` and `NOTICE` files in redistributions
+- Clearly mark any changes you make in derivative works
+
+See the full license text in the `LICENSE` file and third-party attributions in `NOTICE`.
+
+Add SPDX headers (recommended) at the top of source files you modify:
+```python
+# SPDX-License-Identifier: Apache-2.0
+```
 
 ## Contributors
 
-[Add contributor information here]
+| Name | Role |
+|------|------|
+| cwarstler24 | Project Owner |
+| (Add others) | Contributor |
+
+To contribute: fork the repo, create a feature branch, submit a PR, ensure tests and lint pass.
