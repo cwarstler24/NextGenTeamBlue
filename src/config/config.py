@@ -12,4 +12,3 @@ class Config:
 
     def getLogConfig(self):
         return self.config_file['log_config']
-
