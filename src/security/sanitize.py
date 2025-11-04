@@ -33,73 +33,63 @@ Notes:
 """
 
 import bleach
-import json
 from typing import Any
 from src.logger import logger
 
-def sanitize_data(input_data: Any) -> str:
+def sanitize_data(input_data: Any) -> Any:
     """
-    Serialize and sanitize input data, returning a cleaned string.
+    Serialize and sanitize input data, returning a cleaned version.
 
     Parameters
     - input_data (Any): The data to sanitize. Can be str, dict, list, number, etc.
 
     Returns
-    - str: A bleach-cleaned string. For non-string input this will be the
-      JSON serialization (or str() fallback) after cleaning.
-
-    Behavior
-    - Strings: cleaned and returned.
-    - Other types: json.dumps(..., ensure_ascii=False) -> cleaned -> returned.
-    - On json serialization error, falls back to str(input_data), logs a warning,
-      and returns the cleaned string form.
-
-    Logging
-    - On successful serialization: logger.security("Data sanitized successfully", level="info")
-    - On serialization fallback: logger.security("Data serialization failed
-                                            ; sanitized string representation", level="warning")
-
-    Example:
-        >>> sanitize_data("<b>hi</b>")
-        '&lt;b&gt;hi&lt;/b&gt;'
-        >>> sanitize_data({"k": "<script/>"})
-        '{"k":"&lt;script/&gt;"}'  # sanitized JSON string
+    - Any: A sanitized version of the input data. Strings are cleaned, and
+      other types are returned in their original form.
     """
-    if isinstance(input_data, str):
-        sanitized_input = bleach.clean(input_data)
-        return sanitized_input.replace("'", "''")  # replace single quotes to avoid SQL injections
-
     try:
-        # serialize to JSON (preserve unicode), then sanitize the JSON string
-        json_text = json.dumps(input_data, ensure_ascii=False)
-        logger.security("Data sanitized successfully", level="info")
-    except (TypeError, ValueError):
-        # fallback for non-serializable objects
-        json_text = str(input_data).replace("'", '"')# replace single quotes to avoid SQL injections
-        logger.security("Data serialization failed; sanitized string representation",
-                         level="warning")
+        if isinstance(input_data, str):
+            # Sanitize the string input directly
+            logger.security("String data sanitized successfully", level="info")
+            sanitized_input = bleach.clean(input_data)
+            sanitized_input = sanitized_input.replace("'", "''")  # Escape single quotes for SQL safety
+            return sanitized_input  
+        
+        elif isinstance(input_data, dict):
+            # Sanitize each value in the dictionary
+            logger.security("Dictionary data sanitized successfully", level="info")
+            sanitized_dict = {key: sanitize_data(value) for key, value in input_data.items()}
+            return sanitized_dict  # Return the sanitized dictionary without converting to JSON
+        
+        elif isinstance(input_data, list):
+            # Sanitize each item in the list
+            logger.security("List data sanitized successfully", level="info")
+            sanitized_list = [sanitize_data(item) for item in input_data]
+            return sanitized_list  # Return the sanitized list without converting to JSON
 
-    return bleach.clean(json_text)
+        # For numbers and booleans, return them as is
+        logger.security("Non-string, non-collection data returned as is", level="info")
+        return input_data
+    except Exception as e:
+        logger.security(f"Data sanitization failed: {e}", level="error")
+        return str(input_data).replace("'", "''")  # Fallback: sanitize string representation
 
-
-# shcema = {
-
-#     "name": "<script>John Doe</script>",
+# Example usage
+# schema = {
+#     "name": "'<script>hello</script>'",
 #     "age": 30,
 #     "isStudent": False,
 #     "skills": ["JavaScript", "Python", "HTML"],
 #     "address": {
-#     "street": "123 Main St",
-#     "city": "Anytown",
-#     "state": "CA",
-#     "zip": "12345"
-
+#         "street": "123 Main St",
+#         "city": "Anytown",
+#         "state": "CA",
+#         "zip": "12345"
+#     }
 # }
 
-# }
+# print("unsanitized: ", schema)
 
-# print(shcema)
+# sanitized_schema = sanitize_data(schema)
 
-# sanitized_schema = sanitize_data(shcema)
-
-# print(sanitized_schema)
+# print("sanitized: ", sanitized_schema)
