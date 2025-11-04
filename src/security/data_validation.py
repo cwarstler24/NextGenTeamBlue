@@ -48,7 +48,7 @@ def data_validation (data):
             "type_id": {"type": "integer"},
             "location_id": {"type": ["integer", "null"]},
             "employee_id": {"type": ["integer", "null"]},
-            "notes": {"type": ["string", "null"]},
+            "notes": {"type": ["string", "null"], "maxLength": 50},
             "is_decommissioned": {"type": "integer", "enum": [0, 1]},
         },
         "required": ["type_id", "is_decommissioned"],
