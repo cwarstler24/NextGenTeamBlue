@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from src.api.validate import validate_request
 from src.api.authenticate import authenticate_request
 from src.api.authorize import authorize_request
+from src.security.sanitize import sanitize_data
 import src.database.database_controller as db
 from src.utils import convert_bytes_to_strings
 
@@ -108,6 +109,11 @@ async def post_resource(request: Request):
     await authorize_request(request, decoded)
 
     body = await request.json()
+
+    # Sanitize notes field
+    if "notes" in body and body["notes"] is not None:
+        body["notes"] = sanitize_data(body["notes"])
+
     result = db.add_resource_asset(decoded.get("title", ""), body)
     return JSONResponse(status_code=result, content="Resource Added" if result == 200 else "Error Adding Resource")
 
@@ -126,6 +132,10 @@ async def update_resource(request: Request, id: int):
 
     body = await request.json()
     body["asset_id"] = id
+
+    # Sanitize notes
+    if "notes" in body and body["notes"] is not None:
+        body["notes"] = sanitize_data(body["notes"])
 
     result = db.update_resource(decoded.get("title", ""), body)
     if result == 200:
