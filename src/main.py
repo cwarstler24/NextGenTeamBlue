@@ -1,10 +1,9 @@
 import sqlalchemy
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from src.app_factory import create_app
 from src.database.database_connector import get_db_connection
 from src.logger import logger
-
-from fastapi.middleware.cors import CORSMiddleware
 
 app = create_app()
 
