@@ -135,7 +135,6 @@
       background-color: rgba(255,255,255,0.3);
     }
 
-
     .status {
       display:flex;
       align-items:center;
@@ -204,7 +203,7 @@
             </div>
             <div style="width:120px;">
               <label>&nbsp;</label>
-              <button class="btn small" onclick="fillSample()">Sample</button>
+              <button class="btn small" onclick="resetPage()">Reset</button>
             </div>
           </div>
         </div>
@@ -393,11 +392,11 @@
 
     function clearOutput() { outputEl.textContent = ''; setStatus('idle','cleared'); }
 
-    function fillSample() {
+    function resetPage() {
       document.getElementById('bearer').value = '';
       document.getElementById('postBody').value = '{"type_id":4,"location_id":null,"employee_id":24,"notes":"HTML test","is_decommissioned":0}';
       document.getElementById('putBody').value = '{"type_id":4,"location_id":null,"employee_id":24,"notes":"Update test","is_decommissioned":0}';
-      setStatus('ready','Sample data loaded');
+      setStatus('ready','Page reset');
     }
 
     function validateJson(which) {
