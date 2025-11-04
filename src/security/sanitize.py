@@ -33,7 +33,6 @@ Notes:
 """
 
 import bleach
-import json
 from typing import Any
 from src.logger import logger
 
