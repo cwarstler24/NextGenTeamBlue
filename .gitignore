@@ -5,7 +5,7 @@ venv/
 __pycache__/
 
 # Config files
-.ini
+config.ini
 .vscode
 
 # Logging files
@@ -16,3 +16,4 @@ __pycache__/
 env/
 
 nohup.out
+# /config.ini
