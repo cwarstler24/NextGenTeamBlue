@@ -250,7 +250,7 @@
           <label for="putId" style="font-size:13px;color:var(--muted)">PUT id</label>
           <div class="row">
             <input id="putId" type="number" placeholder="Resource ID" style="width:120px;" />
-            <button class="btn small" onclick="prefillForPut()">Prefill</button>
+            <!-- <button class="btn small" onclick="prefillForPut()">Prefill</button> -->
           </div>
           <label for="putBody" style="font-size:13px;color:var(--muted); margin-top:8px;">PUT body (JSON)</label>
           <textarea id="putBody" placeholder='{"type_id":4,"location_id":null,"employee_id":24,"notes":"Update test","is_decommissioned":0}'>{"type_id":4,"location_id":null,"employee_id":24,"notes":"Update test","is_decommissioned":0}</textarea>
@@ -478,19 +478,19 @@
     }
 
     // convenience: prefill PUT body with current resource if exists
-    async function prefillForPut() {
-      const id = document.getElementById('putId').value;
-      if (!id) { setStatus(400,'Missing id'); return; }
-      try {
-        const res = await fetch(API_BASE + `/resources/${id}`, { headers: tokenHeader() });
-        const text = await res.text();
-        const parsed = JSON.parse(text);
-        document.getElementById('putBody').value = JSON.stringify(parsed, null, 2);
-        setStatus(200, 'Prefilled body');
-      } catch (e) {
-        setStatus(400,'Could not fetch resource');
-      }
-    }
+    // async function prefillForPut() {
+    //   const id = document.getElementById('putId').value;
+    //   if (!id) { setStatus(400,'Missing id'); return; }
+    //   try {
+    //     const res = await fetch(API_BASE + `/resources/${id}`, { headers: tokenHeader() });
+    //     const text = await res.text();
+    //     const parsed = JSON.parse(text);
+    //     document.getElementById('putBody').value = JSON.stringify(parsed, null, 2);
+    //     setStatus(200, 'Prefilled body');
+    //   } catch (e) {
+    //     setStatus(400,'Could not fetch resource');
+    //   }
+    // }
 
     // initial ping
     pingRoot();
