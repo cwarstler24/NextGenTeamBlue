@@ -31,9 +31,8 @@ Notes:
 - This function returns sanitized text (str). If you need a boolean safety
   check or a sanitized object structure, implement an alternative function.
 """
-
-import bleach
 from typing import Any
+import bleach
 from src.logger import logger
 
 def sanitize_data(input_data: Any) -> Any:
@@ -52,15 +51,16 @@ def sanitize_data(input_data: Any) -> Any:
             # Sanitize the string input directly
             logger.security("String data sanitized successfully", level="info")
             sanitized_input = bleach.clean(input_data)
-            sanitized_input = sanitized_input.replace("'", "''")  # Escape single quotes for SQL safety
-            return sanitized_input  
-        
+            sanitized_input = sanitized_input.replace("'", "''")
+            # Escape single quotes for SQL safety
+            return sanitized_input
+
         elif isinstance(input_data, dict):
             # Sanitize each value in the dictionary
             logger.security("Dictionary data sanitized successfully", level="info")
             sanitized_dict = {key: sanitize_data(value) for key, value in input_data.items()}
             return sanitized_dict  # Return the sanitized dictionary without converting to JSON
-        
+
         elif isinstance(input_data, list):
             # Sanitize each item in the list
             logger.security("List data sanitized successfully", level="info")
