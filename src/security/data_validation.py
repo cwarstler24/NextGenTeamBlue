@@ -81,13 +81,3 @@ def data_validation (data):
         logger.security(f"Data validation failed: {e.message}", level="warning")
         print(f"JSON data is invalid:")
         return False
-    
- # Define JSON data
-# data = {
-#     "type_id": 4,
-#     "location_id": 1,
-#     "employee_id": None,
-#     "is_decommissioned": 3
-#     }
-
-# print(data_validation(data))

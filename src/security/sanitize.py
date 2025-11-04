@@ -77,26 +77,3 @@ def sanitize_data(input_data: Any) -> str:
         logger.security("Data serialization failed; sanitized string representation", level="warning")
 
     return bleach.clean(json_text)
-
-
-# shcema = {
-    
-#     "name": "<script>John Doe</script>",
-#     "age": 30,
-#     "isStudent": False,
-#     "skills": ["JavaScript", "Python", "HTML"],
-#     "address": {
-#     "street": "123 Main St",
-#     "city": "Anytown",
-#     "state": "CA",
-#     "zip": "12345"
-  
-# }
-
-# }
-
-# print(shcema)
-
-# sanitized_schema = sanitize_data(shcema)
-
-# print(sanitized_schema)
