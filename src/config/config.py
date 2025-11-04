@@ -10,5 +10,5 @@ class Config:
         self.config_file = configparser.ConfigParser()
         self.config_file.read(config_path)
 
-    def getLogConfig(self):
+    def get_log_config(self):
         return self.config_file['log_config']

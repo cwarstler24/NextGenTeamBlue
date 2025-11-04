@@ -1,5 +1,6 @@
 # src/config/loader.py
-import json, os
+import json
+import os
 from pydantic import BaseModel
 
 class AppConfig(BaseModel):
@@ -12,4 +13,3 @@ def load_config(path: str | None = None) -> AppConfig:
         return AppConfig()
     with open(path, "r", encoding="utf-8") as f:
         return AppConfig(**json.load(f))
-
