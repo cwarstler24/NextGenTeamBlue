@@ -8,7 +8,7 @@ from starlette.testclient import TestClient
 # --- auto-logging every test via your wrapper ---
 from loguru import logger as _core
 from src.main import app
-from src.logger import logger  # safe now
+from src.logger import logger
 
 # --- make src importable ---
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -24,7 +24,7 @@ os.makedirs(ENV_DIR, exist_ok=True)
 # Write a dummy key only if absent; keep deterministic for CI
 if not os.path.exists(LOG_KEY_PATH):
     with open(LOG_KEY_PATH, "wb") as f:
-        f.write(b"dummy-test-key-32bytes____dummy-test-key")  # 40 bytes is fine; your logger just needs a file
+        f.write(b"dummy-test-key-32bytes____dummy-test-key")
 
 # (Optional) if your logger reads an env var for key path, set it here:
 # os.environ["LOG_KEY_PATH"] = LOG_KEY_PATH

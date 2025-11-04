@@ -6,7 +6,7 @@ if __name__ == "__main__":
         logger.security("Security alert", level="trace")
     for i in range(160000):
         logger.event("Looping", level="trace")
-        """
+    """
     logger.event("Starting main application")
     # Demo of all log levels
     logger.event("Trace level demo", level="trace")
