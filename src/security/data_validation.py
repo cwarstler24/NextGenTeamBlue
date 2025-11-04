@@ -74,9 +74,8 @@ def data_validation (data):
     # Validate data
     try:
         validate(instance=data, schema=schema)
-        logger.security("Data validation succeeded", level="warning")  
+        logger.security("Data validation succeeded", level="warning")
         return True
     except jsonschema.exceptions.ValidationError as e:
         logger.security(f"Data validation failed: {e.message}", level="warning")
         return False
-   
