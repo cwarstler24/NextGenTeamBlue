@@ -163,9 +163,9 @@ async def post_resource(request: Request):
 
     result = db.add_resource_asset(decoded.get("title", ""), body)
     if result == 200:
-        message = "Resource added successfully"
+        message = "Resource Added Successfully"
         logger.event(f"Returning success 200: {message}", level="info")
-        return JSONResponse(content={"message": message}, status_code=200)
+        return JSONResponse(content=message, status_code=200)
     elif result == 400:
         message = "Database error"
         logger.event(f"Returning error 400: {message}", level="error")
@@ -224,9 +224,9 @@ async def delete_resource(request: Request, id: int):
     # Expect the DB layer to return something like {"deleted": 1}
     result = db.delete_resource(decoded.get("title", ""), id)
     if result == 200:
-        message = f"Resource {id} deleted successfully"
+        message = "Resource deleted successfully"
         logger.event(f"Returning success 200: {message}", level="info")
-        return JSONResponse(content={"message": message}, status_code=200)
+        return JSONResponse(content=message, status_code=200)
     else:
         message = "Database delete failed"
         logger.event(f"Returning error 400 {message}", level="error")

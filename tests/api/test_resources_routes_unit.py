@@ -71,7 +71,7 @@ def test_post_resource_manager_creates(client, monkeypatch, loguru_capture):
             "notes": "", "is_decommissioned": 0}
     r = client.post("/resources/", json=body, headers={"Authorization": "Bearer x"})
     assert r.status_code == 200
-    assert r.json() == "Resource Added"
+    assert r.json() == "Resource Added Successfully"
     assert calls["title"] == "Manager"  # taken from decoded_payload["title"]
     assert calls["body"]["type_id"] == 1
 
@@ -121,9 +121,9 @@ def test_delete_resource_manager_success(client, monkeypatch):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_manager, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(delete_resource=lambda *_: {"deleted": 1})
+    fake = _fake_db(delete_resource=lambda *_: 200)
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.delete("/resources/7", headers={"Authorization": "Bearer x"})
     assert r.status_code == 200
-    assert r.json() == {"deleted": 1}
+    assert r.json() == "Resource deleted successfully"
