@@ -1,5 +1,5 @@
 # src/API/assets.py
-from fastapi import APIRouter, Request, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/assets", tags=["assets"])
