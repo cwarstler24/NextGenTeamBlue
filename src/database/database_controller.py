@@ -227,7 +227,7 @@ def get_resource_types() -> tuple[int, list]:
         logger.event(f"Successfully retrieved {len(results)} resource types", level="info")
         return 200, results
 
-    logger.event(f"Failed to retrieve resource types", level="error")
+    logger.event("Failed to retrieve resource types", level="error")
     return 400, []
 
 def get_resource_by_id(resource_id: int) -> tuple[int, dict]:
