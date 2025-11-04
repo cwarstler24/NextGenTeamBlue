@@ -100,9 +100,8 @@ def add_resource_asset(user_position: str, resource) -> int:
     if update_result is False:
         logger.event("Error updating resource ID", level="error")
         return 400
-    else:
-        logger.event("Successfully updated resource ID", level="info")
-        return 200
+    logger.event("Successfully updated resource ID", level="info")
+    return 200
 
 def delete_resource(user_position: str, resource: int) -> int:
     """
@@ -340,7 +339,6 @@ def update_resource_id(type_id: int, new_asset_id: int) -> bool:
         logger.event(f"Successfully updated resource ID {new_asset_id}",
                         level="info")
         return True
-    else:
-        logger.event(f"Failed to update resource ID {new_asset_id}",
-                        level="error")
+    logger.event(f"Failed to update resource ID {new_asset_id}",
+                    level="error")
     return False
