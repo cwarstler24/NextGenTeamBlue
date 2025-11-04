@@ -65,15 +65,39 @@ def sanitize_data(input_data: Any) -> str:
         '{"k":"&lt;script/&gt;"}'  # sanitized JSON string
     """
     if isinstance(input_data, str):
-        return bleach.clean(input_data)
-
+        sanitized_input = bleach.clean(input_data)
+        return sanitized_input.replace("'", "''")  # replace single quotes to avoid SQL injections
+    
     try:
         # serialize to JSON (preserve unicode), then sanitize the JSON string
         json_text = json.dumps(input_data, ensure_ascii=False)
         logger.security("Data sanitized successfully", level="info")
     except (TypeError, ValueError):
         # fallback for non-serializable objects
-        json_text = str(input_data)
+        json_text = str(input_data).replace("'", '"')  # replace single quotes to avoid SQL injections
         logger.security("Data serialization failed; sanitized string representation", level="warning")
 
     return bleach.clean(json_text)
+
+
+# shcema = {
+    
+#     "name": "<script>John Doe</script>",
+#     "age": 30,
+#     "isStudent": False,
+#     "skills": ["JavaScript", "Python", "HTML"],
+#     "address": {
+#     "street": "123 Main St",
+#     "city": "Anytown",
+#     "state": "CA",
+#     "zip": "12345"
+  
+# }
+
+# }
+
+# print(shcema)
+
+# sanitized_schema = sanitize_data(shcema)
+
+# print(sanitized_schema)
