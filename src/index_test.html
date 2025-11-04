@@ -1,265 +1,477 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Team Blue API Tester</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .api-section {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 4px;
-        }
-        .output {
-            width: 100%;
-            min-height: 200px;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-        button {
-            padding: 8px 16px;
-            background-color: #0b4a6f;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #083857;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Team Blue — API Tester</title>
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1724;
+      --muted:#94a3b8;
+      --accent:#0ea5b7;
+      --accent-2:#0369a1;
+      --success:#16a34a;
+      --danger:#ef4444;
+      --glass: rgba(255,255,255,0.03);
+      --radius:12px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body{height:100%; margin:0; background:linear-gradient(180deg,#071024 0%, #071827 60%); color:#e6eef6;}
+    .wrap{
+      max-width:1200px;
+      margin:28px auto;
+      padding:22px;
+      box-sizing:border-box;
+    }
+
+    header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .brand {
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo {
+      width:48px;
+      height:48px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+      font-weight:700;
+      font-size:18px;
+    }
+    h1{ font-size:20px; margin:0; letter-spacing: -0.3px;}
+    p.lead{margin:0;color:var(--muted); font-size:13px;}
+
+    .grid {
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:18px;
+    }
+
+    /* left column */
+    .panel {
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:16px;
+      box-shadow: 0 6px 24px rgba(2,6,23,0.5);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+
+    .row { display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+    label { font-size:13px; color:var(--muted); min-width:120px; }
+    input[type="text"], input[type="number"], textarea, select {
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,0.04);
+      color: #e6eef6;
+      padding:10px 12px;
+      border-radius:8px;
+      outline:none;
+      width:100%;
+      box-sizing:border-box;
+      font-size:13px;
+    }
+    textarea { resize:vertical; min-height:88px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace; }
+
+    .controls { display:flex; gap:8px; flex-wrap:wrap; }
+    .btn {
+      background:linear-gradient(180deg,var(--accent),var(--accent-2));
+      color:#061321;
+      border:none;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.5);
+    }
+    .btn.ghost {
+      background:transparent;
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow:none;
+    }
+    .small { padding:8px 10px; font-size:13px; }
+
+    /* right column (outputs) */
+    .out-wrap {
+      display:flex; flex-direction:column; gap:12px;
+      height:calc(100vh - 140px);
+    }
+    .output {
+      background:linear-gradient(180deg, rgba(7,16,36,0.6), rgba(6,14,28,0.4));
+      border-radius:12px;
+      padding:12px;
+      color:#e6eef6;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+      font-size:13px;
+      overflow:auto;
+      border:1px solid rgba(255,255,255,0.03);
+      flex:1;
+      min-height:120px;
+    }
+    .status {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:8px;
+    }
+    .chip {
+      padding:6px 8px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-weight:600;
+      font-size:12px;
+    }
+    .logo-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      object-fit: cover; /* keeps proportions */
+      box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+    }
+
+    .footer {
+      margin-top:14px;
+      color:var(--muted);
+      font-size:13px;
+      text-align:center;
+    }
+
+    .flex { display:flex; gap:10px; align-items:center; }
+    .right { justify-content:flex-end; }
+
+    @media (max-width:980px){
+      .grid { grid-template-columns:1fr; }
+      .out-wrap { height:auto; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Team Blue API Tester</h1>
-
-        <div class="api-section">
-            <h2>Bearer Token</h2>
-            <input type="text" id="bearerToken" placeholder="Paste Bearer token here" style="width:100%;padding:8px;" />
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="../Documentation/Logos/Action Hero Cotton Swab.png" alt="Team Blue Logo" class="logo-img">
+        <div>
+          <h1>Team Blue — API Tester</h1>
+          <p class="lead">Quick interface for your inventory API — local testing only</p>
         </div>
+      </div>
 
-        <div class="api-section">
-            <h2>Root Check</h2>
-            <button onclick="callApi('/')">Check Root</button>
-            <textarea id="rootOutput" class="output" readonly></textarea>
-        </div>
+      <div class="flex right">
+        <div class="chip" id="serverStatus">server: unknown</div>
+        <button class="btn ghost small" onclick="pingRoot()">Ping</button>
+      </div>
+    </header>
 
-        <div class="api-section">
-            <h2>Assets</h2>
-            <button onclick="callApi('/resources/')">Show All Resources</button>
-            <textarea id="resourceOutput" class="output" readonly></textarea>
-        </div>
-
-        <div class="api-section">
-            <h2>Asset Types</h2>
-            <button onclick="callApi('/resources/types/')">Show All Asset Types</button>
-            <textarea id="assetTypesOutput" class="output" readonly></textarea>
-        </div>
-
-        <div class="api-section">
-            <h2>Get Resource by ID</h2>
-            <input type="number" id="getResourceId" placeholder="Resource ID" style="width:100px;" />
-            <button onclick="getResourceById()">Get Resource</button>
-            <textarea id="getResourceOutput" class="output" readonly></textarea>
-        </div>
-
-        <div class="api-section">
-            <h2>Search by Location ID</h2>
-            <input type="number" id="locationId" placeholder="Location ID" style="width:100px;" />
-            <button onclick="searchByLocation()">Search</button>
-            <textarea id="locationOutput" class="output" readonly></textarea>
-        </div>
-
-        <div class="api-section">
-            <h2>Search by Employee ID</h2>
-            <input type="number" id="employeeId" placeholder="Employee ID" style="width:100px;" />
-            <button onclick="searchByEmployee()">Search</button>
-            <textarea id="employeeOutput" class="output" readonly></textarea>
-        </div>
-
-        <div class="api-section">
-            <h2>Add Asset</h2>
-            <div style="margin-bottom: 10px;">
-                <textarea id="postData" class="output" style="height: 100px;">{"type_id": 4, "location_id": null, "employee_id": 24, "notes": "HTML Test", "is_decommissioned": 0}</textarea>
+    <div class="grid">
+      <!-- left: controls -->
+      <div>
+        <div class="panel">
+          <div style="display:flex; gap:12px; align-items:center;">
+            <div style="flex:1">
+              <label for="bearer">Bearer token</label>
+              <input id="bearer" type="text" placeholder="Paste token (without 'Bearer ')" />
             </div>
-            <button onclick="postResource()">Add Resource</button>
-            <textarea id="postOutput" class="output" readonly></textarea>
+            <div style="width:120px;">
+              <label>&nbsp;</label>
+              <button class="btn small" onclick="fillSample()">Sample</button>
+            </div>
+          </div>
         </div>
 
-        <div class="api-section">
-            <h2>Update Asset</h2>
-            <input type="number" id="updateResourceId" placeholder="Resource ID" style="width:100px;" />
-            <textarea id="updateData" class="output" style="height: 100px;">{"type_id": 4, "location_id": null, "employee_id": 24, "notes": "HTML Test", "is_decommissioned": 0}</textarea>
-            <button onclick="updateResource()">Update Resource</button>
-            <textarea id="updateOutput" class="output" readonly></textarea>
+        <div class="panel" style="margin-top:12px;">
+          <h3 style="margin:0 0 10px 0;">Quick actions</h3>
+          <div class="row">
+            <div style="flex:1">
+              <label>Show all resources</label>
+              <div class="controls">
+                <button class="btn" onclick="callApi('/resources/')">Resources</button>
+                <button class="btn ghost small" onclick="callApi('/resourcetypes')">Types</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px;">
+            <div style="flex:1">
+              <label>Get resource by ID</label>
+              <div class="controls">
+                <input id="getId" type="number" placeholder="ID" style="width:120px;" />
+                <button class="btn small" onclick="getById()">Get</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:8px;">
+            <div style="flex:1">
+              <label>Search by location</label>
+              <div class="controls">
+                <input id="locId" type="number" placeholder="Location ID" style="width:120px;" />
+                <button class="btn small" onclick="searchByLocation()">Search</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:8px;">
+            <div style="flex:1">
+              <label>Search by employee</label>
+              <div class="controls">
+                <input id="empId" type="number" placeholder="Employee ID" style="width:120px;" />
+                <button class="btn small" onclick="searchByEmployee()">Search</button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="api-section">
-            <h2>Flag Asset for Deletion</h2>
-            <input type="number" id="deleteResourceId" placeholder="Resource ID" style="width:100px;" />
-            <button onclick="deleteResource()">Flag for Deletion</button>
-            <textarea id="deleteOutput" class="output" readonly></textarea>
+        <div class="panel" style="margin-top:12px;">
+          <h3 style="margin:0 0 10px 0;">Create / Update</h3>
+
+          <label for="postBody" style="font-size:13px;color:var(--muted)">POST body (JSON)</label>
+          <textarea id="postBody" placeholder='{"type_id":4,"location_id":null,"employee_id":24,"notes":"HTML test","is_decommissioned":0}'>{"type_id":4,"location_id":null,"employee_id":24,"notes":"HTML test","is_decommissioned":0}</textarea>
+          <div class="row" style="margin-top:10px;">
+            <button class="btn" onclick="postResource()">POST</button>
+            <button class="btn ghost" onclick="validateJson('post')">Validate JSON</button>
+          </div>
+
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03); margin:12px 0;">
+
+          <label for="putId" style="font-size:13px;color:var(--muted)">PUT id</label>
+          <div class="row">
+            <input id="putId" type="number" placeholder="Resource ID" style="width:120px;" />
+            <button class="btn small" onclick="prefillForPut()">Prefill</button>
+          </div>
+          <label for="putBody" style="font-size:13px;color:var(--muted); margin-top:8px;">PUT body (JSON)</label>
+          <textarea id="putBody" placeholder='{"type_id":4,"location_id":null,"employee_id":24,"notes":"Update test","is_decommissioned":0}'>{"type_id":4,"location_id":null,"employee_id":24,"notes":"Update test","is_decommissioned":0}</textarea>
+          <div class="row" style="margin-top:8px;">
+            <button class="btn" onclick="putResource()">PUT</button>
+            <button class="btn ghost" onclick="validateJson('put')">Validate JSON</button>
+          </div>
         </div>
+
+        <div class="panel" style="margin-top:12px;">
+          <h3 style="margin:0 0 10px 0;">Delete</h3>
+          <div class="row">
+            <input id="delId" type="number" placeholder="Resource ID" style="width:120px;" />
+            <button class="btn" onclick="deleteResource()">DELETE</button>
+            <button class="btn ghost" onclick="callApi('/resources/')">Refresh</button>
+          </div>
+          <p style="margin-top:10px;color:var(--muted);font-size:13px;">Delete routes require manager permissions.</p>
+        </div>
+      </div>
+
+      <!-- right: outputs -->
+      <div class="out-wrap">
+        <div class="panel" style="padding:12px;">
+          <div class="status">
+            <div class="chip" id="httpStatus">idle</div>
+            <div style="flex:1;color:var(--muted);font-size:13px" id="statusText">Responses and logs appear here</div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn small" onclick="copyOutput()">Copy</button>
+              <button class="btn small ghost" onclick="clearOutput()">Clear</button>
+            </div>
+          </div>
+          <pre id="output" class="output">{ "message": "Ready" }</pre>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+          <div class="panel" style="flex:1; padding:12px;">
+            <strong style="display:block;margin-bottom:6px">Recent activity</strong>
+            <div id="logArea" style="font-family:ui-monospace,monospace; font-size:12px; color:var(--muted); max-height:120px; overflow:auto; white-space:pre-wrap;"></div>
+          </div>
+
+          <div class="panel" style="width:240px; padding:12px;">
+            <strong style="display:block;margin-bottom:6px">Hints</strong>
+            <div style="color:var(--muted); font-size:13px;">
+              • Make sure token is pasted without the leading "Bearer " prefix.<br><br>
+              • Use Validate JSON before POST/PUT.<br><br>
+              • If you see a 307, switch between trailing slash/no-slash on the URL.
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">Local tester — not for production. Keep tokens private.</div>
+      </div>
     </div>
+  </div>
 
-    <script>
-        const API_BASE = 'http://127.0.0.1:8000';
-        // Helper to get Bearer token
-        function getToken() {
-            const token = document.getElementById('bearerToken').value.trim();
-            return token ? `Bearer ${token}` : '';
-        }
+  <script>
+    const API_BASE = 'http://127.0.0.1:8000';
+    const outputEl = document.getElementById('output');
+    const statusChip = document.getElementById('httpStatus');
+    const statusText = document.getElementById('statusText');
+    const serverStatus = document.getElementById('serverStatus');
+    const logArea = document.getElementById('logArea');
 
-        async function callApi(endpoint) {
-            const outputId = {
-                '/': 'rootOutput',
-                '/resources/': 'resourceOutput',
-                '/resources/types/': 'assetTypesOutput'
-            }[endpoint];
-            const output = document.getElementById(outputId);
-            output.value = 'Loading...';
-            try {
-                const response = await fetch(API_BASE + endpoint, {
-                    headers: {
-                        'Authorization': getToken()
-                    }
-                });
-                const data = await response.json();
-                output.value = JSON.stringify(data, null, 2);
-            } catch (error) {
-                output.value = `Error: ${error.message}\n\nMake sure the API server is running:\nuvicorn src.main:app --reload`;
-            }
-        }
+    function tokenHeader() {
+      const t = document.getElementById('bearer').value.trim();
+      if (!t) return {};
+      return { 'Authorization': 'Bearer ' + t };
+    }
 
-        async function postResource() {
-            const output = document.getElementById('postOutput');
-            output.value = 'Sending...';
-            try {
-                const data = JSON.parse(document.getElementById('postData').value);
-                const response = await fetch(API_BASE + '/resources/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': getToken()
-                    },
-                    body: JSON.stringify(data)
-                });
-                const result = await response.json();
-                output.value = JSON.stringify(result, null, 2);
-            } catch (error) {
-                output.value = `Error: ${error.message}`;
-            }
-        }
+    function setStatus(code, text) {
+      statusChip.textContent = code;
+      statusText.textContent = text;
+      log(`${new Date().toLocaleTimeString()}  ${code} — ${text}`);
+      if (code >= 200 && code < 300) statusChip.style.background = 'linear-gradient(90deg, var(--success), #1f9d5b)';
+      else if (code >= 400 && code < 500) statusChip.style.background = 'linear-gradient(90deg, var(--danger), #ff7a7a)';
+      else if (code === 'idle' || code === 'loading') statusChip.style.background = '';
+      else statusChip.style.background = '';
+    }
 
-        async function searchByLocation() {
-            const locationId = document.getElementById('locationId').value;
-            const output = document.getElementById('locationOutput');
-            output.value = 'Searching...';
-            try {
-                const response = await fetch(`${API_BASE}/resources/location/${locationId}`, {
-                    headers: {
-                        'Authorization': getToken()
-                    }
-                });
-                const data = await response.json();
-                output.value = JSON.stringify(data, null, 2);
-            } catch (error) {
-                output.value = `Error: ${error.message}`;
-            }
-        }
+    function log(msg) {
+      logArea.textContent = msg + "\n" + logArea.textContent;
+    }
 
-        async function searchByEmployee() {
-            const employeeId = document.getElementById('employeeId').value;
-            const output = document.getElementById('employeeOutput');
-            output.value = 'Searching...';
-            try {
-                const response = await fetch(`${API_BASE}/resources/employee/${employeeId}`, {
-                    headers: {
-                        'Authorization': getToken()
-                    }
-                });
-                const data = await response.json();
-                output.value = JSON.stringify(data, null, 2);
-            } catch (error) {
-                output.value = `Error: ${error.message}`;
-            }
-        }
+    async function callApi(endpoint, opts = {}) {
+      const url = API_BASE + endpoint;
+      outputEl.textContent = 'Loading...';
+      setStatus('loading', `Calling ${endpoint}`);
+      try {
+        const res = await fetch(url, { headers: { ...tokenHeader(), ...(opts.headers||{}) }, method: opts.method||'GET', body: opts.body||null });
+        const text = await res.text();
+        let parsed;
+        try { parsed = JSON.parse(text); }
+        catch { parsed = text; }
+        outputEl.textContent = typeof parsed === 'string' ? parsed : JSON.stringify(parsed, null, 2);
+        setStatus(res.status, `${res.status} ${res.statusText}`);
+      } catch (err) {
+        outputEl.textContent = `Network error: ${err.message}`;
+        setStatus(0, 'Network error');
+      }
+    }
 
-        async function getResourceById() {
-            const resourceId = document.getElementById('getResourceId').value;
-            const output = document.getElementById('getResourceOutput');
-            output.value = 'Loading...';
-            try {
-                const response = await fetch(`${API_BASE}/resources/${resourceId}`, {
-                    headers: {
-                        'Authorization': getToken()
-                    }
-                });
-                const data = await response.json();
-                output.value = JSON.stringify(data, null, 2);
-            } catch (error) {
-                output.value = `Error: ${error.message}`;
-            }
-        }
+    async function pingRoot() {
+      try {
+        const res = await fetch(API_BASE + '/', { method:'GET' });
+        serverStatus.textContent = res.ok ? 'server: online' : 'server: offline';
+        serverStatus.style.background = res.ok ? 'linear-gradient(90deg,#16a34a,#10b981)' : 'linear-gradient(90deg,#ef4444,#fb7185)';
+        log(`${new Date().toLocaleTimeString()}  ping ${res.status} ${res.statusText}`);
+      } catch (e) {
+        serverStatus.textContent = 'server: unreachable';
+        serverStatus.style.background = 'linear-gradient(90deg,#ef4444,#fb7185)';
+        log(`${new Date().toLocaleTimeString()}  ping failed`);
+      }
+    }
 
-        async function updateResource() {
-            const resourceId = document.getElementById('updateResourceId').value;
-            const data = JSON.parse(document.getElementById('updateData').value);
-            const output = document.getElementById('updateOutput');
-            output.value = 'Updating...';
-            try {
-                const response = await fetch(`${API_BASE}/resources/${resourceId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': getToken()
-                    },
-                    body: JSON.stringify(data)
-                });
-                const result = await response.json();
-                output.value = JSON.stringify(result, null, 2);
-            } catch (error) {
-                output.value = `Error: ${error.message}`;
-            }
-        }
+    async function copyOutput() {
+      try {
+        await navigator.clipboard.writeText(outputEl.textContent);
+        setStatus('copied', 'Output copied to clipboard');
+      } catch (e) {
+        setStatus(0, 'Copy failed');
+      }
+    }
 
-        async function deleteResource() {
-            const resourceId = document.getElementById('deleteResourceId').value;
-            const output = document.getElementById('deleteOutput');
-            output.value = 'Deleting...';
-            try {
-                const response = await fetch(`${API_BASE}/resources/${resourceId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': getToken()
-                    }
-                });
-                const result = await response.json();
-                output.value = JSON.stringify(result, null, 2);
-            } catch (error) {
-                output.value = `Error: ${error.message}`;
-            }
+    function clearOutput() { outputEl.textContent = ''; setStatus('idle','cleared'); }
+
+    function fillSample() {
+      document.getElementById('bearer').value = '';
+      document.getElementById('postBody').value = '{"type_id":4,"location_id":null,"employee_id":24,"notes":"HTML test","is_decommissioned":0}';
+      document.getElementById('putBody').value = '{"type_id":4,"location_id":null,"employee_id":24,"notes":"Update test","is_decommissioned":0}';
+      setStatus('ready','Sample data loaded');
+    }
+
+    function validateJson(which) {
+      const id = which === 'post' ? 'postBody' : 'putBody';
+      const txt = document.getElementById(id).value;
+      try {
+        JSON.parse(txt);
+        setStatus('valid','JSON looks valid');
+      } catch (e) {
+        setStatus(400, 'Invalid JSON: ' + e.message);
+      }
+    }
+
+    async function postResource() {
+      try {
+        const b = JSON.parse(document.getElementById('postBody').value);
+        await callApi('/resources/', { method:'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(b) });
+      } catch (e) {
+        setStatus(400, 'Invalid JSON body');
+      }
+    }
+
+    async function putResource() {
+      const id = document.getElementById('putId').value;
+      if (!id) { setStatus(400,'Missing id'); return; }
+      try {
+        const b = JSON.parse(document.getElementById('putBody').value);
+        await callApi(`/resources/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(b) });
+      } catch (e) {
+        setStatus(400, 'Invalid JSON body');
+      }
+    }
+
+    async function deleteResource() {
+      const id = document.getElementById('delId').value;
+      if (!id) { setStatus(400,'Missing id'); return; }
+      if (!confirm(`Delete resource ${id}?`)) return;
+      await callApi(`/resources/${id}`, { method:'DELETE' });
+    }
+
+    async function getById() {
+      const id = document.getElementById('getId').value;
+      if (!id) { setStatus(400,'Missing id'); return; }
+      await callApi(`/resources/${id}`);
+    }
+
+    async function searchByLocation() {
+      const id = document.getElementById('locId').value;
+      if (!id) { setStatus(400,'Missing location id'); return; }
+      await callApi(`/resources/location/${id}`);
+    }
+
+    async function searchByEmployee() {
+      const id = document.getElementById('empId').value;
+      if (!id) { setStatus(400,'Missing employee id'); return; }
+      await callApi(`/resources/employee/${id}`);
+    }
+
+    // helper: try both possible endpoint names for types (backwards compatible)
+    async function getTypes() {
+      try {
+        const res = await fetch(API_BASE + '/resourcetypes', { headers: tokenHeader() });
+        if (res.ok) {
+          const text = await res.text();
+          outputEl.textContent = JSON.stringify(JSON.parse(text), null, 2);
+          setStatus(res.status, 'resourcetypes');
+          return;
         }
-    </script>
+      } catch (e) {}
+      // fallback path
+      await callApi('/resources/types/');
+    }
+
+    // convenience: prefill PUT body with current resource if exists
+    async function prefillForPut() {
+      const id = document.getElementById('putId').value;
+      if (!id) { setStatus(400,'Missing id'); return; }
+      try {
+        const res = await fetch(API_BASE + `/resources/${id}`, { headers: tokenHeader() });
+        const text = await res.text();
+        const parsed = JSON.parse(text);
+        document.getElementById('putBody').value = JSON.stringify(parsed, null, 2);
+        setStatus(200, 'Prefilled body');
+      } catch (e) {
+        setStatus(400,'Could not fetch resource');
+      }
+    }
+
+    // initial ping
+    pingRoot();
+  </script>
 </body>
 </html>
