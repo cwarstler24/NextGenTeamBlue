@@ -69,7 +69,7 @@ def get_db_connection():
         print("Connection pool initialized successfully.")
         return POOL
 
-    except Exception as e:
+    except (sqlalchemy.exc.SQLAlchemyError, ValueError, ConnectionError) as e:
         print(f"Error initializing database connection: {e}")
         # Clean up the connector if initialization failed
         if CONNECTOR:
@@ -120,14 +120,14 @@ def execute_query(query: str, params: dict = None):
     except sqlalchemy.exc.OperationalError as e:
         print(f"Database connection error: {e}")
         # In a real app, you might want to retry or handle this
-    except Exception as e:
-        print(f"An error occurred while executing the query: {e}")
-        # Rollback in case of error during a transaction
+    except sqlalchemy.exc.SQLAlchemyError as e:
+        print(f"SQLAlchemy error occurred while executing the query: {e}")
         try:
             db_conn.rollback()
-        except:
-            pass # Ignore rollback error
-
+        except sqlalchemy.exc.SQLAlchemyError:
+            pass  # Ignore rollback error specific to SQLAlchemy
+    except (TypeError, ValueError, KeyError) as e:
+        print(f"Parameter or data error while executing the query: {e}")
     return None
 
 def close_db_connection():
