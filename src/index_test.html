@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Team Blue API Tester</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .api-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+        .output {
+            width: 100%;
+            min-height: 200px;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #0b4a6f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #083857;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Team Blue API Tester</h1>
+
+        <div class="api-section">
+            <h2>Bearer Token</h2>
+            <input type="text" id="bearerToken" placeholder="Paste Bearer token here" style="width:100%;padding:8px;" />
+        </div>
+
+        <div class="api-section">
+            <h2>Root Check</h2>
+            <button onclick="callApi('/')">Check Root</button>
+            <textarea id="rootOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Assets</h2>
+            <button onclick="callApi('/resources/')">Show All Resources</button>
+            <textarea id="resourceOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Asset Types</h2>
+            <button onclick="callApi('/resources/types/')">Show All Asset Types</button>
+            <textarea id="assetTypesOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Get Resource by ID</h2>
+            <input type="number" id="getResourceId" placeholder="Resource ID" style="width:100px;" />
+            <button onclick="getResourceById()">Get Resource</button>
+            <textarea id="getResourceOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Search by Location ID</h2>
+            <input type="number" id="locationId" placeholder="Location ID" style="width:100px;" />
+            <button onclick="searchByLocation()">Search</button>
+            <textarea id="locationOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Search by Employee ID</h2>
+            <input type="number" id="employeeId" placeholder="Employee ID" style="width:100px;" />
+            <button onclick="searchByEmployee()">Search</button>
+            <textarea id="employeeOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Add Asset</h2>
+            <div style="margin-bottom: 10px;">
+                <textarea id="postData" class="output" style="height: 100px;">{"type_id": 4, "location_id": null, "employee_id": 24, "notes": "HTML Test", "is_decommissioned": 0}</textarea>
+            </div>
+            <button onclick="postResource()">Add Resource</button>
+            <textarea id="postOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Update Asset</h2>
+            <input type="number" id="updateResourceId" placeholder="Resource ID" style="width:100px;" />
+            <textarea id="updateData" class="output" style="height: 100px;">{"type_id": 4, "location_id": null, "employee_id": 24, "notes": "HTML Test", "is_decommissioned": 0}</textarea>
+            <button onclick="updateResource()">Update Resource</button>
+            <textarea id="updateOutput" class="output" readonly></textarea>
+        </div>
+
+        <div class="api-section">
+            <h2>Flag Asset for Deletion</h2>
+            <input type="number" id="deleteResourceId" placeholder="Resource ID" style="width:100px;" />
+            <button onclick="deleteResource()">Flag for Deletion</button>
+            <textarea id="deleteOutput" class="output" readonly></textarea>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:8000';
+        // Helper to get Bearer token
+        function getToken() {
+            const token = document.getElementById('bearerToken').value.trim();
+            return token ? `Bearer ${token}` : '';
+        }
+
+        async function callApi(endpoint) {
+            const outputId = {
+                '/': 'rootOutput',
+                '/resources/': 'resourceOutput',
+                '/resources/types/': 'assetTypesOutput'
+            }[endpoint];
+            const output = document.getElementById(outputId);
+            output.value = 'Loading...';
+            try {
+                const response = await fetch(API_BASE + endpoint, {
+                    headers: {
+                        'Authorization': getToken()
+                    }
+                });
+                const data = await response.json();
+                output.value = JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.value = `Error: ${error.message}\n\nMake sure the API server is running:\nuvicorn src.main:app --reload`;
+            }
+        }
+
+        async function postResource() {
+            const output = document.getElementById('postOutput');
+            output.value = 'Sending...';
+            try {
+                const data = JSON.parse(document.getElementById('postData').value);
+                const response = await fetch(API_BASE + '/resources/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getToken()
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                output.value = JSON.stringify(result, null, 2);
+            } catch (error) {
+                output.value = `Error: ${error.message}`;
+            }
+        }
+
+        async function searchByLocation() {
+            const locationId = document.getElementById('locationId').value;
+            const output = document.getElementById('locationOutput');
+            output.value = 'Searching...';
+            try {
+                const response = await fetch(`${API_BASE}/resources/location/${locationId}`, {
+                    headers: {
+                        'Authorization': getToken()
+                    }
+                });
+                const data = await response.json();
+                output.value = JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.value = `Error: ${error.message}`;
+            }
+        }
+
+        async function searchByEmployee() {
+            const employeeId = document.getElementById('employeeId').value;
+            const output = document.getElementById('employeeOutput');
+            output.value = 'Searching...';
+            try {
+                const response = await fetch(`${API_BASE}/resources/employee/${employeeId}`, {
+                    headers: {
+                        'Authorization': getToken()
+                    }
+                });
+                const data = await response.json();
+                output.value = JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.value = `Error: ${error.message}`;
+            }
+        }
+
+        async function getResourceById() {
+            const resourceId = document.getElementById('getResourceId').value;
+            const output = document.getElementById('getResourceOutput');
+            output.value = 'Loading...';
+            try {
+                const response = await fetch(`${API_BASE}/resources/${resourceId}`, {
+                    headers: {
+                        'Authorization': getToken()
+                    }
+                });
+                const data = await response.json();
+                output.value = JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.value = `Error: ${error.message}`;
+            }
+        }
+
+        async function updateResource() {
+            const resourceId = document.getElementById('updateResourceId').value;
+            const data = JSON.parse(document.getElementById('updateData').value);
+            const output = document.getElementById('updateOutput');
+            output.value = 'Updating...';
+            try {
+                const response = await fetch(`${API_BASE}/resources/${resourceId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': getToken()
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                output.value = JSON.stringify(result, null, 2);
+            } catch (error) {
+                output.value = `Error: ${error.message}`;
+            }
+        }
+
+        async function deleteResource() {
+            const resourceId = document.getElementById('deleteResourceId').value;
+            const output = document.getElementById('deleteOutput');
+            output.value = 'Deleting...';
+            try {
+                const response = await fetch(`${API_BASE}/resources/${resourceId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': getToken()
+                    }
+                });
+                const result = await response.json();
+                output.value = JSON.stringify(result, null, 2);
+            } catch (error) {
+                output.value = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

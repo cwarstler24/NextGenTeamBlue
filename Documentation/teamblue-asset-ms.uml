@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.SCHEMA:teamblue-asset-ms</OriginalElement>
+  <nodes>
+    <node x="-525.5" y="352.0">1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Employee</node>
+    <node x="-504.5" y="704.0">1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Asset</node>
+    <node x="-411.5" y="-44.0">1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Departments</node>
+    <node x="-517.0" y="80.0">1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Locations</node>
+    <node x="-307.0" y="436.0">1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.AssetTypes</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Asset" target="1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Employee" relationship="REFERENCES">
+      <point x="0.0" y="-116.0" />
+      <point x="-399.0" y="680.0" />
+      <point x="-439.0" y="680.0" />
+      <point x="0.0" y="128.0" />
+    </edge>
+    <edge source="1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Asset" target="1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Locations" relationship="REFERENCES">
+      <point x="-70.33333333333334" y="-116.0" />
+      <point x="-469.33333333333337" y="680.0" />
+      <point x="-559.0" y="680.0" />
+      <point x="-559.0" y="280.0" />
+      <point x="-478.0" y="280.0" />
+      <point x="-39.0" y="80.0" />
+    </edge>
+    <edge source="1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Asset" target="1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.AssetTypes" relationship="REFERENCES">
+      <point x="70.33333333333334" y="-116.0" />
+      <point x="-328.66666666666663" y="680.0" />
+      <point x="-199.0" y="680.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Employee" target="1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Departments" relationship="REFERENCES">
+      <point x="43.25" y="-128.0" />
+      <point x="-395.75" y="320.0" />
+      <point x="-339.0" y="320.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Employee" target="1f3d2b04-c9f2-4d69-92f6-7f29ba9841b8.TABLE:teamblue-asset-ms.Locations" relationship="REFERENCES">
+      <point x="-43.25" y="-128.0" />
+      <point x="-482.25" y="300.0" />
+      <point x="-400.0" y="300.0" />
+      <point x="39.0" y="80.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.724" showDependencies="false" x="-315.0" y="456.00000000000006" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
