@@ -6,25 +6,26 @@ Throws FileNotFoundError if security.log is not found.
 Throws FileNotFoundError if encryption key is not found.
 """
 import os
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
+from src.security.encrypt import init_key
 from rich import print as rich_print
 
-encryption_key_path = os.path.join(os.path.dirname(__file__), "../env/log_key")
-if os.path.exists(encryption_key_path):
-    with open(encryption_key_path, 'rb') as file:
-        key = file.read()
-else:
-    raise FileNotFoundError("Encryption key not found")
+# Initialize cipher using the stored key
+cipher = Fernet(init_key())
 
-cipher = Fernet(key)
-
+# Locate the security log file
 security_log_path = os.path.join(os.path.dirname(__file__), "security.log")
 if not os.path.exists(security_log_path):
     raise FileNotFoundError("security.log not found")
+
+# Read and decrypt each line
 with open(security_log_path, 'rb') as file:
     for line in file:
         encrypted = line.strip()
         if encrypted:
-            decrypted = cipher.decrypt(encrypted)
-            colored = decrypted.decode().replace('<', '[').replace('>', ']')
-            rich_print(colored)
+            try:
+                decrypted = cipher.decrypt(encrypted)
+                colored = decrypted.decode().replace('<', '[').replace('>', ']')
+                rich_print(colored)
+            except InvalidToken:
+                rich_print(f"[red]Invalid or corrupted entry:[/red] {encrypted}")

@@ -8,54 +8,27 @@ import sys
 import configparser
 from typing import Any
 from loguru import logger as _logger
-from cryptography.fernet import Fernet
+from src.security.encrypt import encrypt_message
+from src.security.encrypt import init_key
 
-CIPHER = None
+
+KEY = None
 LOG_CONFIG = None
-
-
-def encrypt_message(message: str) -> bytes:
-    encrypted = CIPHER.encrypt(message.encode())
-    return encrypted
 
 
 def encrypted_formatter(record):
     formatted = LOG_CONFIG['format'].format(**record)
-    encrypted = CIPHER.encrypt(formatted.encode())
+    encrypted = encrypt_message(formatted, KEY)
     return encrypted.decode() + '\n'
-
-
-def init_key():
-    encryption_key_path = os.path.join(os.path.dirname(__file__),
-                                       "../../env/log_key")
-
-    # ensure directory exists before opening
-    os.makedirs(os.path.dirname(encryption_key_path), exist_ok=True)
-
-    if os.path.exists(encryption_key_path):
-        with open(encryption_key_path, 'rb') as file:
-            key = file.read()
-        if len(key) != 44:
-            key = Fernet.generate_key()
-            with open(encryption_key_path, 'wb') as file:
-                file.write(key)
-    else:
-        key = Fernet.generate_key()
-        touch_dir = os.path.dirname(encryption_key_path)
-        if not os.path.exists(touch_dir):
-            os.makedirs(touch_dir)
-        with open(encryption_key_path, 'wb') as file:
-            file.write(key)
-
-    global CIPHER
-    CIPHER = Fernet(key)
 
 
 def init_logger():
     """
     Initializes the logger.
     """
-    init_key()
+    global KEY 
+
+    KEY = init_key()
 
     config_file = configparser.ConfigParser()
     config_file.read('./config.ini')
