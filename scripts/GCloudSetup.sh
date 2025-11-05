@@ -72,7 +72,8 @@ else
 fi
 
 echo "Installing the google-cloud-cli package..."
-is_package_installed "google-cloud-cli" || sudo apt-get install google-cloud-cli
+is_package_installed "google-cloud-cli" || sudo apt-get update && sudo apt-get install google-cloud-cli
+
 if [ $? -eq 0 ]; then
     echo "google-cloud-cli was installed successfully"
 else

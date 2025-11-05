@@ -161,7 +161,8 @@ async def post_resource(request: Request):
     decoded = auth_result["decoded_payload"]
     await authorize_request(request, decoded)
 
-    body = decoded
+    body = await request.json()
+    logger.event(f"body: {body}", level="trace")
 
     # Sanitize notes field
     if "notes" in body and body["notes"] is not None:
@@ -195,7 +196,7 @@ async def update_resource(request: Request, id: int):
     decoded = auth_result["decoded_payload"]
     await authorize_request(request, decoded)
 
-    body = decoded
+    body = await request.json()
     body["asset_id"] = id
 
     # Sanitize notes

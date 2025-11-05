@@ -17,12 +17,16 @@ async def authorize_request(request: Request, decoded_payload: dict):
     Determines access permissions based on employee title.
     Managers: allowed all actions.
     Others: allowed GET only.
+    Args:
+        request (Request): The request object.
+        decoded_payload (dict). The
     """
     user_title = decoded_payload.get("title", "").lower()
     method = request.method
 
     # Managers get full access
-    if user_title in ManagerTitle.__members__:
+    database_role = get_db_role(user_title)
+    if database_role == Role.MANAGER:
         return {
             "authorized": True,
             "role": Role.MANAGER,

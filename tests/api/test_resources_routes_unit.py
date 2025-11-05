@@ -3,6 +3,7 @@ from types import SimpleNamespace
 import pytest
 from fastapi import HTTPException
 from src.api.routes import resources as R
+from src.database import authorize as db_auth
 
 pytestmark = pytest.mark.unit
 
@@ -44,7 +45,7 @@ def test_get_resources_happy_path(client, monkeypatch, loguru_capture):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(get_resources=lambda: (200, [{"id": 1, "location": "HQ"}]))
+    fake = _fake_db(get_resources=lambda role: (200, [{"id": 1, "location": "HQ"}]))
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.get("/resources/", headers={"Authorization": "Bearer x"})
@@ -57,7 +58,7 @@ def test_get_resource_types_happy_path(client, monkeypatch):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(get_resource_types=lambda: (200, [{"id": 4, "asset_type_name": "Monitor"}]))
+    fake = _fake_db(get_resource_types=lambda role: (200, [{"id": 4, "asset_type_name": "Monitor"}]))
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.get("/resources/types/", headers={"Authorization": "Bearer x"})
@@ -70,7 +71,7 @@ def test_get_resource_by_id_happy_path(client, monkeypatch):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(get_resource_by_id=lambda rid: (200, {"id": rid, "location": "HQ"}))
+    fake = _fake_db(get_resource_by_id=lambda rid, role: (200, {"id": rid, "location": "HQ"}))
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.get("/resources/123", headers={"Authorization": "Bearer x"})
@@ -83,7 +84,7 @@ def test_get_resources_by_employee_happy_path(client, monkeypatch):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(get_resource_by_employee_id=lambda eid: (200, [{"id": 7, "employee_id": eid}]))
+    fake = _fake_db(get_resource_by_employee_id=lambda eid, role: (200, [{"id": 7, "employee_id": eid}]))
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.get("/resources/employee/55", headers={"Authorization": "Bearer x"})
@@ -96,7 +97,7 @@ def test_get_resources_by_location_happy_path(client, monkeypatch):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(get_resource_by_location_id=lambda lid: (200, [{"id": 8, "location_id": lid}]))
+    fake = _fake_db(get_resource_by_location_id=lambda lid, role: (200, [{"id": 8, "location_id": lid}]))
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.get("/resources/location/77", headers={"Authorization": "Bearer x"})
@@ -126,9 +127,9 @@ def test_post_resource_manager_creates(client, monkeypatch, loguru_capture):
     r = client.post("/resources/", json=body, headers={"Authorization": "Bearer x"})
     assert r.status_code == 200
     assert r.json() == "Resource Added Successfully"
-    assert calls["title"] == "Manager"  # taken from decoded_payload["title"]
+    assert calls['body'] == db_auth.Role.MANAGER  # taken from decoded_payload["title"]:Warning
     # notes got sanitized
-    assert calls["body"]["notes"] == "SANITIZED(<b>note</b>)"
+    assert calls["title"]["notes"] == "SANITIZED(<b>note</b>)"
 
 
 def test_put_resource_manager_updates(client, monkeypatch):
@@ -137,7 +138,7 @@ def test_put_resource_manager_updates(client, monkeypatch):
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
     captured = {}
-    def fake_update(title, body):
+    def fake_update(body, title):
         captured["title"] = title
         captured["asset_id"] = body.get("asset_id")
         captured["notes"] = body.get("notes")
@@ -153,7 +154,7 @@ def test_put_resource_manager_updates(client, monkeypatch):
     r = client.put("/resources/123", json=body, headers={"Authorization": "Bearer x"})
     assert r.status_code == 200, r.text
     assert r.json()["message"] == "Resource 123 updated successfully"
-    assert captured["title"] == "Manager"
+    assert captured["title"] == db_auth.Role.MANAGER
     assert captured["asset_id"] == 123
     assert captured["notes"] == "OK(changed)"
 
@@ -202,7 +203,7 @@ def test_get_resources_db_error_400(client, monkeypatch):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(get_resources=lambda: (400, []))
+    fake = _fake_db(get_resources=lambda role: (400, []))
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.get("/resources/", headers={"Authorization": "Bearer x"})
@@ -215,7 +216,7 @@ def test_get_resource_types_db_error_400(client, monkeypatch):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(get_resource_types=lambda: (400, []))
+    fake = _fake_db(get_resource_types=lambda role: (400, []))
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.get("/resources/types/", headers={"Authorization": "Bearer x"})
@@ -228,7 +229,7 @@ def test_get_resource_by_id_404_when_missing(client, monkeypatch):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(get_resource_by_id=lambda rid: (400, {}))
+    fake = _fake_db(get_resource_by_id=lambda rid, role: (400, {}))
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.get("/resources/777", headers={"Authorization": "Bearer x"})
@@ -241,7 +242,7 @@ def test_get_resources_by_employee_db_error_400(client, monkeypatch):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(get_resource_by_employee_id=lambda eid: (400, []))
+    fake = _fake_db(get_resource_by_employee_id=lambda eid, role: (400, []))
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.get("/resources/employee/22", headers={"Authorization": "Bearer x"})
@@ -254,7 +255,7 @@ def test_get_resources_by_location_db_error_400(client, monkeypatch):
     monkeypatch.setattr(R, "authenticate_request", _stub_authenticate_employee, raising=True)
     monkeypatch.setattr(R, "authorize_request", _stub_authorize_ok, raising=True)
 
-    fake = _fake_db(get_resource_by_location_id=lambda lid: (400, []))
+    fake = _fake_db(get_resource_by_location_id=lambda lid, role: (400, []))
     monkeypatch.setattr(R, "db", fake, raising=True)
 
     r = client.get("/resources/location/33", headers={"Authorization": "Bearer x"})

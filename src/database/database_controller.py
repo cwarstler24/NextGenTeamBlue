@@ -124,7 +124,7 @@ def add_resource_asset(
     new_asset_id = new_asset_id_row[0]['new_id']
     logger.event(f"New asset ID: {new_asset_id}", level="trace")
 
-    update_result = update_resource_id(resource.get("type_id"), new_asset_id)
+    update_result = update_resource_id(resource.get("type_id"), new_asset_id, user_position)
     logger.event(f"Update result: {update_result}", level="trace")
 
     if update_result is False:
@@ -343,6 +343,7 @@ def get_resource_by_employee_id(
     """
     logger.event("get_resource_by_employee called", level="trace")
 
+    logger.event(f"user_position: {user_position}", level="trace")
     if not auth.can_read(user_position):
         logger.event("Returning error 401: user does not have read access", level="trace")
         return 401
