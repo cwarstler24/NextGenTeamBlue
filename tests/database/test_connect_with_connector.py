@@ -6,7 +6,7 @@ pytestmark = pytest.mark.unit
 
 def test_get_db_connection_uses_connector_and_creator(monkeypatch):
     # We patch inside the module under test (dbm) where symbols are USED.
-    
+
     calls = {}
 
     class FakeConnector:

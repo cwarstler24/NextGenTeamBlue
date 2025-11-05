@@ -1,5 +1,5 @@
-import pytest
 from types import SimpleNamespace
+import pytest
 from fastapi import HTTPException
 
 from src.api import validate as v
@@ -43,14 +43,16 @@ async def test_post_empty_body_400():
 
 @pytest.mark.anyio
 async def test_post_schema_ok_with_location():
-    body = {"type_id": 1, "location_id": 2, "employee_id": None, "notes": "", "is_decommissioned": 0}
+    body = {"type_id": 1, "location_id": 2, "employee_id":
+             None, "notes": "", "is_decommissioned": 0}
     out = await v.validate_request(_req("POST", body), token="Bearer x")
     assert out["status"] == "valid"
 
 
 @pytest.mark.anyio
 async def test_post_schema_ok_with_employee():
-    body = {"type_id": 1, "location_id": None, "employee_id": 5, "notes": None, "is_decommissioned": 1}
+    body = {"type_id": 1, "location_id": None, "employee_id": 5, "notes":
+             None, "is_decommissioned": 1}
     out = await v.validate_request(_req("POST", body), token="Bearer x")
     assert out["status"] == "valid"
 

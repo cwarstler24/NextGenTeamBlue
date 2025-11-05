@@ -5,8 +5,8 @@ another machine.
 Throws FileNotFoundError if security.log is not found.
 Throws FileNotFoundError if encryption key is not found.
 """
-from cryptography.fernet import Fernet
 import os
+from cryptography.fernet import Fernet
 from rich import print as rich_print
 
 encryption_key_path = os.path.join(os.path.dirname(__file__), "../env/log_key")
