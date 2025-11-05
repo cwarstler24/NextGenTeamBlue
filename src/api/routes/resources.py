@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, HTTPException, status
 from fastapi.responses import JSONResponse
 from src.api.validate import validate_request
 from src.api.authenticate import authenticate_request
-from src.api.authorize import authorize_request
+from src.api.authorize import authorize_request, get_db_role
 from src.security.sanitize import sanitize_data
 import src.database.database_controller as db
 from src.utils import convert_bytes_to_strings
@@ -20,16 +20,13 @@ async def get_resources(request: Request):
         logger.event("Missing Authorization header", level="warning")
         raise HTTPException(status_code=401, detail="Missing Authorization header")
 
-    logger.event("Validating request", level="info")
     await validate_request(request, token)
-    logger.event("Authenticating request", level="info")
     auth_result = await authenticate_request(request, token)
-
     decoded = auth_result["decoded_payload"]
-    logger.event("Authorizing request", level="info")
     await authorize_request(request, decoded)
 
-    result = db.get_resources()
+    title = get_db_role(decoded.get("title", ""))
+    result = db.get_resources(title)
 
     if result[0] == 200:
         logger.event("Returning resources", level="info")
@@ -55,7 +52,8 @@ async def get_resource_types(request: Request):
     decoded = auth_result["decoded_payload"]
     await authorize_request(request, decoded)
 
-    result = db.get_resource_types()
+    title = get_db_role(decoded.get("title", ""))
+    result = db.get_resource_types(title)
 
     if result[0] == 200:
         logger.event("Returning resource types", level="info")
@@ -81,7 +79,8 @@ async def get_resource_by_id(request: Request, resource_id: int):
     decoded = auth_result["decoded_payload"]
     await authorize_request(request, decoded)
 
-    result = db.get_resource_by_id(resource_id)
+    title = get_db_role(decoded.get("title", ""))
+    result = db.get_resource_by_id(resource_id, title)
 
     if result[0] == 200:
         logger.event("Returning resource", level="info")
@@ -108,7 +107,8 @@ async def get_resources_by_employee(request: Request, employee_id: int):
     decoded = auth_result["decoded_payload"]
     await authorize_request(request, decoded)
 
-    result = db.get_resource_by_employee_id(employee_id)
+    title = get_db_role(decoded.get("title", ""))
+    result = db.get_resource_by_employee_id(employee_id, title)
     if result[0] == 200:
         logger.event("Returning resources", level="info")
         return JSONResponse(content=convert_bytes_to_strings(result[1]),
@@ -134,7 +134,8 @@ async def get_resources_by_location(request: Request, location_id: int):
     decoded = auth_result["decoded_payload"]
     await authorize_request(request, decoded)
 
-    result = db.get_resource_by_location_id(location_id)
+    title = get_db_role(decoded.get("title", ""))
+    result = db.get_resource_by_location_id(location_id, title)
     if result[0] == 200:
         logger.event("Returning resources", level="info")
         return JSONResponse(content=convert_bytes_to_strings(result[1]),
@@ -161,12 +162,14 @@ async def post_resource(request: Request):
     await authorize_request(request, decoded)
 
     body = await request.json()
+    logger.event(f"body: {body}", level="trace")
 
     # Sanitize notes field
     if "notes" in body and body["notes"] is not None:
         body["notes"] = sanitize_data(body["notes"])
 
-    result = db.add_resource_asset(decoded.get("title", ""), body)
+    title = get_db_role(decoded.get("title", ""))
+    result = db.add_resource_asset(body, title)
     if result == 200:
         message = "Resource Added Successfully"
         logger.event(f"Returning success 200: {message}", level="info")
@@ -200,7 +203,8 @@ async def update_resource(request: Request, id: int):
     if "notes" in body and body["notes"] is not None:
         body["notes"] = sanitize_data(body["notes"])
 
-    result = db.update_resource(decoded.get("title", ""), body)
+    title = get_db_role(decoded.get("title", ""))
+    result = db.update_resource(body, title)
     if result == 200:
         message = f"Resource {id} updated successfully"
         logger.event(f"Returning success 200: {message}", level="info")
@@ -226,8 +230,8 @@ async def delete_resource(request: Request, id: int):
     decoded = auth_result["decoded_payload"]
     await authorize_request(request, decoded)
 
-    # Expect the DB layer to return something like {"deleted": 1}
-    result = db.delete_resource(decoded.get("title", ""), id)
+    title = get_db_role(decoded.get("title", ""))
+    result = db.delete_resource(id, title)
     if result == 200:
         message = "Resource deleted successfully"
         logger.event(f"Returning success 200: {message}", level="info")
