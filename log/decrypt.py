@@ -6,9 +6,9 @@ Throws FileNotFoundError if security.log is not found.
 Throws FileNotFoundError if encryption key is not found.
 """
 import os
+from rich import print as rich_print
 from cryptography.fernet import Fernet, InvalidToken
 from src.security.encrypt import init_key
-from rich import print as rich_print
 
 # Initialize cipher using the stored key
 cipher = Fernet(init_key())
