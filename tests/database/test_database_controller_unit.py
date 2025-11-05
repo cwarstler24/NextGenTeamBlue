@@ -75,18 +75,25 @@ def test_add_resource_asset_failure_on_last_insert_id(monkeypatch):
 def test_add_resource_asset_failure_on_update_resource_id(monkeypatch):
     # INSERT ok; LAST_INSERT_ID ok; SELECT type ok; but final UPDATE fails
     def fake_exec(q, p=None):
-        if "LAST_INSERT_ID" in q:
+        q_str = str(q)
+        if "LAST_INSERT_ID" in q_str:
             return [{"new_id": 5}]
-        if "FROM AssetTypes" in q:
+        if "FROM AssetTypes" in q_str:
             return [{"asset_type_name": "Monitor"}]
-        if "UPDATE Asset SET resource_id" in q:
+        # Be tolerant of newlines/spacing in the UPDATE statement
+        if "UPDATE Asset" in q_str and "SET resource_id" in q_str:
             return None  # simulate failure in update_resource_id()
         return {"status": "success", "rows_affected": 1}
+
+    import src.database.database_controller as dc
     monkeypatch.setattr(dc.database_connector, "execute_query", fake_exec)
-    status = dc.add_resource_asset("Manager", {"type_id": 2, "location_id": 3,
-                                               "employee_id": None, "notes": "",
-                                               "is_decommissioned": 0})
+
+    status = dc.add_resource_asset(
+        "Manager",
+        {"type_id": 2, "location_id": 3, "employee_id": None, "notes": "", "is_decommissioned": 0},
+    )
     assert status == 400
+
 
 
 def test_update_resource_id_success(monkeypatch):
@@ -116,7 +123,7 @@ def test_update_resource_id_success(monkeypatch):
 
 def test_update_resource_id_failure_when_type_missing(monkeypatch):
     monkeypatch.setattr(dc.database_connector, "execute_query",
-                        lambda q, 
+                        lambda q,
                         p=None: [] if "FROM AssetTypes" in q else {"status": "success"})
     ok = dc.update_resource_id(9, 100)
     assert ok is False

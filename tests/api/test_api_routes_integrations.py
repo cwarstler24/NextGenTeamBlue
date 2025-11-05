@@ -22,4 +22,3 @@ def test_employees_count_uses_engine_mock(client, monkeypatch):
     r = client.get("/employees/count")
     assert r.status_code == 200
     assert r.json() == {"count": 1}
-   

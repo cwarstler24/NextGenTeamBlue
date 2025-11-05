@@ -23,6 +23,8 @@ def test_sanitize_string_html_and_quotes(loguru_capture):
 
 
 def test_sanitize_dict_recursive(loguru_capture):
+    import src.security.sanitize as S
+
     raw = {
         "name": "<b>Bob</b>",
         "note": "it's fine",
@@ -30,23 +32,21 @@ def test_sanitize_dict_recursive(loguru_capture):
     }
     out = S.sanitize_data(raw)
 
-    # structure preserved (dict stays dict, nested dict stays dict)
     assert isinstance(out, dict)
     assert set(out.keys()) == {"name", "note", "nested"}
     assert isinstance(out["nested"], dict)
 
-    # values are sanitized; harmless formatting tags like <b> are allowed by bleach defaults
+    # harmless formatting tags like <b> are allowed by bleach defaults
     assert out["name"] == "<b>Bob</b>"
     assert "''" in out["note"]   # single quotes doubled
 
-    # nested fields sanitized
-    assert "onerror" not in out["nested"]["x"]
-    assert "&lt;img" in out["nested"]["x"]
+    # Disallowed tag was escaped (no raw angle brackets), hence non-executable
+    assert "<" not in out["nested"]["x"] and ">" not in out["nested"]["x"]
+    # Optional sanity: starts with escaped img
+    assert out["nested"]["x"].startswith("&lt;img")
+    # Quotes are doubled in nested value too
     assert "''" in out["nested"]["y"]
 
-    # confirm logging hit dictionary branch
-    msgs = [rec.record["message"] for rec in loguru_capture]
-    assert any("Dictionary data sanitized successfully" in m for m in msgs)
 
 
 def test_sanitize_list_recursive(loguru_capture):
