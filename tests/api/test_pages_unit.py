@@ -1,6 +1,6 @@
+from io import StringIO
 import builtins
 import pytest
-from io import StringIO
 from fastapi.responses import JSONResponse
 
 import src.api.pages as P  # module under test
@@ -9,7 +9,8 @@ pytestmark = pytest.mark.unit
 
 # ---------- helpers ----------
 def _fake_open_with(content: str):
-    def _fake_open(_path, _mode="r", _encoding=None):
+    def _fake_open(_path, mode="r", encoding=None, *args, **kwargs):
+        # Ignore path/mode/encoding; just return a readable file-like object
         return StringIO(content)
     return _fake_open
 
@@ -134,4 +135,3 @@ def test_redirect_index_html(client):
     r = client.get("/index.html/", follow_redirects=False)
     assert r.status_code in (302, 307)
     assert r.headers["location"] == "/index/"
-    
