@@ -199,7 +199,7 @@
               <label>Show all resources</label>
               <div class="controls">
                 <button class="btn" onclick="callApi('/resources/')">Resources</button>
-                <button class="btn ghost small" onclick="callApi('/resources/types/')">Types</button>
+                <button class="btn" onclick="callApi('/resources/types/')">Types</button>
               </div>
             </div>
           </div>
@@ -461,36 +461,6 @@
       if (!id) { setStatus(400,'Missing employee id'); return; }
       await callApi(`/resources/employee/${id}`);
     }
-
-    // helper: try both possible endpoint names for types (backwards compatible)
-    async function getTypes() {
-      try {
-        const res = await fetch(API_BASE + '/resourcetypes', { headers: tokenHeader() });
-        if (res.ok) {
-          const text = await res.text();
-          outputEl.textContent = JSON.stringify(JSON.parse(text), null, 2);
-          setStatus(res.status, 'resourcetypes');
-          return;
-        }
-      } catch (e) {}
-      // fallback path
-      await callApi('/resources/types/');
-    }
-
-    // convenience: prefill PUT body with current resource if exists
-    // async function prefillForPut() {
-    //   const id = document.getElementById('putId').value;
-    //   if (!id) { setStatus(400,'Missing id'); return; }
-    //   try {
-    //     const res = await fetch(API_BASE + `/resources/${id}`, { headers: tokenHeader() });
-    //     const text = await res.text();
-    //     const parsed = JSON.parse(text);
-    //     document.getElementById('putBody').value = JSON.stringify(parsed, null, 2);
-    //     setStatus(200, 'Prefilled body');
-    //   } catch (e) {
-    //     setStatus(400,'Could not fetch resource');
-    //   }
-    // }
 
     // initial ping
     pingRoot();
