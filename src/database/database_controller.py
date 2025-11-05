@@ -1,5 +1,20 @@
 """
-Sample Docstring
+Database Controller Module
+
+This module provides high-level functions for managing asset resources and resource types in 
+the database. It enforces user permissions (e.g., only Managers can add, update, or delete assets),
+handles logging, and interacts with the database via the database_connector module.
+
+Features:
+- Add, update, and delete asset resources and resource types.
+- Retrieve assets by various criteria (ID, employee, location).
+- Enforces role-based access control for sensitive operations.
+- Logs all operations for traceability.
+
+Example usage:
+    status = add_resource_type("Manager", {"asset_type_name": "Laptop"})
+    status, assets = get_resources()
+    status = delete_resource("Manager", 123)
 """
 
 import datetime
@@ -8,12 +23,16 @@ from src.logger import logger
 
 def add_resource_type(user_position: str, resource) -> int:
     """
-    Adds a resource to the database.
+    Adds a new resource type to the database.
+
+    Only users with the "Manager" position are allowed to add resource types.
+
     Args:
-        user_position (str): the user's position
-        resource (dict): the resource to add
+        user_position (str): The user's position (must be "Manager").
+        resource (dict): Dictionary containing resource type details (expects "asset_type_name").
+
     Returns:
-        int: the status code
+        int: 200 if successful, 400 if failed, 401 if unauthorized.
     """
     logger.event("add_resource_type called", level="trace")
 
@@ -31,35 +50,35 @@ def add_resource_type(user_position: str, resource) -> int:
             "asset_type_name": asset_type_name
         }
 
-        logger.event(f"Running query {update_query} with params: {params}"
-                     , level="trace")
+        logger.event(f"Running query {update_query} with params: {params}", level="trace")
         result = database_connector.execute_query(update_query, params)
 
         if result is not None:
-            logger.event(f"Successfully added resource type {asset_type_name}",
-                         level="info")
+            logger.event(f"Successfully added resource type {asset_type_name}", level="info")
             return 200
-        logger.event(f"Failed to add resource type {asset_type_name}",
-                     level="error")
+        logger.event(f"Failed to add resource type {asset_type_name}", level="error")
         return 400
     logger.event("User is not Manager", level="info")
     return 401
 
 def add_resource_asset(user_position: str, resource) -> int:
     """
-    Adds an asset resource to the database.
+    Adds a new asset resource to the database.
+
+    Only users with the "Manager" position are allowed to add assets.
+
     Args:
-        user_position (str): the user's position
-        resource (dict): the resource to add
+        user_position (str): The user's position (must be "Manager").
+        resource (dict): Dictionary containing asset details.
+
     Returns:
-        int: the status code
+        int: 200 if successful, 400 if failed, 401 if unauthorized.
     """
     logger.event("add_resource_asset called", level="trace")
 
     # Only Managers can add assets
     if user_position != "Manager":
-        logger.event(f"Postion of Manager required but {user_position} provided",
-                     level="error")
+        logger.event(f"Postion of Manager required but {user_position} provided", level="error")
         return 401
 
     insert_query = """
@@ -68,12 +87,12 @@ def add_resource_asset(user_position: str, resource) -> int:
     """
 
     params = {
-            "type_id": resource.get("type_id"),
-            "location_id": resource.get("location_id"),
-            "employee_id": resource.get("employee_id"),
-            "notes": resource.get("notes"),
-            "is_decommissioned": resource.get("is_decommissioned")
-            }
+        "type_id": resource.get("type_id"),
+        "location_id": resource.get("location_id"),
+        "employee_id": resource.get("employee_id"),
+        "notes": resource.get("notes"),
+        "is_decommissioned": resource.get("is_decommissioned")
+    }
 
     logger.event(f"Running query {insert_query} with params: {params}", level="trace")
     result = database_connector.execute_query(insert_query, params)
@@ -105,18 +124,21 @@ def add_resource_asset(user_position: str, resource) -> int:
 
 def delete_resource(user_position: str, resource: int) -> int:
     """
-    Deletes the resource from the database.
+    Marks an asset resource as decommissioned in the database.
+
+    Only users with the "Manager" position are allowed to delete resources.
+
     Args:
-        user_position (str): the user's position
-        resource (int): the resource to delete
+        user_position (str): The user's position (must be "Manager").
+        resource (int): The asset ID to decommission.
+
     Returns:
-        int: the status code
+        int: 200 if successful, 400 if failed, 401 if unauthorized.
     """
     logger.event("delete_resource called", level="trace")
 
     if user_position != "Manager":
-        logger.event(f"Postion of Manager required but {user_position} provided",
-                     level="error")
+        logger.event(f"Postion of Manager required but {user_position} provided", level="error")
         return 401
 
     update_query = """
@@ -127,9 +149,8 @@ def delete_resource(user_position: str, resource: int) -> int:
         """
 
     params = {
-            "asset_id": resource
-            }
-
+        "asset_id": resource
+    }
 
     logger.event(f"Running query {update_query} with params: {params}", level="trace")
     result = database_connector.execute_query(update_query, params)
@@ -140,21 +161,23 @@ def delete_resource(user_position: str, resource: int) -> int:
     logger.event(f"Failed to delete resource {resource}", level="error")
     return 400
 
-
 def update_resource(user_position: str, resource) -> int:
     """
-    Updates the resource in the database.
+    Updates an existing asset resource in the database.
+
+    Only users with the "Manager" position are allowed to update assets.
+
     Args:
-        user_position (str): the user's position
-        resource (dict): the resource to update
+        user_position (str): The user's position (must be "Manager").
+        resource (dict): Dictionary containing updated asset details.
+
     Returns:
-        int: the status code
+        int: 200 if successful, 400 if failed, 401 if unauthorized.
     """
     logger.event("update_resource called", level="trace")
 
     if user_position != "Manager":
-        logger.event(f"Postion of Manager required but {user_position} provided",
-                     level="error")
+        logger.event(f"Postion of Manager required but {user_position} provided", level="error")
         return 401
 
     update_query = """
@@ -176,7 +199,6 @@ def update_resource(user_position: str, resource) -> int:
         "asset_id": resource.get("asset_id")
     }
 
-
     logger.event(f"Running query {update_query} with params: {params}", level="trace")
     result = database_connector.execute_query(update_query, params)
 
@@ -188,12 +210,12 @@ def update_resource(user_position: str, resource) -> int:
 
 def get_resources() -> tuple[int, list]:
     """
-    Gets the resources from the database.
-    Args:
-        None
+    Retrieves all asset resources from the database.
+
     Returns:
-        int: the status code
-        list: the resources
+        tuple: (status code, list of asset resources)
+            - status code: 200 if successful, 400 if failed
+            - list: List of asset resource dictionaries
     """
     logger.event("get_resources called", level="trace")
 
@@ -209,12 +231,12 @@ def get_resources() -> tuple[int, list]:
 
 def get_resource_types() -> tuple[int, list]:
     """
-    Gets the resource types from the database.
-    Args:
-        None
+    Retrieves all resource types from the database.
+
     Returns:
-        int: the status code
-        list: the resource types
+        tuple: (status code, list of resource types)
+            - status code: 200 if successful, 400 if failed
+            - list: List of resource type dictionaries
     """
     logger.event("get_resource_types called", level="trace")
 
@@ -231,12 +253,15 @@ def get_resource_types() -> tuple[int, list]:
 
 def get_resource_by_id(resource_id: int) -> tuple[int, dict]:
     """
-    Gets the resource by ID from the database.
+    Retrieves a single asset resource by its ID.
+
     Args:
-        resource_id (int): the resource ID
+        resource_id (int): The asset ID to retrieve.
+
     Returns:
-        int: the status code
-        dict: the resource
+        tuple: (status code, resource dictionary)
+            - status code: 200 if successful, 400 if failed
+            - dict: Asset resource dictionary (empty if not found)
     """
     logger.event("get_resource_by_id called", level="trace")
 
@@ -256,12 +281,15 @@ def get_resource_by_id(resource_id: int) -> tuple[int, dict]:
 
 def get_resource_by_employee_id(employee_id: int) -> tuple[int, list]:
     """
-    Gets the resources by employee ID from the database.
+    Retrieves all asset resources assigned to a specific employee.
+
     Args:
-        employee_id (int): the employee ID
+        employee_id (int): The employee's ID.
+
     Returns:
-        int: the status code
-        list: the resources
+        tuple: (status code, list of resources)
+            - status code: 200 if successful, 400 if failed
+            - list: List of asset resource dictionaries
     """
     logger.event("get_resource_by_employee called", level="trace")
 
@@ -281,12 +309,15 @@ def get_resource_by_employee_id(employee_id: int) -> tuple[int, list]:
 
 def get_resource_by_location_id(location_id: int) -> tuple[int, list]:
     """
-    Gets the resources by location ID from the database.
+    Retrieves all asset resources at a specific location.
+
     Args:
-        location_id (int): the location ID
+        location_id (int): The location's ID.
+
     Returns:
-        int: the status code
-        list: the resources
+        tuple: (status code, list of resources)
+            - status code: 200 if successful, 400 if failed
+            - list: List of asset resource dictionaries
     """
     logger.event("get_resource_by_location_id called", level="trace")
 
@@ -305,6 +336,18 @@ def get_resource_by_location_id(location_id: int) -> tuple[int, list]:
     return 400, []
 
 def update_resource_id(type_id: int, new_asset_id: int) -> bool:
+    """
+    Updates the resource_id field for a given asset.
+
+    The resource_id is generated based on the asset type, current year, and asset ID.
+
+    Args:
+        type_id (int): The asset type ID.
+        new_asset_id (int): The new asset's ID.
+
+    Returns:
+        bool: True if successful, False otherwise.
+    """
     logger.event("update_resource_id called", level="trace")
 
     type_query = """
@@ -319,7 +362,7 @@ def update_resource_id(type_id: int, new_asset_id: int) -> bool:
     type_result = database_connector.execute_query(type_query, params)
     if not type_result:
         logger.event("Error getting asset type name", level="error")
-        return 400
+        return False
     asset_type_name = type_result[0]['asset_type_name']
     current_year = datetime.datetime.now().year
     padded_id = str(new_asset_id).zfill(3)
@@ -336,9 +379,7 @@ def update_resource_id(type_id: int, new_asset_id: int) -> bool:
     }
     result = database_connector.execute_query(update_resource_id_query, update_params)
     if result is not None:
-        logger.event(f"Successfully updated resource ID {new_asset_id}",
-                        level="info")
+        logger.event(f"Successfully updated resource ID {new_asset_id}", level="info")
         return True
-    logger.event(f"Failed to update resource ID {new_asset_id}",
-                    level="error")
+    logger.event(f"Failed to update resource ID {new_asset_id}", level="error")
     return False
