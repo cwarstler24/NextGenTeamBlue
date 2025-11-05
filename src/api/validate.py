@@ -1,7 +1,5 @@
 from fastapi import HTTPException, Request
-import jsonschema
-from jsonschema import validate as json_validate
-from src.security import data_validation, sanitize
+from src.security import data_validation
 from src.logger import logger
 
 async def validate_request(request: Request, token: str):
@@ -28,16 +26,11 @@ async def validate_request(request: Request, token: str):
         if not body:
             raise HTTPException(status_code=400, detail="Empty request body")
 
-        isValid = data_validation.data_validation(body)
-        if isValid:
-            logger.event("Data validation succeeded", level="info")
-            return {
-                "status": "valid",
-                "method": request.method
-            }
-        else:
+        is_valid = data_validation.data_validation(body)
+        if not is_valid:
             logger.event("Data validation failed", level="warning")
-            raise HTTPException(status_code=400, detail="Invalid or missing JSON body")
+            raise HTTPException(status_code=400, detail=
+                                "Data validation failed: Invalid or missing JSON body")
 
     logger.event("Validation succeeded", level="info")
     return {

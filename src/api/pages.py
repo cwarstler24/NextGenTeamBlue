@@ -11,13 +11,13 @@ async def index_page():
     logger.event("GET /index")
     htmlpath = os_path.join(os_path.dirname(__file__), "../index.html")
     try:
-        htmlresponse = open(htmlpath, "r")
-    except FileNotFoundError:
+        htmlresponse = open(htmlpath, "r", encoding="utf-8")
+    except FileNotFoundError as exc:
         logger.event("File not found", level="warning")
-        raise HTTPException(status_code=404, detail="File not found")
+        raise HTTPException(status_code=404, detail="File not found") from exc
     except Exception as e:
         logger.event(f"Error getting request: {e}", level="error")
-        raise HTTPException(status_code=500, detail="Error getting request")
+        raise HTTPException(status_code=500, detail="Error getting request") from e
 
     logger.event("Returning index page")
     return HTMLResponse(content=htmlresponse.read())
@@ -28,13 +28,13 @@ async def index_test_page():
     logger.event("GET /index_test")
     htmlpath = os_path.join(os_path.dirname(__file__), "../index_test.html")
     try:
-        htmlresponse = open(htmlpath, "r")
-    except FileNotFoundError:
+        htmlresponse = open(htmlpath, "r", encoding="utf-8")
+    except FileNotFoundError as exc:
         logger.event("File not found", level="warning")
-        raise HTTPException(status_code=404, detail="File not found")
+        raise HTTPException(status_code=404, detail="File not found") from exc
     except Exception as e:
         logger.event(f"Error getting request: {e}", level="error")
-        raise HTTPException(status_code=500, detail="Error getting request")
+        raise HTTPException(status_code=500, detail="Error getting request") from e
 
     logger.event("Returning index test page")
     return HTMLResponse(content=htmlresponse.read())
