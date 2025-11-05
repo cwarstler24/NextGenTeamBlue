@@ -1,5 +1,5 @@
-import pytest
 from types import SimpleNamespace
+import pytest
 from fastapi import HTTPException
 
 from src.api import authenticate as auth
@@ -57,7 +57,8 @@ async def test_authenticate_bad_header_401():
 @pytest.mark.anyio
 async def test_authenticate_service_unreachable_503(monkeypatch):
     err = auth.httpx.RequestError("boom")
-    monkeypatch.setattr(auth.httpx, "AsyncClient", lambda timeout: FakeClient(raise_err=err), raising=True)
+    monkeypatch.setattr(auth.httpx, "AsyncClient", 
+                        lambda timeout: FakeClient(raise_err=err), raising=True)
     with pytest.raises(HTTPException) as ei:
         await auth.authenticate_request(SimpleNamespace(method="GET"), "Bearer x")
     assert ei.value.status_code == 503
@@ -67,7 +68,8 @@ async def test_authenticate_service_unreachable_503(monkeypatch):
 @pytest.mark.anyio
 async def test_authenticate_invalid_token_401(monkeypatch):
     resp = DummyResp(status_code=401, text="nope")
-    monkeypatch.setattr(auth.httpx, "AsyncClient", lambda timeout: FakeClient(resp=resp), raising=True)
+    monkeypatch.setattr(auth.httpx, "AsyncClient",
+                         lambda timeout: FakeClient(resp=resp), raising=True)
     with pytest.raises(HTTPException) as ei:
         await auth.authenticate_request(SimpleNamespace(method="GET"), "Bearer x")
     assert ei.value.status_code == 401

@@ -33,7 +33,8 @@ async def get_resources(request: Request):
 
     if result[0] == 200:
         logger.event("Returning resources", level="info")
-        return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
+        return JSONResponse(content=convert_bytes_to_strings(result[1]),
+                             status_code=status.HTTP_200_OK)
     else:
         logger.event("Returning error 400", level="error")
         raise HTTPException(status_code=400, detail="Database error")
@@ -58,7 +59,8 @@ async def get_resource_types(request: Request):
 
     if result[0] == 200:
         logger.event("Returning resource types", level="info")
-        return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
+        return JSONResponse(content=convert_bytes_to_strings(result[1]),
+                             status_code=status.HTTP_200_OK)
 
     logger.event("Returning error 400", level="error")
     raise HTTPException(status_code=400, detail="Database error")
@@ -83,7 +85,8 @@ async def get_resource_by_id(request: Request, resource_id: int):
 
     if result[0] == 200:
         logger.event("Returning resource", level="info")
-        return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
+        return JSONResponse(content=convert_bytes_to_strings(result[1]),
+                             status_code=status.HTTP_200_OK)
 
     logger.event("Returning error 404", level="error")
     raise HTTPException(status_code=404, detail="Resource not found")
@@ -108,7 +111,8 @@ async def get_resources_by_employee(request: Request, employee_id: int):
     result = db.get_resource_by_employee_id(employee_id)
     if result[0] == 200:
         logger.event("Returning resources", level="info")
-        return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
+        return JSONResponse(content=convert_bytes_to_strings(result[1]),
+                             status_code=status.HTTP_200_OK)
     else:
         logger.event("Returning error 400", level="error")
         raise HTTPException(status_code=400, detail="Database error")
@@ -133,7 +137,8 @@ async def get_resources_by_location(request: Request, location_id: int):
     result = db.get_resource_by_location_id(location_id)
     if result[0] == 200:
         logger.event("Returning resources", level="info")
-        return JSONResponse(content=convert_bytes_to_strings(result[1]), status_code=status.HTTP_200_OK)
+        return JSONResponse(content=convert_bytes_to_strings(result[1]),
+                             status_code=status.HTTP_200_OK)
     else:
         logger.event("Returning error 400", level="error")
         raise HTTPException(status_code=400, detail="Database error")
