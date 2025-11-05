@@ -46,7 +46,7 @@ def init_key() -> bytes:
     """
     # Path to the key file relative to this module
     encryption_key_path = os.path.join(os.path.dirname(__file__), "../../env/key")
-    
+
     # Ensure the directory exists
     os.makedirs(os.path.dirname(encryption_key_path), exist_ok=True)
 
@@ -59,7 +59,10 @@ def init_key() -> bytes:
         
         # Validate key length
         if len(key) != 44:
-            raise ValueError("Invalid key length")
+            key = Fernet.generate_key()
+            with open(encryption_key_path, 'wb') as file:
+                file.write(key)
+
         
         # Validate key format
         try:
