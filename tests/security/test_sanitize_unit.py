@@ -35,8 +35,8 @@ def test_sanitize_dict_recursive(loguru_capture):
     assert set(out.keys()) == {"name", "note", "nested"}
     assert isinstance(out["nested"], dict)
 
-    # values are sanitized
-    assert out["name"] == "Bob"  # <b>... removed by bleach.clean default
+    # values are sanitized; harmless formatting tags like <b> are allowed by bleach defaults
+    assert out["name"] == "<b>Bob</b>"
     assert "''" in out["note"]   # single quotes doubled
 
     # nested fields sanitized
@@ -53,9 +53,9 @@ def test_sanitize_list_recursive(loguru_capture):
     raw = ["<i>ok</i>", "O'Brien", {"k": "<script>bad()</script>"}]
     out = S.sanitize_data(raw)
 
-    # list preserved, elements sanitized
+    # list preserved, elements sanitized; harmless formatting tags like <i> are allowed
     assert isinstance(out, list)
-    assert out[0] == "ok"  # <i> removed
+    assert out[0] == "<i>ok</i>"
     assert out[1] == "O''Brien"
     assert isinstance(out[2], dict)
     assert "&lt;script&gt;" in out[2]["k"]
