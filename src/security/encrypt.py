@@ -34,7 +34,7 @@ def init_key() -> bytes:
             key = file.read()
         try:
             Fernet(key)  # Validate the key
-        except Exception:
+        except (ValueError, TypeError):
             key = Fernet.generate_key()
             with open(encryption_key_path, 'wb') as file:
                 file.write(key)
