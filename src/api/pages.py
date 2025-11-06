@@ -68,6 +68,12 @@ async def redirect_index_test_html():
     return RedirectResponse(url="/index_test/")
 
 
+@router.get("/index/index_test.html/")
+async def redirect_index_index_test_html():
+    logger.event("GET /index_test.html/")
+    return RedirectResponse(url="/index_test/")
+
+
 @router.get("/index.html/")
 async def redirect_index_html():
     logger.event("GET /index.html/")
