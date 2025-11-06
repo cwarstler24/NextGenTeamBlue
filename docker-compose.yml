@@ -1,0 +1,25 @@
+services:
+  db-proxy:
+    image: gcr.io/cloudsql-docker/gce-proxy:1.33.0
+    command: [
+      "/cloud_sql_proxy",
+      "-instances=teamblue-asset-ms:us-central1:teamblue-asset-ms=tcp:3306",
+      "-credential_file=/workspace/secrets/teamblue-asset-ms-73bc51ef96bb.json"
+    ]
+    volumes:
+      - ./secrets:/workspace/secrets:ro
+
+  app:
+    build: .
+    environment:
+      DB_HOST: 136.115.15.42
+      DB_PORT: 3306
+      DB_NAME: teamblue-asset-ms
+      instance_connection_name: teamblue-asset-ms:us-central1:teamblue-asset-ms
+      # Add other DB env vars as needed
+    depends_on:
+      - db-proxy
+    ports:
+      - "8000:8000"
+    # Uncomment if your app needs to wait for the DB to be ready
+    # entrypoint: ["/bin/sh", "-c", "sleep 10 && exec your_app_command"]
