@@ -1,5 +1,5 @@
 # src/API/assets.py
-from fastapi import APIRouter, Request, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/assets", tags=["assets"])
@@ -9,7 +9,6 @@ class AssetCreate(BaseModel):
     location: str
 
 class AssetService:
-    # TODO: inject repo when DB is ready
     def create(self, payload: dict) -> dict:
         return {"id": 1, **payload}
 

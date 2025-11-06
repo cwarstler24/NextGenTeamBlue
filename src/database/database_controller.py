@@ -1,65 +1,95 @@
 """
-Sample Docstring
+Database Controller Module
+
+This module provides high-level functions for managing asset resources and resource types in 
+the database. It enforces user permissions (e.g., only Managers can add, update, or delete assets),
+handles logging, and interacts with the database via the database_connector module.
+
+Features:
+- Add, update, and delete asset resources and resource types.
+- Retrieve assets by various criteria (ID, employee, location).
+- Enforces role-based access control for sensitive operations.
+- Logs all operations for traceability.
+
+Example usage:
+    status = add_resource_type("Manager", {"asset_type_name": "Laptop"})
+    status, assets = get_resources()
+    status = delete_resource("Manager", 123)
 """
 
 import datetime
 from src.database import database_connector
 from src.logger import logger
+import src.database.authorize as auth
 
-def add_resource_type(user_position: str, resource) -> int:
+
+def add_resource_type(
+        resource,
+        user_position: auth.Role = auth.Role.OTHER
+        ) -> int:
     """
-    Adds a resource to the database.
+    Adds a new resource type to the database.
+
+    Only users with the "Manager" position are allowed to add resource types.
+
     Args:
-        user_position (str): the user's position
-        resource (dict): the resource to add
+        resource (dict): Dictionary containing resource type details (expects "asset_type_name").
+        user_position (Role): The user's position (must be "Manager").
+
     Returns:
-        int: the status code
+        int: 200 if successful, 400 if failed, 401 if unauthorized.
     """
     logger.event("add_resource_type called", level="trace")
 
     # Only Managers can add resource types
-    if user_position == "Manager":
-        logger.event("User is Manager", level="trace")
-        asset_type_name = resource.get("asset_type_name")
+    if not auth.can_write(user_position):
+        logger.event("Returning error 401: user does not have write access",
+                     level="trace")
+        return 401
 
-        update_query = """
-        INSERT INTO AssetTypes (asset_type_name)
-        VALUES (:asset_type_name); 
-        """
+    logger.event("User has write access", level="trace")
+    asset_type_name = resource.get("asset_type_name")
 
-        params = {
-            "asset_type_name": asset_type_name
-        }
-
-        logger.event(f"Running query {update_query} with params: {params}"
-                     , level="trace")
-        result = database_connector.execute_query(update_query, params)
-
-        if result is not None:
-            logger.event(f"Successfully added resource type {asset_type_name}",
-                         level="info")
-            return 200
-        logger.event(f"Failed to add resource type {asset_type_name}",
-                     level="error")
-        return 400
-    logger.event("User is not Manager", level="info")
-    return 401
-
-def add_resource_asset(user_position: str, resource) -> int:
+    update_query = """
+    INSERT INTO AssetTypes (asset_type_name)
+    VALUES (:asset_type_name);
     """
-    Adds an asset resource to the database.
+
+    params = {
+        "asset_type_name": asset_type_name
+    }
+
+    logger.event(f"Running query {update_query} with params: {params}", level="trace")
+    result = database_connector.execute_query(update_query, params)
+
+    if result is not None:
+        logger.event(f"Successfully added resource type {asset_type_name}", level="info")
+        return 200
+    logger.event(f"Failed to add resource type {asset_type_name}", level="error")
+    return 400
+
+
+def add_resource_asset(
+        resource,
+        user_position: auth.Role = auth.Role.OTHER
+        ) -> int:
+    """
+    Adds a new asset resource to the database.
+
+    Only users with the "Manager" position are allowed to add assets.
+
     Args:
-        user_position (str): the user's position
-        resource (dict): the resource to add
+        user_position (str): The user's position (must be "Manager").
+        resource (dict): Dictionary containing asset details.
+
     Returns:
-        int: the status code
+        int: 200 if successful, 400 if failed, 401 if unauthorized.
     """
     logger.event("add_resource_asset called", level="trace")
 
     # Only Managers can add assets
-    if user_position != "Manager":
-        logger.event(f"Postion of Manager required but {user_position} provided",
-                     level="error")
+    if not auth.can_write(user_position):
+        logger.event(f"Position of Manager required but {user_position} provided", level="error")
         return 401
 
     insert_query = """
@@ -68,12 +98,12 @@ def add_resource_asset(user_position: str, resource) -> int:
     """
 
     params = {
-            "type_id": resource.get("type_id"),
-            "location_id": resource.get("location_id"),
-            "employee_id": resource.get("employee_id"),
-            "notes": resource.get("notes"),
-            "is_decommissioned": resource.get("is_decommissioned")
-            }
+        "type_id": resource.get("type_id"),
+        "location_id": resource.get("location_id"),
+        "employee_id": resource.get("employee_id"),
+        "notes": resource.get("notes"),
+        "is_decommissioned": resource.get("is_decommissioned")
+    }
 
     logger.event(f"Running query {insert_query} with params: {params}", level="trace")
     result = database_connector.execute_query(insert_query, params)
@@ -94,30 +124,36 @@ def add_resource_asset(user_position: str, resource) -> int:
     new_asset_id = new_asset_id_row[0]['new_id']
     logger.event(f"New asset ID: {new_asset_id}", level="trace")
 
-    update_result = update_resource_id(resource.get("type_id"), new_asset_id)
+    update_result = update_resource_id(resource.get("type_id"), new_asset_id, user_position)
     logger.event(f"Update result: {update_result}", level="trace")
 
     if update_result is False:
         logger.event("Error updating resource ID", level="error")
         return 400
-    else:
-        logger.event("Successfully updated resource ID", level="info")
-        return 200
+    logger.event("Successfully updated resource ID", level="info")
+    return 200
 
-def delete_resource(user_position: str, resource: int) -> int:
+
+def delete_resource(
+        resource: int,
+        user_position: auth.Role = auth.Role.OTHER
+        ) -> int:
     """
-    Deletes the resource from the database.
+    Marks an asset resource as decommissioned in the database.
+
+    Only users with the "Manager" position are allowed to delete resources.
+
     Args:
-        user_position (str): the user's position
-        resource (int): the resource to delete
+        resource (int): The asset ID to decommission.
+        user_position (Role): The user's role.
+
     Returns:
-        int: the status code
+        int: 200 if successful, 400 if failed, 401 if unauthorized.
     """
     logger.event("delete_resource called", level="trace")
 
-    if user_position != "Manager":
-        logger.event(f"Postion of Manager required but {user_position} provided",
-                     level="error")
+    if not auth.can_write(user_position):
+        logger.event(f"Position of Manager required but {user_position} provided", level="error")
         return 401
 
     update_query = """
@@ -128,9 +164,8 @@ def delete_resource(user_position: str, resource: int) -> int:
         """
 
     params = {
-            "asset_id": resource
-            }
-
+        "asset_id": resource
+    }
 
     logger.event(f"Running query {update_query} with params: {params}", level="trace")
     result = database_connector.execute_query(update_query, params)
@@ -142,20 +177,26 @@ def delete_resource(user_position: str, resource: int) -> int:
     return 400
 
 
-def update_resource(user_position: str, resource) -> int:
+def update_resource(
+        resource,
+        user_position: auth.Role = auth.Role.OTHER
+        ) -> int:
     """
-    Updates the resource in the database.
+    Updates an existing asset resource in the database.
+
+    Only users with the "Manager" position are allowed to update assets.
+
     Args:
-        user_position (str): the user's position
-        resource (dict): the resource to update
+        resource (dict): Dictionary containing updated asset details.
+        user_position (Role): The user's role.
+
     Returns:
-        int: the status code
+        int: 200 if successful, 400 if failed, 401 if unauthorized.
     """
     logger.event("update_resource called", level="trace")
 
-    if user_position != "Manager":
-        logger.event(f"Postion of Manager required but {user_position} provided",
-                     level="error")
+    if not auth.can_write(user_position):
+        logger.event(f"Position of Manager required but {user_position} provided", level="error")
         return 401
 
     update_query = """
@@ -177,7 +218,6 @@ def update_resource(user_position: str, resource) -> int:
         "asset_id": resource.get("asset_id")
     }
 
-
     logger.event(f"Running query {update_query} with params: {params}", level="trace")
     result = database_connector.execute_query(update_query, params)
 
@@ -187,16 +227,24 @@ def update_resource(user_position: str, resource) -> int:
     logger.event(f"Failed to update resource {resource}", level="error")
     return 400
 
-def get_resources() -> tuple[int, list]:
+
+def get_resources(user_position=auth.Role.OTHER) -> tuple[int, list]:
     """
-    Gets the resources from the database.
+    Retrieves all asset resources from the database.
     Args:
-        None
+        user_position (Role): The user's role.
     Returns:
-        int: the status code
-        list: the resources
+        tuple: (status code, list of asset resources)
+            - status code: 200 if successful, 400 if failed
+            - list: List of asset resource dictionaries
     """
     logger.event("get_resources called", level="trace")
+
+    logger.event(f"user_position: {user_position}", level="trace")
+    if not auth.can_read(user_position):
+        logger.event("Returning error 401: {user_position} does not have read access",
+                     level="trace")
+        return 401, []
 
     select_query = "SELECT * FROM Asset;"
     logger.event(f"Running query {select_query}", level="trace")
@@ -208,16 +256,25 @@ def get_resources() -> tuple[int, list]:
     logger.event("Failed to retrieve resources", level="error")
     return 400, []
 
-def get_resource_types() -> tuple[int, list]:
+
+def get_resource_types(
+        user_position: auth.Role = auth.Role.OTHER
+        ) -> tuple[int, list]:
     """
-    Gets the resource types from the database.
+    Retrieves all resource types from the database.
     Args:
-        None
+        user_position (Role): The user's role.
+
     Returns:
-        int: the status code
-        list: the resource types
+        tuple: (status code, list of resource types)
+            - status code: 200 if successful, 400 if failed
+            - list: List of resource type dictionaries
     """
     logger.event("get_resource_types called", level="trace")
+
+    if not auth.can_read(user_position):
+        logger.event("Returning error 401: user does not have read access", level="trace")
+        return 401
 
     select_query = "SELECT * FROM AssetTypes;"
     logger.event(f"Running query {select_query}", level="trace")
@@ -227,19 +284,31 @@ def get_resource_types() -> tuple[int, list]:
         logger.event(f"Successfully retrieved {len(results)} resource types", level="info")
         return 200, results
 
-    logger.event(f"Failed to retrieve resource types", level="error")
+    logger.event("Failed to retrieve resource types", level="error")
     return 400, []
 
-def get_resource_by_id(resource_id: int) -> tuple[int, dict]:
+
+def get_resource_by_id(
+        resource_id: int,
+        user_position: auth.Role = auth.Role.OTHER
+        ) -> tuple[int, dict]:
     """
-    Gets the resource by ID from the database.
+    Retrieves a single asset resource by its ID.
+
     Args:
-        resource_id (int): the resource ID
+        resource_id (int): The asset ID to retrieve.
+        user_position (Role): The user's role.
+
     Returns:
-        int: the status code
-        dict: the resource
+        tuple: (status code, resource dictionary)
+            - status code: 200 if successful, 400 if failed
+            - dict: Asset resource dictionary (empty if not found)
     """
     logger.event("get_resource_by_id called", level="trace")
+
+    if not auth.can_read(user_position):
+        logger.event("Returning error 401: user does not have read access", level="trace")
+        return 401
 
     select_query = "SELECT * FROM Asset WHERE id = :asset_id;"
     params = {
@@ -255,16 +324,29 @@ def get_resource_by_id(resource_id: int) -> tuple[int, dict]:
     logger.event(f"Failed to retrieve resource by ID {resource_id}", level="error")
     return 400, {}
 
-def get_resource_by_employee_id(employee_id: int) -> tuple[int, list]:
+
+def get_resource_by_employee_id(
+        employee_id: int,
+        user_position: auth.Role = auth.Role.OTHER
+        ) -> tuple[int, list]:
     """
-    Gets the resources by employee ID from the database.
+    Retrieves all asset resources assigned to a specific employee.
+
     Args:
-        employee_id (int): the employee ID
+        employee_id (int): The employee's ID.
+        user_position (Role): The user's role.
+
     Returns:
-        int: the status code
-        list: the resources
+        tuple: (status code, list of resources)
+            - status code: 200 if successful, 400 if failed
+            - list: List of asset resource dictionaries
     """
     logger.event("get_resource_by_employee called", level="trace")
+
+    logger.event(f"user_position: {user_position}", level="trace")
+    if not auth.can_read(user_position):
+        logger.event("Returning error 401: user does not have read access", level="trace")
+        return 401
 
     select_query = "SELECT * FROM Asset WHERE employee_id = :employee_id;"
     params = {
@@ -280,16 +362,28 @@ def get_resource_by_employee_id(employee_id: int) -> tuple[int, list]:
     logger.event(f"Failed to retrieve resources by employee ID {employee_id}", level="error")
     return 400, []
 
-def get_resource_by_location_id(location_id: int) -> tuple[int, list]:
+
+def get_resource_by_location_id(
+        location_id: int,
+        user_position: auth.Role = auth.Role.OTHER
+        ) -> tuple[int, list]:
     """
-    Gets the resources by location ID from the database.
+    Retrieves all asset resources at a specific location.
+
     Args:
-        location_id (int): the location ID
+        location_id (int): The location's ID.
+        user_position (Role): The user's role.
+
     Returns:
-        int: the status code
-        list: the resources
+        tuple: (status code, list of resources)
+            - status code: 200 if successful, 400 if failed
+            - list: List of asset resource dictionaries
     """
     logger.event("get_resource_by_location_id called", level="trace")
+
+    if not auth.can_read(user_position):
+        logger.event("Returning error 401: user does not have read access", level="trace")
+        return 401
 
     select_query = "SELECT * FROM Asset WHERE location_id = :location_id;"
     params = {
@@ -305,8 +399,30 @@ def get_resource_by_location_id(location_id: int) -> tuple[int, list]:
     logger.event(f"Failed to retrieve resources by location ID {location_id}", level="error")
     return 400, []
 
-def update_resource_id(type_id: int, new_asset_id: int) -> bool:
+
+def update_resource_id(
+        type_id: int,
+        new_asset_id: int,
+        user_position: auth.Role = auth.Role.OTHER
+        ) -> bool:
+    """
+    Updates the resource_id field for a given asset.
+
+    The resource_id is generated based on the asset type, current year, and asset ID.
+
+    Args:
+        type_id (int): The asset type ID.
+        new_asset_id (int): The new asset's ID.
+        user_position (Role): The user's role.
+
+    Returns:
+        bool: True if successful, False otherwise.
+    """
     logger.event("update_resource_id called", level="trace")
+
+    if not auth.can_write(user_position):
+        logger.event("Returning error 401: user does not have write access", level="trace")
+        return 401
 
     type_query = """
     SELECT asset_type_name
@@ -320,7 +436,7 @@ def update_resource_id(type_id: int, new_asset_id: int) -> bool:
     type_result = database_connector.execute_query(type_query, params)
     if not type_result:
         logger.event("Error getting asset type name", level="error")
-        return 400
+        return False
     asset_type_name = type_result[0]['asset_type_name']
     current_year = datetime.datetime.now().year
     padded_id = str(new_asset_id).zfill(3)
@@ -337,10 +453,7 @@ def update_resource_id(type_id: int, new_asset_id: int) -> bool:
     }
     result = database_connector.execute_query(update_resource_id_query, update_params)
     if result is not None:
-        logger.event(f"Successfully updated resource ID {new_asset_id}",
-                        level="info")
+        logger.event(f"Successfully updated resource ID {new_asset_id}", level="info")
         return True
-    else:
-        logger.event(f"Failed to update resource ID {new_asset_id}",
-                        level="error")
+    logger.event(f"Failed to update resource ID {new_asset_id}", level="error")
     return False

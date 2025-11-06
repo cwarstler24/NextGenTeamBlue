@@ -1,6 +1,6 @@
 from fastapi import HTTPException, Request
-import jsonschema
-from jsonschema import validate as json_validate
+from src.security import data_validation
+from src.logger import logger
 
 async def validate_request(request: Request, token: str):
     """
@@ -11,12 +11,13 @@ async def validate_request(request: Request, token: str):
     Raises HTTPException on validation failure.
     """
 
-    # --- Step 1: Validate token header ---
     if not token or not token.startswith("Bearer "):
+        logger.event("Invalid token", level="warning")
         raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
 
     # --- Step 2: For POST/PUT, validate JSON body against schema ---
     if request.method in ["POST", "PUT"]:
+        logger.event("Validating request body", level="info")
         try:
             body = await request.json()
         except Exception:
@@ -25,46 +26,13 @@ async def validate_request(request: Request, token: str):
         if not body:
             raise HTTPException(status_code=400, detail="Empty request body")
 
-        # Define JSON schema (based on teammate’s rules)
-        schema = {
-            "type": "object",
-            "properties": {
-                "type_id": {"type": "integer"},
-                "location_id": {"type": ["integer", "null"]},
-                "employee_id": {"type": ["integer", "null"]},
-                "notes": {"type": ["string", "null"]},
-                "is_decommissioned": {"type": "integer", "enum": [0, 1]},
-            },
-            "required": ["type_id", "is_decommissioned"],
-            "oneOf": [
-                {
-                    "required": ["location_id"],
-                    "properties": {
-                        "location_id": {"type": "integer"},
-                        "employee_id": {"type": ["null"]}
-                    }
-                },
-                {
-                    "required": ["employee_id"],
-                    "properties": {
-                        "employee_id": {"type": "integer"},
-                        "location_id": {"type": ["null"]}
-                    }
-                }
-            ]
-        }
+        is_valid = data_validation.data_validation(body)
+        if not is_valid:
+            logger.event("Data validation failed", level="warning")
+            raise HTTPException(status_code=400, detail=
+                                "Data validation failed: Invalid or missing JSON body")
 
-        # --- Step 3: Validate JSON data against schema ---
-        try:
-            json_validate(instance=body, schema=schema)
-        except jsonschema.exceptions.ValidationError as e:
-            # Format message to be concise
-            raise HTTPException(
-                status_code=400,
-                detail=f"JSON validation error: {e.message}"
-            )
-
-    # --- Step 4: Return confirmation if everything passes ---
+    logger.event("Validation succeeded", level="info")
     return {
         "status": "valid",
         "method": request.method

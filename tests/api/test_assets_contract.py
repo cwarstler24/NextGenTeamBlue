@@ -7,7 +7,8 @@ pytestmark = pytest.mark.unit
 
 def test_create_asset_happy_path():
     class Svc:
-        def create(self, payload): return {"id": 99, **payload}
+        def create(self, payload):
+            return {"id": 99, **payload}
 
     app.dependency_overrides[get_service] = lambda: Svc()
     try:

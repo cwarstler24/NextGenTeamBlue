@@ -1,6 +1,7 @@
-import pytest
 from types import SimpleNamespace
+import pytest
 from fastapi import HTTPException
+from src.database import authorize as db_auth
 
 from src.api import authorize as authz
 
@@ -26,7 +27,7 @@ async def test_employee_get_ok_but_post_forbidden():
     # GET allowed
     out = await authz.authorize_request(_req("GET"), decoded)
     assert out["authorized"] is True
-    assert out["role"] == "Employee"
+    assert out["role"] == db_auth.Role.EMPLOYEE
     assert out["allowed_methods"] == ["GET"]
 
     # POST forbidden

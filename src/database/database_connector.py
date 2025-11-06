@@ -1,5 +1,32 @@
 """
-Sample Docstring
+Database Connector Module
+
+This module provides functions to initialize and manage a connection pool to a MySQL database
+hosted on Google Cloud SQL using SQLAlchemy and the Cloud SQL Python Connector.
+
+Features:
+- Loads database configuration from a config.ini file.
+- Initializes a SQLAlchemy connection pool with Google Cloud SQL Connector.
+- Provides utility functions to execute SQL queries and clean up resources.
+
+Configuration:
+The config.ini file must contain a [mysql] section with the following keys:
+    instance_connection_name
+    db_user
+    db_password
+    db_name
+
+Example usage:
+    from database_connector import get_db_connection, execute_query, close_db_connection
+
+    # Get a connection pool
+    pool = get_db_connection()
+
+    # Execute a query
+    results = execute_query("SELECT * FROM users WHERE id = :user_id", {"user_id": 1})
+
+    # Clean up resources
+    close_db_connection()
 """
 
 import sys
@@ -23,13 +50,19 @@ except KeyError:
     sys.exit(1)
 
 # --- Global variables for database connection ---
-CONNECTOR = None
-POOL = None
+CONNECTOR = None  # Instance of google.cloud.sql.connector.Connector
+POOL = None       # Instance of sqlalchemy.engine.Engine (connection pool)
 
 def get_db_connection():
     """
-    Initializes and returns a database connection pool.
-    This function is designed to be called once to set up the connection.
+    Initializes and returns a SQLAlchemy connection pool for the MySQL database.
+
+    This function should be called once at application startup. It uses the Google Cloud SQL
+    Connector to establish secure connections to the database instance.
+
+    Returns:
+        sqlalchemy.engine.Engine: The SQLAlchemy connection pool engine, or None 
+        if initialization fails.
     """
     global CONNECTOR, POOL
 
@@ -45,6 +78,12 @@ def get_db_connection():
     try:
         # Function to create a new database connection
         def create_connection() -> sqlalchemy.engine.base.Connection:
+            """
+            Creates a new database connection using the Cloud SQL Connector.
+
+            Returns:
+                Connection object to the MySQL database.
+            """
             conn = CONNECTOR.connect(
                 INSTANCE_CONNECTION_NAME,
                 "pymysql",
@@ -56,20 +95,19 @@ def get_db_connection():
             return conn
 
         # Create a SQLAlchemy connection pool
-        # This pool will manage connections for us, reusing them efficiently.
         POOL = sqlalchemy.create_engine(
             "mysql+pymysql://",
             creator=create_connection,
-            pool_size=5,        # Number of connections to keep open in the pool
-            max_overflow=2,     # Max connections to allow beyond pool_size
-            pool_timeout=15,    # Seconds to wait before giving up on getting a connection
-            pool_recycle=1800,  # Seconds to recycle connections (e.g., 30 min)
+            pool_size=5,
+            max_overflow=2,
+            pool_timeout=15,
+            pool_recycle=1800,
         )
 
         print("Connection pool initialized successfully.")
         return POOL
 
-    except Exception as e:
+    except (sqlalchemy.exc.SQLAlchemyError, ValueError, ConnectionError) as e:
         print(f"Error initializing database connection: {e}")
         # Clean up the connector if initialization failed
         if CONNECTOR:
@@ -79,10 +117,16 @@ def get_db_connection():
 def execute_query(query: str, params: dict = None):
     """
     Executes a SQL query using a connection from the pool.
-    
-    :param query: The SQL query string to execute (e.g., "SELECT * FROM users WHERE id = :user_id")
-    :param params: A dictionary of parameters to bind to the query (e.g., {"user_id": 1})
-    :return: A list of result rows, or None if an error occurs.
+
+    Args:
+        query (str): The SQL query string to execute (e.g., "SELECT * FROM users 
+                                                            WHERE id = :user_id").
+        params (dict, optional): Parameters to bind to the query (e.g., {"user_id": 1}).
+
+    Returns:
+        list[dict]: For SELECT queries, a list of result rows as dictionaries.
+        dict: For INSERT/UPDATE/DELETE, a dict with status and rows_affected.
+        None: If an error occurs.
     """
     global POOL
 
@@ -105,10 +149,6 @@ def execute_query(query: str, params: dict = None):
             # For SELECT statements, fetch all results
             if result.returns_rows:
                 rows = result.fetchall()
-                # 'fetchall()' returns a list of Row objects. We convert them to
-                # standard dictionaries for easier use in main.py.
-                # A Row object can be accessed by index (row[0]) or key (row['column_name'])
-                # We'll convert to dicts using _asdict()
                 print(f"Query executed successfully. Fetched {len(rows)} rows.")
                 return [row._asdict() for row in rows]
 
@@ -119,21 +159,21 @@ def execute_query(query: str, params: dict = None):
 
     except sqlalchemy.exc.OperationalError as e:
         print(f"Database connection error: {e}")
-        # In a real app, you might want to retry or handle this
-    except Exception as e:
-        print(f"An error occurred while executing the query: {e}")
-        # Rollback in case of error during a transaction
+    except sqlalchemy.exc.SQLAlchemyError as e:
+        print(f"SQLAlchemy error occurred while executing the query: {e}")
         try:
             db_conn.rollback()
-        except:
-            pass # Ignore rollback error
-
+        except sqlalchemy.exc.SQLAlchemyError:
+            pass  # Ignore rollback error specific to SQLAlchemy
+    except (TypeError, ValueError, KeyError) as e:
+        print(f"Parameter or data error while executing the query: {e}")
     return None
 
 def close_db_connection():
     """
     Cleans up the connector and disposes of the connection pool.
-    Call this when your application is shutting down.
+
+    Call this function when your application is shutting down to release resources.
     """
     global CONNECTOR, POOL
 

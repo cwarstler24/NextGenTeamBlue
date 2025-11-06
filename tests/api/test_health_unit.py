@@ -1,6 +1,5 @@
 import pytest
 import sqlalchemy
-from fastapi.testclient import TestClient
 import src.api.health as health
 
 pytestmark = pytest.mark.unit
@@ -25,7 +24,7 @@ def test_health_ready_ok(client, monkeypatch, loguru_capture):
 
 def test_health_ready_down(client, monkeypatch, loguru_capture):
     class Boom:
-        def connect(self): 
+        def connect(self):
             raise RuntimeError("db down")
     monkeypatch.setattr(health, "get_db_connection", lambda: Boom(), raising=True)
 
