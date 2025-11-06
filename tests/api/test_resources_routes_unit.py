@@ -1,7 +1,6 @@
 # tests/api/test_resources_routes_unit.py
 from types import SimpleNamespace
 import pytest
-from fastapi import HTTPException
 from src.api.routes import resources as R
 from src.database import authorize as db_auth
 

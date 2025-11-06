@@ -56,14 +56,14 @@ def init_key() -> bytes:
         # Read the existing key
         with open(encryption_key_path, 'rb') as file:
             key = file.read()
-        
+
         # Validate key length
         if len(key) != 44:
             key = Fernet.generate_key()
             with open(encryption_key_path, 'wb') as file:
                 file.write(key)
 
-        
+
         # Validate key format
         try:
             Fernet(key)

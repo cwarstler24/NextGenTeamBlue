@@ -24,7 +24,7 @@ async def authenticate_request(request: Request, token: str):
             )
     except httpx.RequestError as e:
         print("AUTH CONNECTION ERROR:", e)
-        raise HTTPException(status_code=503, detail="Authorization service unreachable")
+        raise HTTPException(status_code=503, detail="Authorization service unreachable") from e
 
     # Log for debugging
     print("Auth response:", response.status_code, response.text)

@@ -1,5 +1,5 @@
-import pytest
 from types import SimpleNamespace
+import pytest
 from fastapi import HTTPException
 from src.database import authorize as db_auth
 

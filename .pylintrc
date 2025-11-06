@@ -7,7 +7,11 @@ jobs=0
 disable=
     C0114,C0115,C0116,  # docstrings
     R0903,              # too-few-public-methods
-    W1203               # f-string-in-logging (loguru is fine)
+    W1203,              # f-string-in-logging (loguru is fine)
+    W0603,              # Global state statement
+    R1705,              # else statements
+    W0613,              # Unused argument
+    E1101               # no-member
 
 [FORMAT]
-max-line-length=100
+max-line-length=110

@@ -9,7 +9,6 @@ class AssetCreate(BaseModel):
     location: str
 
 class AssetService:
-    # TODO: inject repo when DB is ready
     def create(self, payload: dict) -> dict:
         return {"id": 1, **payload}
 

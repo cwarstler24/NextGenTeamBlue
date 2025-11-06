@@ -26,7 +26,7 @@ def init_logger():
     """
     Initializes the logger.
     """
-    global KEY 
+    global KEY
 
     KEY = init_key()
 

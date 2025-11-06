@@ -57,7 +57,7 @@ async def test_authenticate_bad_header_401():
 @pytest.mark.anyio
 async def test_authenticate_service_unreachable_503(monkeypatch):
     err = auth.httpx.RequestError("boom")
-    monkeypatch.setattr(auth.httpx, "AsyncClient", 
+    monkeypatch.setattr(auth.httpx, "AsyncClient",
                         lambda timeout: FakeClient(raise_err=err), raising=True)
     with pytest.raises(HTTPException) as ei:
         await auth.authenticate_request(SimpleNamespace(method="GET"), "Bearer x")
