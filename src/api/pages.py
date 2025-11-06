@@ -61,6 +61,15 @@ async def get_action_hero_logo():
         raise HTTPException(status_code=404, detail="Image not found")
     return FileResponse(image_path)
 
+@router.get("/favicon/")
+async def get_ico():
+    logger.event("GET /favicon.ico", level="trace")
+    image_path = os_path.join(os_path.dirname(__file__),
+                              "../../Documentation/Logos/favicon.ico")
+    if not os_path.exists(image_path):
+        logger.event("Image not found", level="warning")
+        raise HTTPException(status_code=404, detail="Image not found")
+    return FileResponse(image_path)
 
 @router.get("/index_test.html/")
 async def redirect_index_test_html():
