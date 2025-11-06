@@ -91,6 +91,24 @@ def test_get_resource_by_location_id_failure_employee(monkeypatch):
     assert code == 400 and items == []
 
 
+def test_get_resource_by_id_denied_for_other_role(monkeypatch):
+    # Ensure DB is NOT queried when role is not allowed
+    calls = {"count": 0}
+    def fake_exec(q, p=None):
+        calls["count"] += 1
+        return [{"id": 99}]
+
+    monkeypatch.setattr(dc.database_connector, "execute_query", fake_exec)
+
+    # OTHER should be rejected up-front (no DB call)
+    code, item = dc.get_resource_by_id(7, db_auth.Role.OTHER)
+
+    # Expect authorization failure; use whichever your controller returns (401/403).
+    assert code in (401, 403)
+    assert item == {}
+    assert calls["count"] == 0
+
+
 def test_add_resource_asset_failure_on_insert(monkeypatch):
     # INSERT fails (returns None)
     monkeypatch.setattr(dc.database_connector, "execute_query", lambda q, p=None: None)
