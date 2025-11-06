@@ -16,7 +16,12 @@ services:
       DB_PORT: 3306
       DB_NAME: teamblue-asset-ms
       instance_connection_name: teamblue-asset-ms:us-central1:teamblue-asset-ms
+      db_user: teamblue
+      db_password: Lnx4you!
+      GOOGLE_APPLICATION_CREDENTIALS: /workspace/secrets/teamblue-asset-ms-73bc51ef96bb.json
       # Add other DB env vars as needed
+    volumes:
+      - ./secrets:/workspace/secrets:ro
     depends_on:
       - db-proxy
     ports:
