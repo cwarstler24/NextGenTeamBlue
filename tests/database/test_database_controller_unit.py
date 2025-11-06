@@ -14,10 +14,24 @@ def test_get_resource_by_id_success(monkeypatch):
     assert code == 200 and item["id"] == 7
 
 
+def test_get_resource_by_id_success_employee(monkeypatch):
+    monkeypatch.setattr(dc.database_connector, "execute_query",
+                        lambda q, p=None: [{"id": 7, "name": "A"}])
+    code, item = dc.get_resource_by_id(7, db_auth.Role.EMPLOYEE)
+    assert code == 200 and item["id"] == 7
+
+
 def test_get_resource_by_id_not_found(monkeypatch):
     monkeypatch.setattr(dc.database_connector, "execute_query",
                         lambda q, p=None: [])
     code, item = dc.get_resource_by_id(42, db_auth.Role.MANAGER)
+    assert code == 400 and item == {}
+
+
+def test_get_resource_by_id_not_found_employee(monkeypatch):
+    monkeypatch.setattr(dc.database_connector, "execute_query",
+                        lambda q, p=None: [])
+    code, item = dc.get_resource_by_id(42, db_auth.Role.EMPLOYEE)
     assert code == 400 and item == {}
 
 
@@ -28,10 +42,24 @@ def test_get_resource_by_employee_id_success(monkeypatch):
     assert code == 200 and len(items) == 2
 
 
+def test_get_resource_by_employee_id_success_employee(monkeypatch):
+    monkeypatch.setattr(dc.database_connector, "execute_query",
+                        lambda q, p=None: [{"id": 1}, {"id": 2}])
+    code, items = dc.get_resource_by_employee_id(5, db_auth.Role.EMPLOYEE)
+    assert code == 200 and len(items) == 2
+
+
 def test_get_resource_by_employee_id_failure(monkeypatch):
     monkeypatch.setattr(dc.database_connector, "execute_query",
                         lambda q, p=None: None)
     code, items = dc.get_resource_by_employee_id(5, db_auth.Role.MANAGER)
+    assert code == 400 and items == []
+
+
+def test_get_resource_by_employee_id_failure_employee(monkeypatch):
+    monkeypatch.setattr(dc.database_connector, "execute_query",
+                        lambda q, p=None: None)
+    code, items = dc.get_resource_by_employee_id(5, db_auth.Role.EMPLOYEE)
     assert code == 400 and items == []
 
 
@@ -42,10 +70,24 @@ def test_get_resource_by_location_id_success(monkeypatch):
     assert code == 200 and items[0]["id"] == 3
 
 
+def test_get_resource_by_location_id_success_employee(monkeypatch):
+    monkeypatch.setattr(dc.database_connector, "execute_query",
+                        lambda q, p=None: [{"id": 3}])
+    code, items = dc.get_resource_by_location_id(9, db_auth.Role.EMPLOYEE)
+    assert code == 200 and items[0]["id"] == 3
+
+
 def test_get_resource_by_location_id_failure(monkeypatch):
     monkeypatch.setattr(dc.database_connector, "execute_query",
                         lambda q, p=None: None)
     code, items = dc.get_resource_by_location_id(9, db_auth.Role.MANAGER)
+    assert code == 400 and items == []
+
+
+def test_get_resource_by_location_id_failure_employee(monkeypatch):
+    monkeypatch.setattr(dc.database_connector, "execute_query",
+                        lambda q, p=None: None)
+    code, items = dc.get_resource_by_location_id(9, db_auth.Role.EMPLOYEE)
     assert code == 400 and items == []
 
 
