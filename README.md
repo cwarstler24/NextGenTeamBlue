@@ -282,28 +282,33 @@ SOURCE Documentation/insertTables.sql;
 ### Run Tests Locally
 
 ```bash
+source ./venv/bin/activate
+
 # Run all tests
-pytest -v
+python -m pytest
 
 # Run with coverage
-pytest --cov=src --cov-report=term-missing
+coverage run -m pytest
+coverage report -m
+
+# Run with coverage and HTML report
+coverage run -m pytest && coverage html && open htmlcov/index.html 
 
 # Run specific test categories
-pytest -m unit
-pytest -m integration
+python -m pytest ./tests/database
 
-# If you get import errors, set PYTHONPATH
-PYTHONPATH=$(pwd) pytest -v
 ```
 
 ### Linting
 
 ```bash
+source ./venv/bin/activate
+
 # Run pylint
-pylint src
+pylint $(git ls-files '*.py')
 
 # Check specific files
-pylint src/main.py src/api/routes/resources.py
+pylint ./src/main.py 
 ```
 
 ### GitHub Actions CI/CD
