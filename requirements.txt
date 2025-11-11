@@ -27,7 +27,7 @@ fastapi-cloud-cli==0.3.1
 Flask==3.1.2
 frozenlist==1.8.0
 google-api-core==2.27.0
-google-auth==2.41.1
+google-auth==2.43.0
 google-cloud-secret-manager==2.25.0
 googleapis-common-protos==1.71.0
 greenlet==3.2.4
