@@ -1,7 +1,7 @@
 from os import path as os_path
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
-from src.logger import logger
+from backend.src.logger import logger
 
 router = APIRouter(prefix="", tags=["pages"])
 

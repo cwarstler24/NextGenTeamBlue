@@ -1,6 +1,6 @@
 from fastapi import HTTPException, Request
-from src.security import data_validation
-from src.logger import logger
+from backend.src.security import data_validation
+from backend.src.logger import logger
 
 async def validate_request(request: Request, token: str):
     """

@@ -1,8 +1,8 @@
 import sqlalchemy
 from fastapi.middleware.cors import CORSMiddleware
-from src.app_factory import create_app
-from src.database.database_connector import get_db_connection
-from src.logger import logger
+from backend.src.app_factory import create_app
+from backend.src.database.database_connector import get_db_connection
+from backend.src.logger import logger
 
 app = create_app()
 

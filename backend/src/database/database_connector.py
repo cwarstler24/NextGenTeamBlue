@@ -36,7 +36,7 @@ from google.cloud.sql.connector import Connector, IPTypes
 
 # Initialize the config parser
 config = configparser.ConfigParser()
-config.read('./config.ini')
+config.read('./backend/config.ini')
 
 # --- Load configuration ---
 try:

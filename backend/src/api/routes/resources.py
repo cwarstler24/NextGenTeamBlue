@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Request, HTTPException, status
 from fastapi.responses import JSONResponse
-from src.api.validate import validate_request
-from src.api.authenticate import authenticate_request
-from src.api.authorize import authorize_request, get_db_role
-from src.security.sanitize import sanitize_data
-import src.database.database_controller as db
-from src.utils import convert_bytes_to_strings
-from src.logger import logger
+from backend.src.api.validate import validate_request
+from backend.src.api.authenticate import authenticate_request
+from backend.src.api.authorize import authorize_request, get_db_role
+from backend.src.security.sanitize import sanitize_data
+import backend.src.database.database_controller as db
+from backend.src.utils import convert_bytes_to_strings
+from backend.src.logger import logger
 
 router = APIRouter(prefix="/resources", tags=["Resources"])
 
