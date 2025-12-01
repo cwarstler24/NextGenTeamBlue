@@ -10,10 +10,14 @@ function source_venv {
         exit 1
     fi
 
+    if [ -e ../src/main.py ]; then
+        echo "Remove the venv file in this directory and the parent directory and run setup_server.sh again"
+        exit 1
+    fi
     source ./venv/bin/activate
 }
 
-while getopts "dkh" opt; do
+while getopts "dkhp" opt; do
       case $opt in
         d)
             echo "Starting in debug mode..."
@@ -26,11 +30,18 @@ while getopts "dkh" opt; do
             ./kill_server.sh
             exit 0
             ;;
+        p)
+            echo "Starting in production mode..."
+            source_venv
+            nohup uvicorn src.main:app --host 0.0.0.0 --port 8000 &
+            exit 0
+            ;;
         h)
             echo "Usage: ./run_server.sh [options]"
             echo "Options:"
-            echo "  -d,      Start server in debug mode"
+            echo "  -d,      Start server in debug mode (default)"
             echo "  -k,      Kill all uvicorn processes"
+            echo "  -p,      Start server in production mode"
             echo "  -h,      Show this help message"
             exit 0
           ;;
@@ -43,4 +54,4 @@ while getopts "dkh" opt; do
     shift $((OPTIND-1))
 
 source_venv
-nohup uvicorn src.main:app --reload &
+uvicorn src.main:app --reload
