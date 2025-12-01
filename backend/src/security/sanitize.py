@@ -33,7 +33,7 @@ Notes:
 """
 from typing import Any
 import bleach
-from backend.src.logger import logger
+from src.logger import logger
 
 def sanitize_data(input_data: Any) -> Any:
     """

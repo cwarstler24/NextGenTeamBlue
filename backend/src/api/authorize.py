@@ -1,7 +1,7 @@
 from enum import Enum
 from fastapi import HTTPException, Request
-from backend.src.database.authorize import Role
-from backend.src.logger import logger
+from src.database.authorize import Role
+from src.logger import logger
 
 class EmployeeTitle(Enum):
     MANAGER = "manager"
