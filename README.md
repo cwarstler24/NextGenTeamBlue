@@ -282,28 +282,33 @@ SOURCE Documentation/insertTables.sql;
 ### Run Tests Locally
 
 ```bash
+source ./venv/bin/activate
+
 # Run all tests
-pytest -v
+python -m pytest
 
 # Run with coverage
-pytest --cov=src --cov-report=term-missing
+coverage run -m pytest
+coverage report -m
+
+# Run with coverage and HTML report
+coverage run -m pytest && coverage html && open htmlcov/index.html 
 
 # Run specific test categories
-pytest -m unit
-pytest -m integration
+python -m pytest ./tests/database
 
-# If you get import errors, set PYTHONPATH
-PYTHONPATH=$(pwd) pytest -v
 ```
 
 ### Linting
 
 ```bash
+source ./venv/bin/activate
+
 # Run pylint
-pylint src
+pylint $(git ls-files '*.py')
 
 # Check specific files
-pylint src/main.py src/api/routes/resources.py
+pylint ./src/main.py 
 ```
 
 ### GitHub Actions CI/CD
@@ -391,8 +396,27 @@ tail -f log/security.log
 
 ## License
 
-[Add your license information here]
+This project is licensed under the **Apache License 2.0**.
+
+Key points:
+- Free for commercial and private use
+- Permissive: modifications and redistribution allowed
+- Includes explicit patent grant
+- Must retain `LICENSE` and `NOTICE` files in redistributions
+- Clearly mark any changes you make in derivative works
+
+See the full license text in the `LICENSE` file and third-party attributions in `NOTICE`.
+
+Add SPDX headers (recommended) at the top of source files you modify:
+```python
+# SPDX-License-Identifier: Apache-2.0
+```
 
 ## Contributors
 
-[Add contributor information here]
+| Name | Role |
+|------|------|
+| cwarstler24 | Project Owner |
+| (Add others) | Contributor |
+
+To contribute: fork the repo, create a feature branch, submit a PR, ensure tests and lint pass.
