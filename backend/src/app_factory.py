@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from src.api.assets import router as assets_router
-from src.api.health import router as health_router
-from src.api.routes import resources
-from src.api.pages import router as pages
+from backend.src.api.assets import router as assets_router
+from backend.src.api.health import router as health_router
+from backend.src.api.routes import resources
+from backend.src.api.pages import router as pages
 
 def create_app() -> FastAPI:
     app = FastAPI(

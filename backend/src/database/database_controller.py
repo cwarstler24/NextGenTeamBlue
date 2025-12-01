@@ -18,9 +18,9 @@ Example usage:
 """
 
 import datetime
-from src.database import database_connector
-from src.logger import logger
-import src.database.authorize as auth
+from backend.src.database import database_connector
+from backend.src.logger import logger
+import backend.src.database.authorize as auth
 
 
 def add_resource_type(
