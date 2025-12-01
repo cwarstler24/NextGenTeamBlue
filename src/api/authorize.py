@@ -62,10 +62,12 @@ def get_db_role(user_title: str = "") -> Role:
     if user_title == "manager":
         role = Role.MANAGER
     elif user_title == "aide":
-        role = Role.EMPLOYEE
+        role = Role.AIDE
     elif user_title == "developer":
-        role = Role.EMPLOYEE
+        role = Role.DEVELOPER
     elif user_title == "sales agent":
-        role = Role.EMPLOYEE
+        role = Role.SALESAGENT
+
+
 
     return role

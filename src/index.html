@@ -241,6 +241,14 @@
             # enter password when prompted
         </code></pre>
 
+        <h2>Run Tests</h2>
+        <pre><code># Run all tests (pytest required)
+        pytest tests/ -v
+
+        # Or run the test script
+        ./test.sh
+        </code></pre>
+
         <h2>Troubleshooting</h2>
         <ul>
             <li>If <code>/health/ready</code> returns status down, check DB credentials, network (DB IP type), and that the Cloud SQL instance accepts connections.</li>
