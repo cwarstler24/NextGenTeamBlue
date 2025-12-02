@@ -360,7 +360,7 @@ const delId = ref<number | null>(null)
 }
 html, body { height:100%; margin:0; background:linear-gradient(180deg,var(--bg) 0%, var(--bg-accent) 70%); color:var(--text); -webkit-font-smoothing:antialiased; }
 body { font-size:14px; line-height:1.4; }
-.wrap { max-width:1220px; margin:28px auto 48px; padding:0 28px; box-sizing:border-box; }
+/* .wrap { max-width:1220px; margin:28px auto 48px; padding:0 28px; box-sizing:border-box; } */
 header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:22px; }
 .brand { display:flex; gap:14px; align-items:center; }
 h1 { font-size:22px; margin:0 0 2px; letter-spacing:-0.4px; font-weight:600; }
