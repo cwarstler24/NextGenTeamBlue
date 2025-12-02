@@ -2,7 +2,7 @@
   <div class="wrap" :data-theme="theme">
     <header>
       <div class="brand">
-        <img src="/Documentation/Logos/Action_Hero_Cotton_Swab.png" alt="Team Blue Logo" class="logo-img">
+        <img src="../assets/SwaB_Logo.png" alt="Team Blue Logo" class="logo-img">
         <div>
           <h1>Team Blue — API Tester</h1>
           <p class="lead">Quick interface for your inventory API — local testing only</p>
