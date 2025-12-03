@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AssetView from '../views/AssetView.vue'
 import AssetAddView from '../views/AssetAddView.vue'
+import AssetListView from '../views/AssetListView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +16,11 @@ const router = createRouter({
       path: '/tester',
       name: 'api-tester',
       component: () => import('../views/ApiTesterView.vue'),
+    },
+    {
+      path: '/assets',
+      name: 'AssetList',
+      component: AssetListView,
     },
     {
       path: '/assets/:id',
