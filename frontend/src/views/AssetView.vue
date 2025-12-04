@@ -84,6 +84,9 @@
         <button @click="goBack" class="btn-secondary">
           ← Back to List
         </button>
+        <button @click="updateAsset" class="btn-secondary">
+          Update Asset
+        </button>
         <button 
           v-if="!asset.is_decommissioned"
           @click="decommissionAsset" 
@@ -157,6 +160,10 @@ export default {
     const goBack = () => {
       router.push({ name: 'AssetList' });
     };
+    
+    const updateAsset = () => {
+      router.push({ name: 'AssetUpdate', params: { id: asset.value.id } });
+    };
 
     const decommissionAsset = async () => {
       const confirmed = window.confirm(
@@ -215,7 +222,7 @@ export default {
 
     onMounted(fetchAsset);
 
-    return { asset, errorMsg, goBack, decommissionAsset, isDecommissioning, formatDate };
+    return { asset, errorMsg, goBack, updateAsset, decommissionAsset, isDecommissioning, formatDate };
   },
 };
 </script>

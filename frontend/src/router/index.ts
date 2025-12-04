@@ -23,6 +23,11 @@ const router = createRouter({
       component: AssetView,
     },
     {
+      path : '/assets/:id/update',
+      name: 'AssetUpdate',
+      component: AssetAddView,
+    },
+    {
       path: '/add-asset',
       name: 'AssetAdd',
       component: AssetAddView,
