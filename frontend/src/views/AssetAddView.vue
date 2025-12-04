@@ -30,25 +30,30 @@
           </div>
 
           <div class="form-group">
-            <label for="location_id">Location ID</label>
-            <select required v-model="selected" v-model.number="assetLocation" id="location_id">
-              <option disabled value="">Please select one</option>
-              <option></option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
+            <label for="location_id">
+              Location ID
+              <span class="help-text-inline">(or Employee ID below)</span>
+            </label>
+            <select v-model.number="assetLocation" id="location_id">
+              <option :value="null">Not assigned to location</option>
+              <option :value="1">1</option>
+              <option :value="2">2</option>
+              <option :value="3">3</option>
+              <option :value="4">4</option>
             </select>
             <small class="help-text">Where this asset is physically located</small>
           </div>
 
           <div class="form-group">
-            <label for="employee_id">Employee ID</label>
+            <label for="employee_id">
+              Employee ID
+              <span class="help-text-inline">(or Location ID above)</span>
+            </label>
             <input 
               id="employee_id"
               type="number" 
               v-model.number="assetEmployeeID"
-              placeholder="Enter employee ID (optional)"
+              placeholder="Enter employee ID (or leave blank for location)"
             />
             <small class="help-text">Employee responsible for this asset</small>
           </div>
@@ -120,21 +125,36 @@ export default {
         token = `Bearer ${token}`;
       }
       try {
-        await axios.post(`${API_BASE}/resources/`, {
+        // Build payload - only include location_id OR employee_id, never both as nulls
+        const payload = {
           type_id: assetType.value,
-          location_id: assetLocation.value || null,
-          employee_id: assetEmployeeID.value || null,
-          notes: assetNotes.value || null,
           is_decommissioned: assetIsDecommissioned.value,
-        }, {
+        };
+        
+        // Add either location_id or employee_id (exactly one must be set)
+        if (assetLocation.value) {
+          payload.location_id = assetLocation.value;
+        } else if (assetEmployeeID.value) {
+          payload.employee_id = assetEmployeeID.value;
+        } else {
+          alert('Please assign the asset to either a location or an employee.');
+          return;
+        }
+        
+        // Add optional notes
+        if (assetNotes.value) {
+          payload.notes = assetNotes.value;
+        }
+        
+        await axios.post(`${API_BASE}/resources/`, payload, {
           headers: { Authorization: token },
         });
         
-        alert('✅ Asset added successfully!');
+        alert('Asset added successfully!');
         router.push({ name: 'AssetList' });
       } catch (error) {
         console.error('Error adding asset:', error);
-        alert('❌ ' + (error?.response?.data?.detail || 'Failed to add asset'));
+        alert((error?.response?.data?.detail || 'Failed to add asset'));
       }
     };
 
@@ -258,6 +278,12 @@ export default {
   color: var(--color-text-muted);
   font-size: 0.8125rem;
   line-height: 1.4;
+}
+
+.help-text-inline {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 400;
 }
 
 .form-actions {
