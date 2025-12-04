@@ -19,24 +19,26 @@
               Type ID
               <span class="required">*</span>
             </label>
-            <input 
-              id="type_id"
-              type="number" 
-              v-model.number="assetType" 
-              required 
-              placeholder="Enter type ID"
-            />
+            <select required v-model="selected" v-model.number="assetType" id="type_id">
+              <option disabled value="">Please select one</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </select>
             <small class="help-text">The category or type identifier for this asset</small>
           </div>
 
           <div class="form-group">
             <label for="location_id">Location ID</label>
-            <input 
-              id="location_id"
-              type="number" 
-              v-model.number="assetLocation"
-              placeholder="Enter location ID (optional)"
-            />
+            <select required v-model="selected" v-model.number="assetLocation" id="location_id">
+              <option disabled value="">Please select one</option>
+              <option></option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </select>
             <small class="help-text">Where this asset is physically located</small>
           </div>
 
