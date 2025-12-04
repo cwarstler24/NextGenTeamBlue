@@ -93,7 +93,7 @@
           <button type="submit" class="btn-primary" :disabled="isUpdating">
             {{ isUpdating ? 'Updating...' : 'Update Asset' }}
           </button>
-          <button type="button" @click="goBack" class="btn-secondary">
+          <button type="button" @click="assetViewReturn" class="btn-secondary">
             Cancel
           </button>
         </div>
@@ -207,7 +207,7 @@ export default {
         });
         
         alert('✅ Asset updated successfully!');
-        router.push({ name: 'AssetList' });
+        router.push({ name: 'AssetView', params: { id: route.params.id } });
       } catch (error) {
         console.error('Error updating asset:', error);
         alert('❌ ' + (error?.response?.data?.detail || 'Failed to update asset'));
@@ -217,7 +217,7 @@ export default {
     };
 
     const goBack = () => {
-      router.push({ name: 'AssetList' });
+      router.push({ name: 'AssetView', params: { id: route.params.id } });
     };
 
     onMounted(fetchAsset);

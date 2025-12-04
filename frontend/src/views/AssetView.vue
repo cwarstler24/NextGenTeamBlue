@@ -118,7 +118,6 @@ export default {
     const errorMsg = ref('');
     const route = useRoute();
     const router = useRouter();
-    const isDecommissioning = ref(false);
 
     const fetchAsset = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -220,7 +219,7 @@ export default {
 
     onMounted(fetchAsset);
 
-    return { asset, errorMsg, goBack, updateAsset, decommissionAsset, isDecommissioning, formatDate };
+    return { asset, errorMsg, goBack, updateAsset, decommissionAsset, formatDate };
   },
 };
 </script>
