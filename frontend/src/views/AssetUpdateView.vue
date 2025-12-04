@@ -206,11 +206,11 @@ export default {
           headers: { Authorization: token },
         });
         
-        alert('✅ Asset updated successfully!');
+        alert('Asset updated successfully!');
         router.push({ name: 'AssetView', params: { id: route.params.id } });
       } catch (error) {
         console.error('Error updating asset:', error);
-        alert('❌ ' + (error?.response?.data?.detail || 'Failed to update asset'));
+        alert((error?.response?.data?.detail || 'Failed to update asset'));
       } finally {
         isUpdating.value = false;
       }
