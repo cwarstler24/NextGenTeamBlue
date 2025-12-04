@@ -197,8 +197,6 @@ export default {
 
         // Refresh the asset to show updated status
         await fetchAsset();
-        
-        alert('Asset decommissioned successfully!');
       } catch (error) {
         console.error('Error decommissioning asset:', error);
         errorMsg.value = error?.response?.data?.detail || 'Failed to decommission asset';
