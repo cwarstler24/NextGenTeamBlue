@@ -122,7 +122,23 @@ export default {
           headers: { Authorization: token },
         });
         asset.value = response.data;
+        
+        // Convert binary is_decommissioned to proper boolean
+        // MySQL binary field returns buffer/bytes: \x00 = false, \x01 = true
+        if (asset.value.is_decommissioned !== null && asset.value.is_decommissioned !== undefined) {
+          // Check if it's a buffer/array or number
+          if (typeof asset.value.is_decommissioned === 'object') {
+            asset.value.is_decommissioned = asset.value.is_decommissioned[0] === 1;
+          } else if (typeof asset.value.is_decommissioned === 'number') {
+            asset.value.is_decommissioned = asset.value.is_decommissioned === 1;
+          } else if (typeof asset.value.is_decommissioned === 'string') {
+            asset.value.is_decommissioned = asset.value.is_decommissioned === '1' || 
+                                             asset.value.is_decommissioned.charCodeAt(0) === 1;
+          }
+        }
+        
         console.log('Asset details:', response.data);
+        console.log('is_decommissioned (normalized):', asset.value.is_decommissioned);
       } catch (error) {
         console.error('Error fetching asset:', error);
         errorMsg.value = error?.response?.data?.detail || 'Failed to fetch asset details';

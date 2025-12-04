@@ -87,7 +87,23 @@ export default {
           headers: { Authorization: token },
         });
         assets.value = response.data;
+        
+        // Convert binary is_decommissioned to proper boolean for all assets
+        assets.value.forEach(asset => {
+          if (asset.is_decommissioned !== null && asset.is_decommissioned !== undefined) {
+            if (typeof asset.is_decommissioned === 'object') {
+              asset.is_decommissioned = asset.is_decommissioned[0] === 1;
+            } else if (typeof asset.is_decommissioned === 'number') {
+              asset.is_decommissioned = asset.is_decommissioned === 1;
+            } else if (typeof asset.is_decommissioned === 'string') {
+              asset.is_decommissioned = asset.is_decommissioned === '1' || 
+                                        asset.is_decommissioned.charCodeAt(0) === 1;
+            }
+          }
+        });
+        
         console.log('Assets received from API:', response.data);
+        console.log('First asset is_decommissioned:', assets.value[0]?.is_decommissioned);
         errorMsg.value = '';
       } catch (error) {
         console.error('Error fetching assets:', error);
