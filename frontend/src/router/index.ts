@@ -13,11 +13,6 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/tester',
-      name: 'api-tester',
-      component: () => import('../views/ApiTesterView.vue'),
-    },
-    {
       path: '/assets',
       name: 'AssetList',
       component: AssetListView,

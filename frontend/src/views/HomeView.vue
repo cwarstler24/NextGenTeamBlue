@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import TheWelcome from '../components/TheWelcome.vue'
 
 const token = ref('')
 
@@ -27,8 +26,6 @@ function saveToken() {
       </div>
       <small>Saved in browser localStorage as <code>bearerToken</code>.</small>
     </section>
-
-    <TheWelcome />
   </main>
 </template>
 
