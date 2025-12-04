@@ -93,7 +93,7 @@
           <button type="submit" class="btn-primary" :disabled="isUpdating">
             {{ isUpdating ? 'Updating...' : 'Update Asset' }}
           </button>
-          <button type="button" @click="assetViewReturn" class="btn-secondary">
+          <button type="button" @click="goBack" class="btn-secondary">
             Cancel
           </button>
         </div>
