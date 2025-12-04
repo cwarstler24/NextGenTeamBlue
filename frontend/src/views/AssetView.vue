@@ -398,6 +398,19 @@ export default {
   gap: 1rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--color-border);
+  justify-content: space-between;
+}
+
+.action-buttons .btn-secondary:first-child {
+  flex: 0 0 auto;
+}
+
+.action-buttons .btn-secondary:nth-child(2) {
+  flex: 0 0 auto;
+}
+
+.action-buttons .btn-danger {
+  flex: 0 0 auto;
 }
 
 .loading-state {
