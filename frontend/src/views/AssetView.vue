@@ -84,6 +84,14 @@
         <button @click="goBack" class="btn-secondary">
           ← Back to List
         </button>
+        <button 
+          v-if="!asset.is_decommissioned"
+          @click="decommissionAsset" 
+          class="btn-danger"
+          :disabled="isDecommissioning"
+        >
+          {{ isDecommissioning ? 'Decommissioning...' : 'Decommission Asset' }}
+        </button>
       </div>
     </div>
 
@@ -107,6 +115,7 @@ export default {
     const errorMsg = ref('');
     const route = useRoute();
     const router = useRouter();
+    const isDecommissioning = ref(false);
 
     const fetchAsset = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -149,6 +158,49 @@ export default {
       router.push({ name: 'AssetList' });
     };
 
+    const decommissionAsset = async () => {
+      const confirmed = window.confirm(
+        `Are you sure you want to decommission "${asset.value.resource_id || `Asset #${asset.value.id}`}"?\n\nThis action will mark the asset as decommissioned.`
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      isDecommissioning.value = true;
+
+      let token = localStorage.getItem('bearerToken');
+      if (!token.toLowerCase().startsWith('bearer ')) {
+        token = `Bearer ${token}`;
+      }
+
+      try {
+        const response = await axios.put(
+          `${API_BASE}/resources/${asset.value.id}`,
+          {
+            ...asset.value,
+            is_decommissioned: 1,
+          },
+          {
+            headers: { Authorization: token },
+          }
+        );
+
+        console.log('Decommission response:', response);
+
+        // Refresh the asset to show updated status
+        await fetchAsset();
+        
+        alert('Asset decommissioned successfully!');
+      } catch (error) {
+        console.error('Error decommissioning asset:', error);
+        errorMsg.value = error?.response?.data?.detail || 'Failed to decommission asset';
+        alert((error?.response?.data?.detail || 'Failed to decommission asset'));
+      } finally {
+        isDecommissioning.value = false;
+      }
+    };
+
     const formatDate = (dateString) => {
       if (!dateString) return 'N/A';
       const date = new Date(dateString);
@@ -163,7 +215,7 @@ export default {
 
     onMounted(fetchAsset);
 
-    return { asset, errorMsg, goBack, formatDate };
+    return { asset, errorMsg, goBack, decommissionAsset, isDecommissioning, formatDate };
   },
 };
 </script>
@@ -199,6 +251,21 @@ export default {
 
 .btn-secondary:hover {
   background: var(--color-background-mute);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .asset-details {
