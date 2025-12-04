@@ -1,52 +1,95 @@
-/* color palette from <https://github.com/vuejs/theme> */
+/* Presentation-friendly color palette */
 :root {
+  /* Base colors */
   --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
+  --vt-c-white-soft: #f8f9fa;
+  --vt-c-white-mute: #f1f3f5;
 
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
+  --vt-c-black: #1a1a1a;
+  --vt-c-black-soft: #2d2d2d;
+  --vt-c-black-mute: #3a3a3a;
 
-  --vt-c-indigo: #2c3e50;
+  /* Primary brand colors - Blue theme */
+  --vt-c-primary: #2563eb;
+  --vt-c-primary-dark: #1e40af;
+  --vt-c-primary-light: #3b82f6;
+  
+  /* Accent colors */
+  --vt-c-success: #10b981;
+  --vt-c-warning: #f59e0b;
+  --vt-c-danger: #ef4444;
+  --vt-c-info: #06b6d4;
 
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+  /* Neutral colors */
+  --vt-c-gray-50: #f9fafb;
+  --vt-c-gray-100: #f3f4f6;
+  --vt-c-gray-200: #e5e7eb;
+  --vt-c-gray-300: #d1d5db;
+  --vt-c-gray-400: #9ca3af;
+  --vt-c-gray-500: #6b7280;
+  --vt-c-gray-600: #4b5563;
+  --vt-c-gray-700: #374151;
+  --vt-c-gray-800: #1f2937;
+  --vt-c-gray-900: #111827;
 
-  --vt-c-text-light-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  /* Dividers */
+  --vt-c-divider-light-1: rgba(0, 0, 0, 0.12);
+  --vt-c-divider-light-2: rgba(0, 0, 0, 0.06);
+  --vt-c-divider-dark-1: rgba(255, 255, 255, 0.2);
+  --vt-c-divider-dark-2: rgba(255, 255, 255, 0.1);
+
+  /* Text colors */
+  --vt-c-text-light-1: #1f2937;
+  --vt-c-text-light-2: #4b5563;
+  --vt-c-text-light-3: #6b7280;
+  --vt-c-text-dark-1: #f9fafb;
+  --vt-c-text-dark-2: #e5e7eb;
+  --vt-c-text-dark-3: #d1d5db;
 }
 
-/* semantic color variables for this project */
+/* Semantic color variables for this project */
 :root {
   --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
+  --color-background-soft: var(--vt-c-gray-50);
+  --color-background-mute: var(--vt-c-gray-100);
 
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
+  --color-border: var(--vt-c-gray-200);
+  --color-border-hover: var(--vt-c-gray-300);
 
   --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
+  --color-text: var(--vt-c-text-light-2);
+  --color-text-muted: var(--vt-c-text-light-3);
+
+  --color-primary: var(--vt-c-primary);
+  --color-primary-hover: var(--vt-c-primary-dark);
+  --color-success: var(--vt-c-success);
+  --color-warning: var(--vt-c-warning);
+  --color-danger: var(--vt-c-danger);
+  --color-info: var(--vt-c-info);
 
   --section-gap: 160px;
+  --border-radius: 8px;
+  --border-radius-sm: 4px;
+  --border-radius-lg: 12px;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
+    --color-background: var(--vt-c-gray-900);
+    --color-background-soft: var(--vt-c-gray-800);
+    --color-background-mute: var(--vt-c-gray-700);
 
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
+    --color-border: var(--vt-c-gray-700);
+    --color-border-hover: var(--vt-c-gray-600);
 
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
+    --color-text-muted: var(--vt-c-text-dark-3);
   }
 }
 

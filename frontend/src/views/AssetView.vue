@@ -1,23 +1,94 @@
 <template>
-  <div>
-    <h1>Asset Details</h1>
-    <div v-if="errorMsg" class="error">{{ errorMsg }}</div>
-    <div v-if="asset">
-      <h2>{{ asset.resource_id || `Asset #${asset.id}` }}</h2>
-      <div class="details">
-        <p><strong>ID:</strong> {{ asset.id }}</p>
-        <p><strong>Resource ID:</strong> {{ asset.resource_id || 'Not set' }}</p>
-        <p><strong>Type ID:</strong> {{ asset.type_id }}</p>
-        <p><strong>Date Added:</strong> {{ asset.date_added }}</p>
-        <p v-if="asset.location_id"><strong>Location ID:</strong> {{ asset.location_id }}</p>
-        <p v-if="asset.employee_id"><strong>Employee ID:</strong> {{ asset.employee_id }}</p>
-        <p v-if="asset.notes"><strong>Notes:</strong> {{ asset.notes }}</p>
-        <p><strong>Decommissioned:</strong> {{ asset.is_decommissioned ? 'Yes' : 'No' }}</p>
-        <p v-if="asset.decommission_date"><strong>Decommission Date:</strong> {{ asset.decommission_date }}</p>
-      </div>
-      <button @click="goBack">Back to List</button>
+  <div class="asset-view">
+    <div class="page-header">
+      <button @click="goBack" class="btn-back">
+        ← Back to List
+      </button>
     </div>
-    <div v-else-if="!errorMsg">
+
+    <div v-if="errorMsg" class="error">
+      <strong>Error:</strong> {{ errorMsg }}
+    </div>
+
+    <div v-if="asset" class="asset-details">
+      <div class="details-header">
+        <div>
+          <h1>{{ asset.resource_id || `Asset #${asset.id}` }}</h1>
+          <span 
+            class="badge" 
+            :class="asset.is_decommissioned ? 'badge-danger' : 'badge-success'"
+          >
+            {{ asset.is_decommissioned ? 'Decommissioned' : 'Active' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="details-grid">
+        <div class="detail-card">
+          <h3>Basic Information</h3>
+          <div class="detail-rows">
+            <div class="detail-row">
+              <span class="label">Asset ID:</span>
+              <span class="value">{{ asset.id }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Resource ID:</span>
+              <span class="value">{{ asset.resource_id || 'Not set' }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Type ID:</span>
+              <span class="value">{{ asset.type_id }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Date Added:</span>
+              <span class="value">{{ formatDate(asset.date_added) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <h3>Assignment Details</h3>
+          <div class="detail-rows">
+            <div class="detail-row">
+              <span class="label">Location ID:</span>
+              <span class="value">{{ asset.location_id || 'Not assigned' }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Employee ID:</span>
+              <span class="value">{{ asset.employee_id || 'Not assigned' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="asset.is_decommissioned" class="detail-card decommission-card">
+          <h3>Decommission Information</h3>
+          <div class="detail-rows">
+            <div class="detail-row">
+              <span class="label">Status:</span>
+              <span class="value danger">Decommissioned</span>
+            </div>
+            <div v-if="asset.decommission_date" class="detail-row">
+              <span class="label">Decommission Date:</span>
+              <span class="value">{{ formatDate(asset.decommission_date) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="asset.notes" class="detail-card notes-card">
+          <h3>Notes</h3>
+          <p class="notes-content">{{ asset.notes }}</p>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button @click="goBack" class="btn-secondary">
+          ← Back to List
+        </button>
+      </div>
+    </div>
+
+    <div v-else-if="!errorMsg" class="loading-state">
+      <div class="spinner"></div>
       <p>Loading asset details...</p>
     </div>
   </div>
@@ -62,30 +133,230 @@ export default {
       router.push({ name: 'AssetList' });
     };
 
+    const formatDate = (dateString) => {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    };
+
     onMounted(fetchAsset);
 
-    return { asset, errorMsg, goBack };
+    return { asset, errorMsg, goBack, formatDate };
   },
 };
 </script>
 
 <style scoped>
-.error {
-  color: #c22;
-  margin-bottom: 1rem;
+.asset-view {
+  max-width: 1000px;
+  margin: 0 auto;
 }
-.details {
-  background: var(--color-background-soft);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin: 1rem 0;
+
+.page-header {
+  margin-bottom: 1.5rem;
 }
-.details p {
-  margin: 0.5rem 0;
-}
-button {
-  margin-top: 1rem;
+
+.btn-back {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  box-shadow: none;
   padding: 0.5rem 1rem;
-  cursor: pointer;
+}
+
+.btn-back:hover {
+  background: var(--color-background-soft);
+  border-color: var(--color-primary);
+}
+
+.btn-secondary {
+  background: var(--color-background-soft);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+  background: var(--color-background-mute);
+}
+
+.asset-details {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.details-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.details-header > div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.details-header h1 {
+  font-size: 2rem;
+  color: var(--color-heading);
+  margin: 0;
+  font-weight: 700;
+}
+
+.badge {
+  padding: 0.375rem 0.875rem;
+  border-radius: 16px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-success);
+}
+
+.badge-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--color-danger);
+}
+
+.details-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.detail-card {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.decommission-card {
+  border-color: var(--color-danger);
+  background: rgba(239, 68, 68, 0.02);
+}
+
+.notes-card {
+  grid-column: 1 / -1;
+}
+
+.detail-card h3 {
+  font-size: 1.125rem;
+  color: var(--color-heading);
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.detail-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.detail-row .label {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.detail-row .value {
+  color: var(--color-text);
+  font-weight: 500;
+  text-align: right;
+}
+
+.detail-row .value.danger {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.notes-content {
+  color: var(--color-text);
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.loading-state {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+  border: 4px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-state p {
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .details-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .details-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .detail-row .value {
+    text-align: left;
+  }
 }
 </style>
