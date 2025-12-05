@@ -110,6 +110,8 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { useAssetTypes } from '../composables/useAssetTypes';
+import { useAssetEmployees } from '../composables/useAssetEmployees';
+import { useAssetLocations } from '../composables/useAssetLocations';
 
 const API_BASE = 'http://127.0.0.1:8000';
 
@@ -120,6 +122,8 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const { getAssetTypeName, fetchAssetTypes } = useAssetTypes();
+    const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
+    const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
     const isDecommissioning = ref(false);
 
     const fetchAsset = async () => {

@@ -105,6 +105,8 @@ import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { useAssetTypes } from '../composables/useAssetTypes';
+import { useAssetEmployees } from '../composables/useAssetEmployees';
+import { useAssetLocations } from '../composables/useAssetLocations';
 
 const API_BASE = 'http://127.0.0.1:8000';
 
@@ -118,6 +120,8 @@ export default {
     const filterTypeId = ref('');
     const activeFilters = ref(false);
     const { getAssetTypeName, fetchAssetTypes } = useAssetTypes();
+    const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
+    const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
 
     const fetchAssets = async () => {
       let token = localStorage.getItem('bearerToken');

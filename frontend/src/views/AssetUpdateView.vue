@@ -111,6 +111,8 @@ import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { useAssetTypes } from '../composables/useAssetTypes';
+import { useAssetEmployees } from '../composables/useAssetEmployees';
+import { useAssetLocations } from '../composables/useAssetLocations';
 
 const API_BASE = 'http://127.0.0.1:8000';
 
@@ -127,6 +129,8 @@ export default {
     const route = useRoute();
     const isUpdating = ref(false);
     const { assetTypes, getAssetTypeName, fetchAssetTypes } = useAssetTypes();
+    const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
+    const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
 
     const fetchAsset = async () => {
       let token = localStorage.getItem('bearerToken');
