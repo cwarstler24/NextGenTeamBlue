@@ -109,32 +109,18 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
+import { useAssetTypes } from '../composables/useAssetTypes';
 
 const API_BASE = 'http://127.0.0.1:8000';
 
 export default {
   setup() {
     const asset = ref(null);
-    const assetTypeMap = ref({});
     const errorMsg = ref('');
     const route = useRoute();
     const router = useRouter();
-
-    const fetchAssetTypes = async (token) => {
-      try {
-        const response = await axios.get(`${API_BASE}/resources/types/`, {
-          headers: { Authorization: token },
-        });
-        // Create a map of type_id -> asset_type_name
-        const map = {};
-        response.data.forEach(type => {
-          map[type.id] = type.asset_type_name;
-        });
-        assetTypeMap.value = map;
-      } catch (error) {
-        console.error('Error fetching asset types:', error);
-      }
-    };
+    const { getAssetTypeName, fetchAssetTypes } = useAssetTypes();
+    const isDecommissioning = ref(false);
 
     const fetchAsset = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -147,7 +133,7 @@ export default {
       }
       
       // Fetch asset types first
-      await fetchAssetTypes(token);
+      await fetchAssetTypes();
       
       try {
         const response = await axios.get(`${API_BASE}/resources/${route.params.id}`, {
@@ -174,10 +160,6 @@ export default {
         console.error('Error fetching asset:', error);
         errorMsg.value = error?.response?.data?.detail || 'Failed to fetch asset details';
       }
-    };
-
-    const getAssetTypeName = (typeId) => {
-      return assetTypeMap.value[typeId] || `Type ${typeId}`;
     };
 
     const goBack = () => {
@@ -243,7 +225,7 @@ export default {
 
     onMounted(fetchAsset);
 
-    return { asset, errorMsg, goBack, updateAsset, decommissionAsset, formatDate, getAssetTypeName };
+    return { asset, errorMsg, goBack, updateAsset, decommissionAsset, formatDate, getAssetTypeName, isDecommissioning };
   },
 };
 </script>

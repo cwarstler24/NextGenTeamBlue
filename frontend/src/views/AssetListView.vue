@@ -104,6 +104,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useAssetTypes } from '../composables/useAssetTypes';
 
 const API_BASE = 'http://127.0.0.1:8000';
 
@@ -111,29 +112,12 @@ export default {
   setup() {
     const assets = ref([]);
     const filteredAssets = ref([]);
-    const assetTypeMap = ref({});
     const router = useRouter();
     const errorMsg = ref('');
     const filterEmployeeId = ref('');
     const filterTypeId = ref('');
     const activeFilters = ref(false);
-
-    const fetchAssetTypes = async (token) => {
-      try {
-        const response = await axios.get(`${API_BASE}/resources/types/`, {
-          headers: { Authorization: token },
-        });
-        // Create a map of type_id -> asset_type_name
-        const map = {};
-        response.data.forEach(type => {
-          map[type.id] = type.asset_type_name;
-        });
-        assetTypeMap.value = map;
-        console.log('Asset types map:', map);
-      } catch (error) {
-        console.error('Error fetching asset types:', error);
-      }
-    };
+    const { getAssetTypeName, fetchAssetTypes } = useAssetTypes();
 
     const fetchAssets = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -147,7 +131,7 @@ export default {
       }
       
       // Fetch asset types first
-      await fetchAssetTypes(token);
+      await fetchAssetTypes();
       
       try {
         const response = await axios.get(`${API_BASE}/resources/`, {
@@ -176,10 +160,6 @@ export default {
         errorMsg.value = error?.response?.data?.detail || 'Failed to fetch assets';
         assets.value = [];
       }
-    };
-
-    const getAssetTypeName = (typeId) => {
-      return assetTypeMap.value[typeId] || `Type ${typeId}`;
     };
 
     const viewAsset = (asset) => {

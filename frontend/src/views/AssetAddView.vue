@@ -102,6 +102,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useAssetTypes } from '../composables/useAssetTypes';
 
 const API_BASE = 'http://127.0.0.1:8000';
 
@@ -112,39 +113,8 @@ export default {
     const assetEmployeeID = ref('');
     const assetNotes = ref('');
     const assetIsDecommissioned = ref(0);
-    const assetTypes = ref([]);
-    const assetTypeMap = ref({});
     const router = useRouter();
-
-    const fetchAssetTypes = async () => {
-      let token = localStorage.getItem('bearerToken');
-      if (!token) {
-        console.error('No bearer token set');
-        return;
-      }
-      if (!token.toLowerCase().startsWith('bearer ')) {
-        token = `Bearer ${token}`;
-      }
-      try {
-        const response = await axios.get(`${API_BASE}/resources/types/`, {
-          headers: { Authorization: token },
-        });
-        assetTypes.value = response.data;
-        // Build lookup map for type names
-        const map = {};
-        response.data.forEach(type => {
-          map[type.id] = type.asset_type_name;
-        });
-        assetTypeMap.value = map;
-        console.log('Asset types loaded:', assetTypes.value);
-      } catch (error) {
-        console.error('Error fetching asset types:', error);
-      }
-    };
-
-    const getAssetTypeName = (typeId) => {
-      return assetTypeMap.value[typeId] || `Type ${typeId}`;
-    };
+    const { assetTypes, getAssetTypeName, fetchAssetTypes } = useAssetTypes();
 
     onMounted(fetchAssetTypes);
 
