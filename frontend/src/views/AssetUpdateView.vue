@@ -1,7 +1,7 @@
 <template>
   <div class="asset-update-view">
     <div class="page-header">
-      <button @click="goBack" class="btn-back">
+      <button class="btn-back" @click="goBack">
         ← Back to List
       </button>
     </div>
@@ -10,20 +10,20 @@
       <strong>Error:</strong> {{ errorMsg }}
     </div>
 
-    <div class="form-container" v-if="asset">
+    <div v-if="asset" class="form-container">
       <div class="form-header">
         <h1>Update Asset</h1>
         <p>Modify the asset details and submit to save changes</p>
       </div>
 
-      <form @submit.prevent="updateAsset" class="asset-form">
+      <form class="asset-form" @submit.prevent="updateAsset">
         <div class="form-grid">
           <div class="form-group">
             <label for="type_id">
               Type ID
               <span class="required">*</span>
             </label>
-            <select required v-model.number="assetType" id="type_id">
+            <select id="type_id" v-model.number="assetType" required>
               <option v-for="type in assetTypes" :key="type.id" :value="type.id">
                 {{ getAssetTypeName(type.id) }}
               </option>
@@ -36,12 +36,22 @@
               Location ID
               <span class="help-text-inline">(or Employee ID below)</span>
             </label>
-            <select v-model.number="assetLocation" id="location_id">
-              <option :value="null">Not assigned to location</option>
-              <option :value="1">1</option>
-              <option :value="2">2</option>
-              <option :value="3">3</option>
-              <option :value="4">4</option>
+            <select id="location_id" v-model.number="assetLocation">
+              <option :value="null">
+                Not assigned to location
+              </option>
+              <option :value="1">
+                1
+              </option>
+              <option :value="2">
+                2
+              </option>
+              <option :value="3">
+                3
+              </option>
+              <option :value="4">
+                4
+              </option>
             </select>
             <small class="help-text">Where this asset is physically located</small>
           </div>
@@ -53,10 +63,10 @@
             </label>
             <input 
               id="employee_id"
-              type="number" 
-              v-model.number="assetEmployeeID"
+              v-model.number="assetEmployeeID" 
+              type="number"
               placeholder="Enter employee ID (or leave blank for location)"
-            />
+            >
             <small class="help-text">Employee responsible for this asset</small>
           </div>
 
@@ -70,8 +80,12 @@
               v-model.number="assetIsDecommissioned" 
               required
             >
-              <option :value="0">Active</option>
-              <option :value="1">Decommissioned</option>
+              <option :value="0">
+                Active
+              </option>
+              <option :value="1">
+                Decommissioned
+              </option>
             </select>
             <small class="help-text">Current operational status</small>
           </div>
@@ -84,7 +98,7 @@
             v-model="assetNotes"
             rows="4"
             placeholder="Add any additional notes or comments about this asset..."
-          ></textarea>
+          />
           <small class="help-text">Optional description or special instructions</small>
         </div>
 
@@ -92,7 +106,7 @@
           <button type="submit" class="btn-primary" :disabled="isUpdating">
             {{ isUpdating ? 'Updating...' : 'Update Asset' }}
           </button>
-          <button type="button" @click="goBack" class="btn-secondary">
+          <button type="button" class="btn-secondary" @click="goBack">
             Cancel
           </button>
         </div>
@@ -100,7 +114,7 @@
     </div>
 
     <div v-else class="loading-state">
-      <div class="spinner"></div>
+      <div class="spinner" />
       <p>Loading asset details...</p>
     </div>
   </div>

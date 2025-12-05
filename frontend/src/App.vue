@@ -10,9 +10,15 @@ import { RouterLink, RouterView } from 'vue-router'
           <h1>Team Blue Asset Management</h1>
         </div>
         <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/assets">Assets</RouterLink>
-          <RouterLink to="/add-asset">Add Asset</RouterLink>
+          <RouterLink to="/">
+            Home
+          </RouterLink>
+          <RouterLink to="/assets">
+            Assets
+          </RouterLink>
+          <RouterLink to="/add-asset">
+            Add Asset
+          </RouterLink>
         </nav>
       </div>
     </header>

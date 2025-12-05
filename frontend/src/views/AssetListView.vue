@@ -3,9 +3,11 @@
     <div class="page-header">
       <div>
         <h1>Asset Inventory</h1>
-        <p class="subtitle">Browse and manage all system assets</p>
+        <p class="subtitle">
+          Browse and manage all system assets
+        </p>
       </div>
-      <button @click="goToAddAsset" class="btn-add">
+      <button class="btn-add" @click="goToAddAsset">
         Add New Asset
       </button>
     </div>
@@ -23,9 +25,9 @@
             v-model.trim="filterEmployeeId" 
             type="text" 
             placeholder="Enter employee ID"
-            @keyup.enter="applyFilters"
             class="filter-input"
-          />
+            @keyup.enter="applyFilters"
+          >
         </div>
         <div class="filter-group">
           <label for="typeIdFilter">Type ID:</label>
@@ -34,15 +36,15 @@
             v-model.trim="filterTypeId" 
             type="text" 
             placeholder="Enter type ID"
-            @keyup.enter="applyFilters"
             class="filter-input"
-          />
+            @keyup.enter="applyFilters"
+          >
         </div>
         <div class="filter-buttons">
-          <button @click="applyFilters" class="btn-filter">
+          <button class="btn-filter" @click="applyFilters">
             Search
           </button>
-          <button @click="clearFilters" class="btn-clear">
+          <button class="btn-clear" @click="clearFilters">
             Clear
           </button>
         </div>
@@ -58,15 +60,17 @@
     <div v-if="displayedAssets.length === 0 && !errorMsg" class="empty-state">
       <h2>No Assets Found</h2>
       <p>Get started by adding your first asset to the system.</p>
-      <button @click="goToAddAsset" class="btn-primary">Add First Asset</button>
+      <button class="btn-primary" @click="goToAddAsset">
+        Add First Asset
+      </button>
     </div>
 
     <div v-else class="asset-grid">
       <div 
         v-for="asset in displayedAssets" 
         :key="asset.id" 
-        @click="viewAsset(asset)"
         class="asset-card"
+        @click="viewAsset(asset)"
       >
         <div class="asset-header">
           <h3>{{ asset.resource_id || `Asset #${asset.id}` }}</h3>

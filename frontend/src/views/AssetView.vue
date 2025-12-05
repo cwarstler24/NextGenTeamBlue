@@ -1,7 +1,7 @@
 <template>
   <div class="asset-view">
     <div class="page-header">
-      <button @click="goBack" class="btn-back">
+      <button class="btn-back" @click="goBack">
         ← Back to List
       </button>
     </div>
@@ -76,22 +76,24 @@
 
         <div v-if="asset.notes" class="detail-card notes-card">
           <h3>Notes</h3>
-          <p class="notes-content">{{ asset.notes }}</p>
+          <p class="notes-content">
+            {{ asset.notes }}
+          </p>
         </div>
       </div>
 
       <div class="action-buttons">
-        <button @click="goBack" class="btn-secondary">
+        <button class="btn-secondary" @click="goBack">
           ← Back to List
         </button>
-        <button @click="updateAsset" class="btn-secondary">
+        <button class="btn-secondary" @click="updateAsset">
           Update Asset
         </button>
         <button 
           v-if="!asset.is_decommissioned"
-          @click="decommissionAsset" 
-          class="btn-danger"
+          class="btn-danger" 
           :disabled="isDecommissioning"
+          @click="decommissionAsset"
         >
           {{ isDecommissioning ? 'Decommissioning...' : 'Decommission Asset' }}
         </button>
@@ -99,7 +101,7 @@
     </div>
 
     <div v-else-if="!errorMsg" class="loading-state">
-      <div class="spinner"></div>
+      <div class="spinner" />
       <p>Loading asset details...</p>
     </div>
   </div>
