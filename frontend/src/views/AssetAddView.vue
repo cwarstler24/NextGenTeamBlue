@@ -22,7 +22,7 @@
             <select required v-model.number="assetType" id="type_id">
               <option disabled value="">Please select one</option>
               <option v-for="type in assetTypes" :key="type.id" :value="type.id">
-                {{ type.id }}{{ type.type_name ? ` - ${type.type_name}` : '' }}
+                {{ getAssetTypeName(type.id) }}
               </option>
             </select>
             <small class="help-text">The category or type identifier for this asset</small>
@@ -113,6 +113,7 @@ export default {
     const assetNotes = ref('');
     const assetIsDecommissioned = ref(0);
     const assetTypes = ref([]);
+    const assetTypeMap = ref({});
     const router = useRouter();
 
     const fetchAssetTypes = async () => {
@@ -129,10 +130,20 @@ export default {
           headers: { Authorization: token },
         });
         assetTypes.value = response.data;
+        // Build lookup map for type names
+        const map = {};
+        response.data.forEach(type => {
+          map[type.id] = type.asset_type_name;
+        });
+        assetTypeMap.value = map;
         console.log('Asset types loaded:', assetTypes.value);
       } catch (error) {
         console.error('Error fetching asset types:', error);
       }
+    };
+
+    const getAssetTypeName = (typeId) => {
+      return assetTypeMap.value[typeId] || `Type ${typeId}`;
     };
 
     onMounted(fetchAssetTypes);
@@ -191,6 +202,7 @@ export default {
       assetNotes, 
       assetIsDecommissioned,
       assetTypes,
+      getAssetTypeName,
       addAsset,
       goBack 
     };

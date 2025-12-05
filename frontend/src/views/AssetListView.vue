@@ -84,7 +84,7 @@
           <div class="asset-meta">
             <div class="meta-item">
               <span class="meta-label">Type:</span>
-              <span class="meta-value">{{ asset.type_id }}</span>
+              <span class="meta-value">{{ getAssetTypeName(asset.type_id) }}</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Added:</span>
@@ -111,11 +111,29 @@ export default {
   setup() {
     const assets = ref([]);
     const filteredAssets = ref([]);
+    const assetTypeMap = ref({});
     const router = useRouter();
     const errorMsg = ref('');
     const filterEmployeeId = ref('');
     const filterTypeId = ref('');
     const activeFilters = ref(false);
+
+    const fetchAssetTypes = async (token) => {
+      try {
+        const response = await axios.get(`${API_BASE}/resources/types/`, {
+          headers: { Authorization: token },
+        });
+        // Create a map of type_id -> asset_type_name
+        const map = {};
+        response.data.forEach(type => {
+          map[type.id] = type.asset_type_name;
+        });
+        assetTypeMap.value = map;
+        console.log('Asset types map:', map);
+      } catch (error) {
+        console.error('Error fetching asset types:', error);
+      }
+    };
 
     const fetchAssets = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -127,6 +145,10 @@ export default {
       if (!token.toLowerCase().startsWith('bearer ')) {
         token = `Bearer ${token}`;
       }
+      
+      // Fetch asset types first
+      await fetchAssetTypes(token);
+      
       try {
         const response = await axios.get(`${API_BASE}/resources/`, {
           headers: { Authorization: token },
@@ -148,13 +170,16 @@ export default {
         });
         
         console.log('Assets received from API:', response.data);
-        console.log('First asset is_decommissioned:', assets.value[0]?.is_decommissioned);
         errorMsg.value = '';
       } catch (error) {
         console.error('Error fetching assets:', error);
         errorMsg.value = error?.response?.data?.detail || 'Failed to fetch assets';
         assets.value = [];
       }
+    };
+
+    const getAssetTypeName = (typeId) => {
+      return assetTypeMap.value[typeId] || `Type ${typeId}`;
     };
 
     const viewAsset = (asset) => {
@@ -214,6 +239,7 @@ export default {
       goToAddAsset, 
       errorMsg, 
       formatDate,
+      getAssetTypeName,
       filterEmployeeId,
       filterTypeId,
       applyFilters,

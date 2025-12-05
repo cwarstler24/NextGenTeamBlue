@@ -36,8 +36,8 @@
               <span class="value">{{ asset.resource_id || 'Not set' }}</span>
             </div>
             <div class="detail-row">
-              <span class="label">Type ID:</span>
-              <span class="value">{{ asset.type_id }}</span>
+              <span class="label">Type:</span>
+              <span class="value">{{ getAssetTypeName(asset.type_id) }}</span>
             </div>
             <div class="detail-row">
               <span class="label">Date Added:</span>
@@ -115,9 +115,26 @@ const API_BASE = 'http://127.0.0.1:8000';
 export default {
   setup() {
     const asset = ref(null);
+    const assetTypeMap = ref({});
     const errorMsg = ref('');
     const route = useRoute();
     const router = useRouter();
+
+    const fetchAssetTypes = async (token) => {
+      try {
+        const response = await axios.get(`${API_BASE}/resources/types/`, {
+          headers: { Authorization: token },
+        });
+        // Create a map of type_id -> asset_type_name
+        const map = {};
+        response.data.forEach(type => {
+          map[type.id] = type.asset_type_name;
+        });
+        assetTypeMap.value = map;
+      } catch (error) {
+        console.error('Error fetching asset types:', error);
+      }
+    };
 
     const fetchAsset = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -128,6 +145,10 @@ export default {
       if (!token.toLowerCase().startsWith('bearer ')) {
         token = `Bearer ${token}`;
       }
+      
+      // Fetch asset types first
+      await fetchAssetTypes(token);
+      
       try {
         const response = await axios.get(`${API_BASE}/resources/${route.params.id}`, {
           headers: { Authorization: token },
@@ -149,11 +170,14 @@ export default {
         }
         
         console.log('Asset details:', response.data);
-        console.log('is_decommissioned (normalized):', asset.value.is_decommissioned);
       } catch (error) {
         console.error('Error fetching asset:', error);
         errorMsg.value = error?.response?.data?.detail || 'Failed to fetch asset details';
       }
+    };
+
+    const getAssetTypeName = (typeId) => {
+      return assetTypeMap.value[typeId] || `Type ${typeId}`;
     };
 
     const goBack = () => {
@@ -219,7 +243,7 @@ export default {
 
     onMounted(fetchAsset);
 
-    return { asset, errorMsg, goBack, updateAsset, decommissionAsset, formatDate };
+    return { asset, errorMsg, goBack, updateAsset, decommissionAsset, formatDate, getAssetTypeName };
   },
 };
 </script>
