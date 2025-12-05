@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Team Blue — Run & Test Guide</title>
+            <style>
+        /* Theme toggle button matches .btn in tester */
+        #themeBtn.button {
+            background: linear-gradient(90deg, var(--accent-2), var(--accent));
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            margin: 8px 0;
+            box-shadow: 0 2px 8px rgba(2,132,199,0.08);
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background .18s, color .18s, box-shadow .18s;
+        }
+        #themeBtn.button:hover {
+            background: linear-gradient(90deg, var(--blue), var(--accent));
+        }
+
+        /* Smooth transitions for theme */
+        body, .container, .note, pre, code, input, textarea, #themeBtn.button {
+            transition: background-color .35s, color .35s, border-color .35s, box-shadow .35s;
+        }
+        :root {
+            --blue:#0b4a6f;
+            --accent:#0284c7;
+            --accent-2:#0ea5e9;
+            --bg:#f5f7fa;
+            --panel:#fff;
+            --panel-border:#e2e8f0;
+            --muted:#5b6474;
+            --text:#1e293b;
+            --note-bg:#fff8e1;
+            --note-border:#ffd54f;
+            --shadow:0 2px 8px rgba(0,0,0,0.07);
+            --radius:12px;
+            --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+            --code-fg:#0f172a;
+        }
+
+        [data-theme="dark"] {
+            --blue:#60aaff;
+            --accent:#0ea5b7;
+            --accent-2:#0369a1;
+            --bg:#0b1220;
+            --panel:#0f1724;
+            --panel-border:#1f2b3a;
+            --muted:#94a3b8;
+            --text:#e6eef6;
+            --note-bg:#23272e;
+            --note-border:#ffd54f;
+            --shadow:0 4px 20px -4px rgba(0,0,0,0.55),0 2px 4px rgba(0,0,0,0.4);
+            --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+            --code-fg:#f1f5f9;
+        }
+        body {
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            color: var(--text);
+            background: var(--bg);
+        }
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 28px;
+                    background: var(--panel);
+                    border-radius: var(--radius);
+                    box-shadow: var(--shadow);
+                    border: 1px solid var(--panel-border);
+                }
+                .header {
+                    display: flex;
+                    align-items: center;
+                    gap: 24px;
+                    justify-content: space-between;
+                    margin-bottom: 32px;
+                    padding-bottom: 18px;
+                    border-bottom: 2px solid var(--blue);
+                }
+                .logo {
+                    height: 120px;
+                    width: auto;
+                    border-radius: 16px;
+                    box-shadow: 0 2px 12px rgba(11,74,111,0.08);
+                }
+        h1 {
+            color: var(--blue);
+            margin: 0 0 8px 0;
+            font-size: 2.2em;
+            letter-spacing: -0.5px;
+        }
+        h2 {
+            color: var(--accent);
+            margin-top: 32px;
+            font-size: 1.3em;
+        }
+        pre {
+            background: #f6f8fa;
+            padding: 14px 16px;
+            border-radius: 8px;
+            overflow: auto;
+            border: 1px solid #e1e4e8;
+            font-size: 1em;
+            margin-bottom: 18px;
+            color: var(--text);
+        }
+        code {
+            font-family: var(--mono);
+            font-size: 1em;
+            color: var(--code-fg);
+        }
+        .note {
+            background: var(--note-bg);
+            padding: 16px;
+            border-left: 4px solid var(--note-border);
+            margin: 18px 0;
+            border-radius: 0 8px 8px 0;
+            color: #7c5a00;
+        }
+        [data-theme="dark"] .note {
+            color: #ffe082;
+        }
+                .kbd {
+                    background: #eee;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    font-size: 0.95em;
+                    font-family: var(--mono);
+                }
+                p {
+                    color: var(--text) !important;
+                }
+                pre {
+                    background: var(--output-bg);
+                    color: var(--code-fg);
+                    padding: 14px 16px;
+                    border-radius: 8px;
+                    overflow: auto;
+                    border: 1px solid #e1e4e8;
+                    font-size: 1em;
+                    margin-bottom: 18px;
+                    transition: background-color .35s, color .35s;
+                }
+                code {
+                    font-family: var(--mono);
+                    font-size: 1em;
+                    color: var(--code-fg);
+                    background: none;
+                    transition: color .35s;
+                }
+                a.button {
+                    display: inline-block;
+                    background: linear-gradient(90deg, var(--accent), var(--blue));
+                    color: #fff;
+                    padding: 8px 18px;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    text-decoration: none;
+                    margin: 8px 0;
+                    box-shadow: 0 2px 8px rgba(2,132,199,0.08);
+                    transition: background .18s;
+                }
+                a.button:hover {
+                    background: linear-gradient(90deg, var(--blue), var(--accent));
+                }
+                footer {
+                    margin-top: 40px;
+                    padding-top: 20px;
+                    border-top: 1px solid #e2e8f0;
+                    color: var(--muted);
+                    font-size: 0.98em;
+                }
+            </style>
+    </style>
+</head>
+<body>
+        <div class="container">
+            <header class="header">
+                                <div style="display:flex;align-items:center;gap:24px;">
+                                    <img src="../assets/Logos/SwaB_Logo.png" alt="SwaB Logo" class="logo">
+                                    <h1>Team Blue — Run & Test API</h1>
+                                </div>
+                                <div>
+                                    <button class="button" id="themeBtn" type="button" style="margin-left:8px;">Dark</button>
+                                </div>
+            </header>
+
+                <h2>API Quick Reference</h2>
+                <p>Get all resources:</p>
+                <pre><code>curl -X GET "http://127.0.0.1:8000/resources/"</code></pre>
+                <p>Get all resource types:</p>
+                <pre><code>curl -X GET "http://127.0.0.1:8000/resources/types/"</code></pre>
+                <p>Get resource by ID:</p>
+                <pre><code>curl -X GET "http://127.0.0.1:8000/resources/123"</code></pre>
+                <p>Search by location:</p>
+                <pre><code>curl -X GET "http://127.0.0.1:8000/resources/location/1"</code></pre>
+                <p>Search by employee:</p>
+                <pre><code>curl -X GET "http://127.0.0.1:8000/resources/employee/31"</code></pre>
+                <p>Create a resource (requires Authorization if enabled):</p>
+                <pre><code>curl -X POST "http://127.0.0.1:8000/resources/" \
+                -H "Authorization: Bearer &lt;insert_token_here&gt;" \
+                -H "Content-Type: application/json" \
+                -d '{
+            "type_id": 2,
+            "location_id": 1,
+            "employee_id": 31,
+            "notes": "This is a test",
+            "is_decommissioned": 0
+        }'
+                </code></pre>
+                <p>Update a resource:</p>
+                <pre><code>curl -X PUT "http://127.0.0.1:8000/resources/123" \
+                -H "Authorization: Bearer &lt;insert_token_here&gt;" \
+                -H "Content-Type: application/json" \
+                -d '{
+            "type_id": 2,
+            "location_id": 1,
+            "employee_id": 31,
+            "notes": "Updated notes",
+            "is_decommissioned": 0
+        }'
+                </code></pre>
+                <p>Delete a resource:</p>
+                <pre><code>curl -X DELETE "http://127.0.0.1:8000/resources/123" \
+                -H "Authorization: Bearer &lt;insert_token_here&gt;"</code></pre>
+
+        <h2>Database & Health</h2>
+        <p>Check DB connection (readiness endpoint):</p>
+        <pre><code>curl -X GET "http://127.0.0.1:8000/health/ready"</code></pre>
+        <p>Direct MySQL access (if enabled):</p>
+        <pre><code>mysql -u teamblue -p -h 136.115.15.42
+            # enter password when prompted
+        </code></pre>
+
+        <h2>Run Tests</h2>
+        <pre><code># Run all tests (pytest required)
+        pytest tests/ -v
+
+        # Or run the test script
+        ./test.sh
+        </code></pre>
+
+        <h2>Troubleshooting</h2>
+        <ul>
+            <li>If <code>/health/ready</code> returns status down, check DB credentials, network (DB IP type), and that the Cloud SQL instance accepts connections.</li>
+            <li>Check logs printed by <code>uvicorn</code> for connector errors; ensure DB credentials are set in <code>config.ini</code> or environment variables.</li>
+            <li>For Google Cloud SQL, ensure the connector library and service account are configured if connecting to a GCP instance.</li>
+            <li>For CORS errors, check FastAPI CORS middleware settings.</li>
+            <li>For auth errors, ensure your Bearer token is valid and not expired.</li>
+        </ul>
+
+        <div class="note">
+            <strong>Note:</strong> Replace placeholders (DB credentials, instance name, tokens) with your real values. For production deployments, do not store secrets in plaintext or in <code>config.ini</code> — use a secrets manager.
+        </div>
+
+        <div class="note">
+            <a class="button" href="./index_test.html">Interactive API Tester</a>
+            &nbsp;|&nbsp;
+            <a class="button" href="http://127.0.0.1:8000/docs" target="_blank">OpenAPI Docs</a>
+        </div>
+
+        <footer>
+            <p>This page is a minimal quick-start. See <code>README.md</code> in the repo root for more details.</p>
+        </footer>
+<script>
+    const themeBtn = document.getElementById('themeBtn');
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('themePref', theme);
+        if(themeBtn) themeBtn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+    }
+    function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        applyTheme(current === 'light' ? 'dark' : 'light');
+    }
+    (function initTheme(){
+        if(!themeBtn) return;
+        themeBtn.addEventListener('click', toggleTheme);
+        const stored = localStorage.getItem('themePref');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = stored || (prefersDark ? 'dark' : 'light');
+        applyTheme(theme);
+    })();
+</script>
+      </div>
+</body>
+</html>

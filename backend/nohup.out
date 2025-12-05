@@ -1,0 +1,39 @@
+INFO:     Started server process [549984]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:53096 - "GET /index_test/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53110 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53096 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53110 - "OPTIONS /resources/ HTTP/1.1" 200 OK
+/home/protech/repos/NextGenTeamBlue/backend/venv/lib/python3.13/site-packages/google/auth/_default.py:108: UserWarning: Your application has authenticated using end user credentials from Google Cloud SDK without a quota project. You might receive a "quota exceeded" or "API not enabled" error. See the following page for troubleshooting: https://cloud.google.com/docs/authentication/adc-troubleshooting/user-creds. 
+  warnings.warn(_CLOUD_SDK_CREDENTIALS_WARNING)
+2025-12-01 14:20:05 ERROR src.database.database_controller:get_resources:256 - Failed to retrieve resources
+2025-12-01 14:20:05 ERROR src.api.routes.resources:get_resources:36 - Returning error 400
+Auth response: 201 {"fName":"Walliw","lName":"Patience","loc":"United States","id":849,"dept":"Information Technology","title":"Manager"}
+Initializing connection pool for teamblue-asset-ms:us-central1:teamblue-asset-ms...
+Connection pool initialized successfully.
+Database connection error: (pymysql.err.OperationalError) (1045, "Access denied for user 'teamblue'@'cloudsqlproxy~98.111.240.238' (using password: NO)")
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+INFO:     127.0.0.1:53110 - "GET /resources/ HTTP/1.1" 400 Bad Request
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [549984]
+INFO:     Started server process [553384]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:42372 - "GET /index_test/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42376 - "GET / HTTP/1.1" 200 OK
+/home/protech/repos/NextGenTeamBlue/backend/venv/lib/python3.13/site-packages/google/auth/_default.py:108: UserWarning: Your application has authenticated using end user credentials from Google Cloud SDK without a quota project. You might receive a "quota exceeded" or "API not enabled" error. See the following page for troubleshooting: https://cloud.google.com/docs/authentication/adc-troubleshooting/user-creds. 
+  warnings.warn(_CLOUD_SDK_CREDENTIALS_WARNING)
+Auth response: 201 {"fName":"Walliw","lName":"Patience","loc":"United States","id":849,"dept":"Information Technology","title":"Manager"}
+Initializing connection pool for teamblue-asset-ms:us-central1:teamblue-asset-ms...
+Connection pool initialized successfully.
+Query executed successfully. Fetched 59 rows.
+INFO:     127.0.0.1:42376 - "GET /resources/ HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [553384]

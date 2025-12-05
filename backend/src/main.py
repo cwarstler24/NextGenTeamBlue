@@ -1,10 +1,8 @@
 import sqlalchemy
-from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from src.app_factory import create_app
 from src.database.database_connector import get_db_connection
 from src.logger import logger
-
-from fastapi.middleware.cors import CORSMiddleware
 
 app = create_app()
 
@@ -15,9 +13,9 @@ async def root():
 # Optional sample route that uses the engine (kept for parity with your tests)
 @app.get("/employees/count")
 def employees_count():
-    engine = get_db_connection()
-    with engine.connect() as conn:
-        rows = conn.execute(sqlalchemy.text("SELECT 1")).fetchall()
+    db_engine = get_db_connection()
+    with db_engine.connect() as db_conn:
+        rows = db_conn.execute(sqlalchemy.text("SELECT 1")).fetchall()
     logger.security("employees_count accessed", level="info")
     return {"count": len(rows)}
 

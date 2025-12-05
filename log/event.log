@@ -1,0 +1,979 @@
+2025-11-03 16:21:28 INFO conftest:_log_test_start_end:48 - TEST START :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-03 16:21:28 INFO conftest:_log_test_start_end:50 - TEST END   :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-03 16:21:28 INFO conftest:_log_test_start_end:48 - TEST START :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-03 16:21:28 INFO conftest:_log_test_start_end:50 - TEST END   :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-03 16:21:28 INFO conftest:_log_test_start_end:48 - TEST START :: tests/api/test_api_use_cases_integration.py::test_query_resources_by_location_valid_token
+2025-11-03 16:21:33 INFO conftest:_log_test_start_end:50 - TEST END   :: tests/api/test_api_use_cases_integration.py::test_query_resources_by_location_valid_token
+2025-11-03 16:21:33 INFO conftest:_log_test_start_end:48 - TEST START :: tests/api/test_api_use_cases_integration.py::test_query_resources_by_location_invalid_token
+2025-11-03 16:21:37 INFO conftest:_log_test_start_end:50 - TEST END   :: tests/api/test_api_use_cases_integration.py::test_query_resources_by_location_invalid_token
+2025-11-03 16:21:37 INFO conftest:_log_test_start_end:48 - TEST START :: tests/api/test_api_use_cases_integration.py::test_add_resource_valid_manager
+2025-11-03 16:21:40 INFO conftest:_log_test_start_end:50 - TEST END   :: tests/api/test_api_use_cases_integration.py::test_add_resource_valid_manager
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-03 16:23:03 INFO src.api.health:health:14 - health check called
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_contract.py::test_create_asset_happy_path
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_contract.py::test_create_asset_happy_path
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_contract.py::test_create_asset_happy_path
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_contract.py::test_create_asset_rejects_bad_type
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_contract.py::test_create_asset_rejects_bad_type
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_contract.py::test_create_asset_rejects_bad_type
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_unit.py::test_create_asset_happy_uses_service
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_unit.py::test_create_asset_happy_uses_service
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_unit.py::test_create_asset_happy_uses_service
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_unit.py::test_create_asset_rejects_unsupported_type
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_unit.py::test_create_asset_rejects_unsupported_type
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_unit.py::test_create_asset_rejects_unsupported_type
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_success
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_success
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_success
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_bad_header_401
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_bad_header_401
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_bad_header_401
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_service_unreachable_503
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_service_unreachable_503
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_service_unreachable_503
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_invalid_token_401
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_invalid_token_401
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_invalid_token_401
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authorize_unit.py::test_manager_allows_all_methods
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authorize_unit.py::test_manager_allows_all_methods
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authorize_unit.py::test_manager_allows_all_methods
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authorize_unit.py::test_employee_get_ok_but_post_forbidden
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authorize_unit.py::test_employee_get_ok_but_post_forbidden
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authorize_unit.py::test_employee_get_ok_but_post_forbidden
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_health_unit.py::test_health_logs_and_ok
+2025-11-03 16:23:03 INFO src.api.health:health:14 - health check called
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_health_unit.py::test_health_logs_and_ok
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_health_unit.py::test_health_logs_and_ok
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_health_unit.py::test_health_ready_ok
+2025-11-03 16:23:03 INFO src.api.health:health_ready:37 - readiness probe result=ok
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_health_unit.py::test_health_ready_ok
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_health_unit.py::test_health_ready_ok
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_health_unit.py::test_health_ready_down
+2025-11-03 16:23:03 INFO src.api.health:health_ready:37 - readiness probe result=error
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_health_unit.py::test_health_ready_down
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_health_unit.py::test_health_ready_down
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_main_health_contract.py::test_health_returns_ok_and_logs
+2025-11-03 16:23:03 INFO src.api.health:health:14 - health check called
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_main_health_contract.py::test_health_returns_ok_and_logs
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_main_health_contract.py::test_health_returns_ok_and_logs
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resources_happy_path
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resources_happy_path
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resources_happy_path
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_post_resource_manager_creates
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_post_resource_manager_creates
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_post_resource_manager_creates
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_put_resource_manager_updates
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_put_resource_manager_updates
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_put_resource_manager_updates
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_put_resource_db_failure_raises_400
+2025-11-03 16:23:03 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_put_resource_db_failure_raises_400
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_put_resource_db_failure_raises_400
+2025-11-03 16:23:03 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_delete_resource_manager_success
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_delete_resource_manager_success
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_missing_token_401
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_missing_token_401
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_missing_token_401
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_empty_body_400
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_empty_body_400
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_empty_body_400
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_schema_ok_with_location
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_schema_ok_with_location
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_schema_ok_with_location
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_schema_ok_with_employee
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_schema_ok_with_employee
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_schema_ok_with_employee
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_schema_fails_both_fields_present
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_schema_fails_both_fields_present
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_schema_fails_both_fields_present
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_put_schema_fails_neither_present
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_put_schema_fails_neither_present
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_put_schema_fails_neither_present
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/config/test_loader.py::test_load_config_from_temp_file
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/config/test_loader.py::test_load_config_from_temp_file
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/config/test_loader.py::test_load_config_from_temp_file
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_connect_with_connector.py::test_get_db_connection_uses_connector_and_creator
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_connect_with_connector.py::test_get_db_connection_uses_connector_and_creator
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_connect_with_connector.py::test_get_db_connection_uses_connector_and_creator
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_add_resource_type_allows_manager_and_returns_200
+2025-11-03 16:23:04 TRACE src.database.database_controller:add_resource_type:18 - add_resource_type called
+2025-11-03 16:23:04 TRACE src.database.database_controller:add_resource_type:22 - User is Manager
+2025-11-03 16:23:04 TRACE src.database.database_controller:add_resource_type:34 - Running query 
+        INSERT INTO AssetTypes (asset_type_name)
+        VALUES (:asset_type_name); 
+         with params: {'asset_type_name': 'Laptop'}
+2025-11-03 16:23:04 INFO src.database.database_controller:add_resource_type:39 - Successfully added resource type Laptop
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_add_resource_type_allows_manager_and_returns_200
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_add_resource_type_allows_manager_and_returns_200
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_add_resource_type_denies_non_manager
+2025-11-03 16:23:04 TRACE src.database.database_controller:add_resource_type:18 - add_resource_type called
+2025-11-03 16:23:04 INFO src.database.database_controller:add_resource_type:45 - User is not Manager
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_add_resource_type_denies_non_manager
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_add_resource_type_denies_non_manager
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_add_resource_asset_creates_and_updates
+2025-11-03 16:23:04 TRACE src.database.database_controller:add_resource_asset:57 - add_resource_asset called
+2025-11-03 16:23:04 TRACE src.database.database_controller:add_resource_asset:78 - Running query 
+    INSERT INTO Asset (type_id, location_id, employee_id, notes, is_decommissioned)
+    VALUES (:type_id, :location_id, :employee_id, :notes, :is_decommissioned);
+     with params: {'type_id': 1, 'location_id': 2, 'employee_id': None, 'notes': '', 'is_decommissioned': 0}
+2025-11-03 16:23:04 WARNING src.database.database_controller:add_resource_asset:80 - result: {'status': 'success', 'rows_affected': 1}
+2025-11-03 16:23:04 INFO src.database.database_controller:add_resource_asset:85 - Item added to Database
+2025-11-03 16:23:04 TRACE src.database.database_controller:add_resource_asset:88 - New asset ID row: [{'new_id': 7}]
+2025-11-03 16:23:04 TRACE src.database.database_controller:add_resource_asset:95 - New asset ID: 7
+2025-11-03 16:23:04 TRACE src.database.database_controller:update_resource_id:309 - update_resource_id called
+2025-11-03 16:23:04 TRACE src.database.database_controller:update_resource_id:319 - Running query 
+    SELECT asset_type_name
+    FROM AssetTypes
+    WHERE id = :type_id;
+     with params: {'type_id': 1}
+2025-11-03 16:23:04 INFO src.database.database_controller:update_resource_id:340 - Successfully updated resource ID 7
+2025-11-03 16:23:04 TRACE src.database.database_controller:add_resource_asset:98 - Update result: True
+2025-11-03 16:23:04 INFO src.database.database_controller:add_resource_asset:104 - Successfully updated resource ID
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_add_resource_asset_creates_and_updates
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_add_resource_asset_creates_and_updates
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_delete_resource_updates_flag
+2025-11-03 16:23:04 TRACE src.database.database_controller:delete_resource:116 - delete_resource called
+2025-11-03 16:23:04 TRACE src.database.database_controller:delete_resource:135 - Running query 
+        UPDATE Asset
+        SET is_decommissioned = 1,
+            decommission_date = NOW()
+        WHERE id = :asset_id;
+         with params: {'asset_id': 10}
+2025-11-03 16:23:04 INFO src.database.database_controller:delete_resource:139 - Successfully deleted resource 10
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_delete_resource_updates_flag
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_delete_resource_updates_flag
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_update_resource_updates_fields
+2025-11-03 16:23:04 TRACE src.database.database_controller:update_resource:154 - update_resource called
+2025-11-03 16:23:04 TRACE src.database.database_controller:update_resource:181 - Running query 
+    UPDATE Asset
+    SET type_id = :type_id,
+        location_id = :location_id,
+        employee_id = :employee_id,
+        notes = :notes,
+        is_decommissioned = :is_decommissioned
+    WHERE id = :asset_id;
+     with params: {'type_id': 2, 'location_id': 3, 'employee_id': 4, 'notes': '', 'is_decommissioned': 0, 'asset_id': 1}
+2025-11-03 16:23:04 INFO src.database.database_controller:update_resource:185 - Successfully updated resource {'asset_id': 1, 'type_id': 2, 'location_id': 3, 'employee_id': 4, 'notes': '', 'is_decommissioned': 0}
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_update_resource_updates_fields
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_update_resource_updates_fields
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_get_resources_returns_tuple
+2025-11-03 16:23:04 TRACE src.database.database_controller:get_resources:199 - get_resources called
+2025-11-03 16:23:04 TRACE src.database.database_controller:get_resources:202 - Running query SELECT * FROM Asset;
+2025-11-03 16:23:04 INFO src.database.database_controller:get_resources:206 - Successfully retrieved 1 resources
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_get_resources_returns_tuple
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_get_resources_returns_tuple
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_get_resource_types_returns_tuple
+2025-11-03 16:23:04 TRACE src.database.database_controller:get_resource_types:220 - get_resource_types called
+2025-11-03 16:23:04 TRACE src.database.database_controller:get_resource_types:223 - Running query SELECT * FROM AssetTypes;
+2025-11-03 16:23:04 INFO src.database.database_controller:get_resource_types:227 - Successfully retrieved 1 resource types
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_get_resource_types_returns_tuple
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_get_resource_types_returns_tuple
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_api.py::test_logger_methods_exist_and_accept_level
+2025-11-03 16:23:04 INFO test_logger_api:test_logger_methods_exist_and_accept_level:8 - hello-event
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_api.py::test_logger_methods_exist_and_accept_level
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_api.py::test_logger_methods_exist_and_accept_level
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_contract.py::test_event_and_security_emit
+2025-11-03 16:23:04 INFO test_logger_contract:test_event_and_security_emit:7 - hello-event
+2025-11-03 16:23:04 INFO test_logger_contract:test_event_and_security_emit:8 - asset created
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_contract.py::test_event_and_security_emit
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_contract.py::test_event_and_security_emit
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_levels_and_api.py::test_event_security_methods_exist
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_levels_and_api.py::test_event_security_methods_exist
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_levels_and_api.py::test_event_security_methods_exist
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_levels_and_api.py::test_logger_emits_messages_with_levels
+2025-11-03 16:23:04 INFO test_logger_levels_and_api:test_logger_emits_messages_with_levels:11 - asset created
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_levels_and_api.py::test_logger_emits_messages_with_levels
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_levels_and_api.py::test_logger_emits_messages_with_levels
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/query/test_builders.py::test_build_asset_search_query_basic
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/query/test_builders.py::test_build_asset_search_query_basic
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/query/test_builders.py::test_build_asset_search_query_basic
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/query/test_builders.py::test_build_asset_search_query_empty
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/query/test_builders.py::test_build_asset_search_query_empty
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/query/test_builders.py::test_build_asset_search_query_empty
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_auth_dependency.py::test_secure_unauthorized
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_auth_dependency.py::test_secure_unauthorized
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_auth_dependency.py::test_secure_unauthorized
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_auth_dependency.py::test_secure_authorized
+2025-11-03 16:23:04 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_auth_dependency.py::test_secure_authorized
+2025-11-03 16:23:04 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_auth_dependency.py::test_secure_authorized
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-03 16:23:23 INFO src.api.health:health:14 - health check called
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_contract.py::test_create_asset_happy_path
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_contract.py::test_create_asset_happy_path
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_contract.py::test_create_asset_happy_path
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_contract.py::test_create_asset_rejects_bad_type
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_contract.py::test_create_asset_rejects_bad_type
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_contract.py::test_create_asset_rejects_bad_type
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_unit.py::test_create_asset_happy_uses_service
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_unit.py::test_create_asset_happy_uses_service
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_unit.py::test_create_asset_happy_uses_service
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_unit.py::test_create_asset_rejects_unsupported_type
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_unit.py::test_create_asset_rejects_unsupported_type
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_unit.py::test_create_asset_rejects_unsupported_type
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_success
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_success
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_success
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_bad_header_401
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_bad_header_401
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_bad_header_401
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_service_unreachable_503
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_service_unreachable_503
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_service_unreachable_503
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_invalid_token_401
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_invalid_token_401
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_invalid_token_401
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authorize_unit.py::test_manager_allows_all_methods
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authorize_unit.py::test_manager_allows_all_methods
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authorize_unit.py::test_manager_allows_all_methods
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authorize_unit.py::test_employee_get_ok_but_post_forbidden
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authorize_unit.py::test_employee_get_ok_but_post_forbidden
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authorize_unit.py::test_employee_get_ok_but_post_forbidden
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_health_unit.py::test_health_logs_and_ok
+2025-11-03 16:23:23 INFO src.api.health:health:14 - health check called
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_health_unit.py::test_health_logs_and_ok
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_health_unit.py::test_health_logs_and_ok
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_health_unit.py::test_health_ready_ok
+2025-11-03 16:23:23 INFO src.api.health:health_ready:37 - readiness probe result=ok
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_health_unit.py::test_health_ready_ok
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_health_unit.py::test_health_ready_ok
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_health_unit.py::test_health_ready_down
+2025-11-03 16:23:23 INFO src.api.health:health_ready:37 - readiness probe result=error
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_health_unit.py::test_health_ready_down
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_health_unit.py::test_health_ready_down
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_main_health_contract.py::test_health_returns_ok_and_logs
+2025-11-03 16:23:23 INFO src.api.health:health:14 - health check called
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_main_health_contract.py::test_health_returns_ok_and_logs
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_main_health_contract.py::test_health_returns_ok_and_logs
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resources_happy_path
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resources_happy_path
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resources_happy_path
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_post_resource_manager_creates
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_post_resource_manager_creates
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_post_resource_manager_creates
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_put_resource_manager_updates
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_put_resource_manager_updates
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_put_resource_manager_updates
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_put_resource_db_failure_raises_400
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_put_resource_db_failure_raises_400
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_put_resource_db_failure_raises_400
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_delete_resource_manager_success
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_delete_resource_manager_success
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_delete_resource_manager_success
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_missing_token_401
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_missing_token_401
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_missing_token_401
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_empty_body_400
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_empty_body_400
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_empty_body_400
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_schema_ok_with_location
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_schema_ok_with_location
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_schema_ok_with_location
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_schema_ok_with_employee
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_schema_ok_with_employee
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_schema_ok_with_employee
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_schema_fails_both_fields_present
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_schema_fails_both_fields_present
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_schema_fails_both_fields_present
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_put_schema_fails_neither_present
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_put_schema_fails_neither_present
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_put_schema_fails_neither_present
+2025-11-03 16:23:23 INFO conftest:_log_test_start_end:51 - TEST START :: tests/config/test_loader.py::test_load_config_from_temp_file
+2025-11-03 16:23:23 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/config/test_loader.py::test_load_config_from_temp_file
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/config/test_loader.py::test_load_config_from_temp_file
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_connect_with_connector.py::test_get_db_connection_uses_connector_and_creator
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_connect_with_connector.py::test_get_db_connection_uses_connector_and_creator
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_connect_with_connector.py::test_get_db_connection_uses_connector_and_creator
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_add_resource_type_allows_manager_and_returns_200
+2025-11-03 16:23:24 TRACE src.database.database_controller:add_resource_type:18 - add_resource_type called
+2025-11-03 16:23:24 TRACE src.database.database_controller:add_resource_type:22 - User is Manager
+2025-11-03 16:23:24 TRACE src.database.database_controller:add_resource_type:34 - Running query 
+        INSERT INTO AssetTypes (asset_type_name)
+        VALUES (:asset_type_name); 
+         with params: {'asset_type_name': 'Laptop'}
+2025-11-03 16:23:24 INFO src.database.database_controller:add_resource_type:39 - Successfully added resource type Laptop
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_add_resource_type_allows_manager_and_returns_200
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_add_resource_type_allows_manager_and_returns_200
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_add_resource_type_denies_non_manager
+2025-11-03 16:23:24 TRACE src.database.database_controller:add_resource_type:18 - add_resource_type called
+2025-11-03 16:23:24 INFO src.database.database_controller:add_resource_type:45 - User is not Manager
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_add_resource_type_denies_non_manager
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_add_resource_type_denies_non_manager
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_add_resource_asset_creates_and_updates
+2025-11-03 16:23:24 TRACE src.database.database_controller:add_resource_asset:57 - add_resource_asset called
+2025-11-03 16:23:24 TRACE src.database.database_controller:add_resource_asset:78 - Running query 
+    INSERT INTO Asset (type_id, location_id, employee_id, notes, is_decommissioned)
+    VALUES (:type_id, :location_id, :employee_id, :notes, :is_decommissioned);
+     with params: {'type_id': 1, 'location_id': 2, 'employee_id': None, 'notes': '', 'is_decommissioned': 0}
+2025-11-03 16:23:24 WARNING src.database.database_controller:add_resource_asset:80 - result: {'status': 'success', 'rows_affected': 1}
+2025-11-03 16:23:24 INFO src.database.database_controller:add_resource_asset:85 - Item added to Database
+2025-11-03 16:23:24 TRACE src.database.database_controller:add_resource_asset:88 - New asset ID row: [{'new_id': 7}]
+2025-11-03 16:23:24 TRACE src.database.database_controller:add_resource_asset:95 - New asset ID: 7
+2025-11-03 16:23:24 TRACE src.database.database_controller:update_resource_id:309 - update_resource_id called
+2025-11-03 16:23:24 TRACE src.database.database_controller:update_resource_id:319 - Running query 
+    SELECT asset_type_name
+    FROM AssetTypes
+    WHERE id = :type_id;
+     with params: {'type_id': 1}
+2025-11-03 16:23:24 INFO src.database.database_controller:update_resource_id:340 - Successfully updated resource ID 7
+2025-11-03 16:23:24 TRACE src.database.database_controller:add_resource_asset:98 - Update result: True
+2025-11-03 16:23:24 INFO src.database.database_controller:add_resource_asset:104 - Successfully updated resource ID
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_add_resource_asset_creates_and_updates
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_add_resource_asset_creates_and_updates
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_delete_resource_updates_flag
+2025-11-03 16:23:24 TRACE src.database.database_controller:delete_resource:116 - delete_resource called
+2025-11-03 16:23:24 TRACE src.database.database_controller:delete_resource:135 - Running query 
+        UPDATE Asset
+        SET is_decommissioned = 1,
+            decommission_date = NOW()
+        WHERE id = :asset_id;
+         with params: {'asset_id': 10}
+2025-11-03 16:23:24 INFO src.database.database_controller:delete_resource:139 - Successfully deleted resource 10
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_delete_resource_updates_flag
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_delete_resource_updates_flag
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_update_resource_updates_fields
+2025-11-03 16:23:24 TRACE src.database.database_controller:update_resource:154 - update_resource called
+2025-11-03 16:23:24 TRACE src.database.database_controller:update_resource:181 - Running query 
+    UPDATE Asset
+    SET type_id = :type_id,
+        location_id = :location_id,
+        employee_id = :employee_id,
+        notes = :notes,
+        is_decommissioned = :is_decommissioned
+    WHERE id = :asset_id;
+     with params: {'type_id': 2, 'location_id': 3, 'employee_id': 4, 'notes': '', 'is_decommissioned': 0, 'asset_id': 1}
+2025-11-03 16:23:24 INFO src.database.database_controller:update_resource:185 - Successfully updated resource {'asset_id': 1, 'type_id': 2, 'location_id': 3, 'employee_id': 4, 'notes': '', 'is_decommissioned': 0}
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_update_resource_updates_fields
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_update_resource_updates_fields
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_get_resources_returns_tuple
+2025-11-03 16:23:24 TRACE src.database.database_controller:get_resources:199 - get_resources called
+2025-11-03 16:23:24 TRACE src.database.database_controller:get_resources:202 - Running query SELECT * FROM Asset;
+2025-11-03 16:23:24 INFO src.database.database_controller:get_resources:206 - Successfully retrieved 1 resources
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_get_resources_returns_tuple
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_get_resources_returns_tuple
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_get_resource_types_returns_tuple
+2025-11-03 16:23:24 TRACE src.database.database_controller:get_resource_types:220 - get_resource_types called
+2025-11-03 16:23:24 TRACE src.database.database_controller:get_resource_types:223 - Running query SELECT * FROM AssetTypes;
+2025-11-03 16:23:24 INFO src.database.database_controller:get_resource_types:227 - Successfully retrieved 1 resource types
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_get_resource_types_returns_tuple
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_get_resource_types_returns_tuple
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_api.py::test_logger_methods_exist_and_accept_level
+2025-11-03 16:23:24 INFO test_logger_api:test_logger_methods_exist_and_accept_level:8 - hello-event
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_api.py::test_logger_methods_exist_and_accept_level
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_api.py::test_logger_methods_exist_and_accept_level
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_contract.py::test_event_and_security_emit
+2025-11-03 16:23:24 INFO test_logger_contract:test_event_and_security_emit:7 - hello-event
+2025-11-03 16:23:24 INFO test_logger_contract:test_event_and_security_emit:8 - asset created
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_contract.py::test_event_and_security_emit
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_contract.py::test_event_and_security_emit
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_levels_and_api.py::test_event_security_methods_exist
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_levels_and_api.py::test_event_security_methods_exist
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_levels_and_api.py::test_event_security_methods_exist
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_levels_and_api.py::test_logger_emits_messages_with_levels
+2025-11-03 16:23:24 INFO test_logger_levels_and_api:test_logger_emits_messages_with_levels:11 - asset created
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_levels_and_api.py::test_logger_emits_messages_with_levels
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_levels_and_api.py::test_logger_emits_messages_with_levels
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/query/test_builders.py::test_build_asset_search_query_basic
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/query/test_builders.py::test_build_asset_search_query_basic
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/query/test_builders.py::test_build_asset_search_query_basic
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/query/test_builders.py::test_build_asset_search_query_empty
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/query/test_builders.py::test_build_asset_search_query_empty
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/query/test_builders.py::test_build_asset_search_query_empty
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_auth_dependency.py::test_secure_unauthorized
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_auth_dependency.py::test_secure_unauthorized
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_auth_dependency.py::test_secure_unauthorized
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_auth_dependency.py::test_secure_authorized
+2025-11-03 16:23:24 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_auth_dependency.py::test_secure_authorized
+2025-11-03 16:23:24 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_auth_dependency.py::test_secure_authorized
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-07 09:08:46 INFO src.api.health:health:14 - health check called
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_api_routes_integrations.py::test_health
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_api_routes_integrations.py::test_employees_count_uses_engine_mock
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_contract.py::test_create_asset_happy_path
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_contract.py::test_create_asset_happy_path
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_contract.py::test_create_asset_happy_path
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_contract.py::test_create_asset_rejects_bad_type
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_contract.py::test_create_asset_rejects_bad_type
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_contract.py::test_create_asset_rejects_bad_type
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_unit.py::test_create_asset_happy_uses_service
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_unit.py::test_create_asset_happy_uses_service
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_unit.py::test_create_asset_happy_uses_service
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_assets_unit.py::test_create_asset_rejects_unsupported_type
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_assets_unit.py::test_create_asset_rejects_unsupported_type
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_assets_unit.py::test_create_asset_rejects_unsupported_type
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_success
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_success
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_success
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_bad_header_401
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_bad_header_401
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_bad_header_401
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_service_unreachable_503
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_service_unreachable_503
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_service_unreachable_503
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authenticate_unit.py::test_authenticate_invalid_token_401
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authenticate_unit.py::test_authenticate_invalid_token_401
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authenticate_unit.py::test_authenticate_invalid_token_401
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authorize_unit.py::test_manager_allows_all_methods
+2025-11-07 09:08:46 TRACE src.api.authorize:get_db_role:58 - user_title: manager
+2025-11-07 09:08:46 TRACE src.api.authorize:get_db_role:58 - user_title: manager
+2025-11-07 09:08:46 TRACE src.api.authorize:get_db_role:58 - user_title: manager
+2025-11-07 09:08:46 TRACE src.api.authorize:get_db_role:58 - user_title: manager
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authorize_unit.py::test_manager_allows_all_methods
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authorize_unit.py::test_manager_allows_all_methods
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_authorize_unit.py::test_employee_get_ok_but_post_forbidden
+2025-11-07 09:08:46 TRACE src.api.authorize:get_db_role:58 - user_title: employee
+2025-11-07 09:08:46 TRACE src.api.authorize:get_db_role:58 - user_title: employee
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_authorize_unit.py::test_employee_get_ok_but_post_forbidden
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_authorize_unit.py::test_employee_get_ok_but_post_forbidden
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_health_unit.py::test_health_logs_and_ok
+2025-11-07 09:08:46 INFO src.api.health:health:14 - health check called
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_health_unit.py::test_health_logs_and_ok
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_health_unit.py::test_health_logs_and_ok
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_health_unit.py::test_health_ready_ok
+2025-11-07 09:08:46 INFO src.api.health:health_ready:37 - readiness probe result=ok
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_health_unit.py::test_health_ready_ok
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_health_unit.py::test_health_ready_ok
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_health_unit.py::test_health_ready_down
+2025-11-07 09:08:46 INFO src.api.health:health_ready:37 - readiness probe result=error
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_health_unit.py::test_health_ready_down
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_health_unit.py::test_health_ready_down
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_main_health_contract.py::test_health_returns_ok_and_logs
+2025-11-07 09:08:46 INFO src.api.health:health:14 - health check called
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_main_health_contract.py::test_health_returns_ok_and_logs
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_main_health_contract.py::test_health_returns_ok_and_logs
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_index_page_ok
+2025-11-07 09:08:46 INFO src.api.pages:index_page:11 - GET /index
+2025-11-07 09:08:46 INFO src.api.pages:index_page:22 - Returning index page
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_index_page_ok
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_index_page_ok
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_index_page_missing_404
+2025-11-07 09:08:46 INFO src.api.pages:index_page:11 - GET /index
+2025-11-07 09:08:46 WARNING src.api.pages:index_page:16 - File not found
+2025-11-07 09:08:46 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_index_page_missing_404
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_index_page_missing_404
+2025-11-07 09:08:46 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_index_page_other_error_500
+2025-11-07 09:08:47 INFO src.api.pages:index_page:11 - GET /index
+2025-11-07 09:08:47 ERROR src.api.pages:index_page:19 - Error getting request: boom
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_index_page_other_error_500
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_index_page_other_error_500
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_index_test_page_ok
+2025-11-07 09:08:47 INFO src.api.pages:index_test_page:28 - GET /index_test
+2025-11-07 09:08:47 INFO src.api.pages:index_test_page:39 - Returning index test page
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_index_test_page_ok
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_index_test_page_ok
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_index_test_page_missing_404
+2025-11-07 09:08:47 INFO src.api.pages:index_test_page:28 - GET /index_test
+2025-11-07 09:08:47 WARNING src.api.pages:index_test_page:33 - File not found
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_index_test_page_missing_404
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_index_test_page_missing_404
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_index_test_page_other_error_500
+2025-11-07 09:08:47 INFO src.api.pages:index_test_page:28 - GET /index_test
+2025-11-07 09:08:47 ERROR src.api.pages:index_test_page:36 - Error getting request: bad
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_index_test_page_other_error_500
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_index_test_page_other_error_500
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_logo_ok_uses_fileresponse
+2025-11-07 09:08:47 INFO src.api.pages:get_logo:45 - GET /Documentation/Logos/SwaB_Logo.png
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_logo_ok_uses_fileresponse
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_logo_ok_uses_fileresponse
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_logo_missing_404
+2025-11-07 09:08:47 INFO src.api.pages:get_logo:45 - GET /Documentation/Logos/SwaB_Logo.png
+2025-11-07 09:08:47 WARNING src.api.pages:get_logo:49 - Image not found
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_logo_missing_404
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_logo_missing_404
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_action_hero_logo_ok
+2025-11-07 09:08:47 INFO src.api.pages:get_action_hero_logo:56 - GET /Documentation/Logos/Action_Hero_Cotton_Swab.png
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_action_hero_logo_ok
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_action_hero_logo_ok
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_action_hero_logo_missing_404
+2025-11-07 09:08:47 INFO src.api.pages:get_action_hero_logo:56 - GET /Documentation/Logos/Action_Hero_Cotton_Swab.png
+2025-11-07 09:08:47 WARNING src.api.pages:get_action_hero_logo:60 - Image not found
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_action_hero_logo_missing_404
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_action_hero_logo_missing_404
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_redirect_index_test_html
+2025-11-07 09:08:47 INFO src.api.pages:redirect_index_test_html:67 - GET /index_test.html/
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_redirect_index_test_html
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_redirect_index_test_html
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_pages_unit.py::test_redirect_index_html
+2025-11-07 09:08:47 INFO src.api.pages:redirect_index_html:79 - GET /index.html/
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_pages_unit.py::test_redirect_index_html
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_pages_unit.py::test_redirect_index_html
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resources_happy_path
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources:16 - GET /resources
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Employee
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources:32 - Returning resources
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resources_happy_path
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resources_happy_path
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resource_types_happy_path
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resource_types:42 - GET /resources/types
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Employee
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resource_types:59 - Returning resource types
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resource_types_happy_path
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resource_types_happy_path
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resource_by_id_happy_path
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resource_by_id:69 - GET /resources/123
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Employee
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resource_by_id:86 - Returning resource
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resource_by_id_happy_path
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resource_by_id_happy_path
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resources_by_employee_happy_path
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources_by_employee:97 - GET /resources/employee/55
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Employee
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources_by_employee:113 - Returning resources
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resources_by_employee_happy_path
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resources_by_employee_happy_path
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resources_by_location_happy_path
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources_by_location:124 - GET /resources/location/77
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Employee
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources_by_location:140 - Returning resources
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resources_by_location_happy_path
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resources_by_location_happy_path
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_post_resource_manager_creates
+2025-11-07 09:08:47 INFO src.api.routes.resources:post_resource:151 - POST /resources
+2025-11-07 09:08:47 TRACE src.api.routes.resources:post_resource:165 - body: {'type_id': 1, 'location_id': 2, 'employee_id': None, 'notes': '<b>note</b>', 'is_decommissioned': 0}
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Manager
+2025-11-07 09:08:47 INFO src.api.routes.resources:post_resource:175 - Returning success 200: Resource Added Successfully
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_post_resource_manager_creates
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_post_resource_manager_creates
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_put_resource_manager_updates
+2025-11-07 09:08:47 INFO src.api.routes.resources:update_resource:186 - PUT /resources/123
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Manager
+2025-11-07 09:08:47 INFO src.api.routes.resources:update_resource:210 - Returning success 200: Resource 123 updated successfully
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_put_resource_manager_updates
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_put_resource_manager_updates
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_delete_resource_manager_success
+2025-11-07 09:08:47 INFO src.api.routes.resources:delete_resource:220 - DELETE /resources/7
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Manager
+2025-11-07 09:08:47 INFO src.api.routes.resources:delete_resource:237 - Returning success 200: Resource deleted successfully
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_delete_resource_manager_success
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_delete_resource_manager_success
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_missing_token_401_all_paths
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources:16 - GET /resources
+2025-11-07 09:08:47 WARNING src.api.routes.resources:get_resources:20 - Missing Authorization header
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resource_types:42 - GET /resources/types
+2025-11-07 09:08:47 WARNING src.api.routes.resources:get_resource_types:47 - Returning error 401: no token
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resource_by_id:69 - GET /resources/123
+2025-11-07 09:08:47 WARNING src.api.routes.resources:get_resource_by_id:74 - Returning error 401: no token
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources_by_employee:97 - GET /resources/employee/5
+2025-11-07 09:08:47 WARNING src.api.routes.resources:get_resources_by_employee:102 - Returning error 401: no token
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources_by_location:124 - GET /resources/location/9
+2025-11-07 09:08:47 WARNING src.api.routes.resources:get_resources_by_location:129 - Returning error 401: no token
+2025-11-07 09:08:47 INFO src.api.routes.resources:post_resource:151 - POST /resources
+2025-11-07 09:08:47 WARNING src.api.routes.resources:post_resource:156 - Returning error 401: no token
+2025-11-07 09:08:47 INFO src.api.routes.resources:update_resource:186 - PUT /resources/1
+2025-11-07 09:08:47 WARNING src.api.routes.resources:update_resource:191 - Returning error 401: no token
+2025-11-07 09:08:47 INFO src.api.routes.resources:delete_resource:220 - DELETE /resources/1
+2025-11-07 09:08:47 WARNING src.api.routes.resources:delete_resource:225 - Returning error 401: no token
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_missing_token_401_all_paths
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_missing_token_401_all_paths
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resources_db_error_400
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources:16 - GET /resources
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Employee
+2025-11-07 09:08:47 ERROR src.api.routes.resources:get_resources:36 - Returning error 400
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resources_db_error_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resources_db_error_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resource_types_db_error_400
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resource_types:42 - GET /resources/types
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Employee
+2025-11-07 09:08:47 ERROR src.api.routes.resources:get_resource_types:63 - Returning error 400
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resource_types_db_error_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resource_types_db_error_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resource_by_id_404_when_missing
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resource_by_id:69 - GET /resources/777
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Employee
+2025-11-07 09:08:47 ERROR src.api.routes.resources:get_resource_by_id:90 - Returning error 404
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resource_by_id_404_when_missing
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resource_by_id_404_when_missing
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resources_by_employee_db_error_400
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources_by_employee:97 - GET /resources/employee/22
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Employee
+2025-11-07 09:08:47 ERROR src.api.routes.resources:get_resources_by_employee:117 - Returning error 400
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resources_by_employee_db_error_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resources_by_employee_db_error_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_get_resources_by_location_db_error_400
+2025-11-07 09:08:47 INFO src.api.routes.resources:get_resources_by_location:124 - GET /resources/location/33
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Employee
+2025-11-07 09:08:47 ERROR src.api.routes.resources:get_resources_by_location:144 - Returning error 400
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_get_resources_by_location_db_error_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_get_resources_by_location_db_error_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_post_resource_db_error_400
+2025-11-07 09:08:47 INFO src.api.routes.resources:post_resource:151 - POST /resources
+2025-11-07 09:08:47 TRACE src.api.routes.resources:post_resource:165 - body: {'type_id': 1, 'location_id': 2, 'employee_id': None, 'notes': '', 'is_decommissioned': 0}
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Manager
+2025-11-07 09:08:47 ERROR src.api.routes.resources:post_resource:179 - Returning error 400: Database error
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_post_resource_db_error_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_post_resource_db_error_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_put_resource_db_failure_raises_400
+2025-11-07 09:08:47 INFO src.api.routes.resources:update_resource:186 - PUT /resources/42
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Manager
+2025-11-07 09:08:47 ERROR src.api.routes.resources:update_resource:214 - Returning error 400 Database update failed
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_put_resource_db_failure_raises_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_put_resource_db_failure_raises_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_resources_routes_unit.py::test_delete_resource_db_failure_400
+2025-11-07 09:08:47 INFO src.api.routes.resources:delete_resource:220 - DELETE /resources/7
+2025-11-07 09:08:47 TRACE src.api.authorize:get_db_role:58 - user_title: Manager
+2025-11-07 09:08:47 ERROR src.api.routes.resources:delete_resource:241 - Returning error 400 Database delete failed
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_resources_routes_unit.py::test_delete_resource_db_failure_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_resources_routes_unit.py::test_delete_resource_db_failure_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_missing_token_401
+2025-11-07 09:08:47 WARNING src.api.validate:validate_request:15 - Invalid token
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_missing_token_401
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_missing_token_401
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_empty_body_400
+2025-11-07 09:08:47 INFO src.api.validate:validate_request:20 - Validating request body
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_empty_body_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_empty_body_400
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_schema_ok_with_location
+2025-11-07 09:08:47 INFO src.api.validate:validate_request:20 - Validating request body
+2025-11-07 09:08:47 INFO src.api.validate:validate_request:35 - Validation succeeded
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_schema_ok_with_location
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_schema_ok_with_location
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_schema_ok_with_employee
+2025-11-07 09:08:47 INFO src.api.validate:validate_request:20 - Validating request body
+2025-11-07 09:08:47 INFO src.api.validate:validate_request:35 - Validation succeeded
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_schema_ok_with_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_schema_ok_with_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_post_schema_fails_both_fields_present
+2025-11-07 09:08:47 INFO src.api.validate:validate_request:20 - Validating request body
+2025-11-07 09:08:47 WARNING src.api.validate:validate_request:31 - Data validation failed
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_post_schema_fails_both_fields_present
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_post_schema_fails_both_fields_present
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/api/test_validate_unit.py::test_put_schema_fails_neither_present
+2025-11-07 09:08:47 INFO src.api.validate:validate_request:20 - Validating request body
+2025-11-07 09:08:47 WARNING src.api.validate:validate_request:31 - Data validation failed
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/api/test_validate_unit.py::test_put_schema_fails_neither_present
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/api/test_validate_unit.py::test_put_schema_fails_neither_present
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/config/test_loader.py::test_load_config_from_temp_file
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/config/test_loader.py::test_load_config_from_temp_file
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/config/test_loader.py::test_load_config_from_temp_file
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_connector_unit.py::test_get_db_connection_idempotent
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_connector_unit.py::test_get_db_connection_idempotent
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_connector_unit.py::test_get_db_connection_idempotent
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_connector_unit.py::test_execute_query_select_returns_rows
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_connector_unit.py::test_execute_query_select_returns_rows
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_connector_unit.py::test_execute_query_select_returns_rows
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_connector_unit.py::test_execute_query_dml_returns_status
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_connector_unit.py::test_execute_query_dml_returns_status
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_connector_unit.py::test_execute_query_dml_returns_status
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_connector_unit.py::test_execute_query_initializes_pool_failure
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_connector_unit.py::test_execute_query_initializes_pool_failure
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_connector_unit.py::test_execute_query_initializes_pool_failure
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_connector_unit.py::test_execute_query_operational_error
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_connector_unit.py::test_execute_query_operational_error
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_connector_unit.py::test_execute_query_operational_error
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_connector_unit.py::test_execute_query_sqlalchemy_error_triggers_rollback
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_connector_unit.py::test_execute_query_sqlalchemy_error_triggers_rollback
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_connector_unit.py::test_execute_query_sqlalchemy_error_triggers_rollback
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_connector_unit.py::test_close_db_connection_disposes_and_closes
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_connector_unit.py::test_close_db_connection_disposes_and_closes
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_connector_unit.py::test_close_db_connection_disposes_and_closes
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_add_resource_type_allows_manager_and_returns_200
+2025-11-07 09:08:47 TRACE src.database.database_controller:add_resource_type:42 - add_resource_type called
+2025-11-07 09:08:47 TRACE src.database.database_controller:add_resource_type:50 - User has write access
+2025-11-07 09:08:47 TRACE src.database.database_controller:add_resource_type:62 - Running query 
+    INSERT INTO AssetTypes (asset_type_name)
+    VALUES (:asset_type_name);
+     with params: {'asset_type_name': 'Laptop'}
+2025-11-07 09:08:47 INFO src.database.database_controller:add_resource_type:66 - Successfully added resource type Laptop
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_add_resource_type_allows_manager_and_returns_200
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_add_resource_type_allows_manager_and_returns_200
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_add_resource_type_denies_non_manager
+2025-11-07 09:08:47 TRACE src.database.database_controller:add_resource_type:42 - add_resource_type called
+2025-11-07 09:08:47 TRACE src.database.database_controller:add_resource_type:46 - Returning error 401: user does not have write access
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_add_resource_type_denies_non_manager
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_add_resource_type_denies_non_manager
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_add_resource_asset_creates_and_updates
+2025-11-07 09:08:47 TRACE src.database.database_controller:add_resource_asset:88 - add_resource_asset called
+2025-11-07 09:08:47 TRACE src.database.database_controller:add_resource_asset:108 - Running query 
+    INSERT INTO Asset (type_id, location_id, employee_id, notes, is_decommissioned)
+    VALUES (:type_id, :location_id, :employee_id, :notes, :is_decommissioned);
+     with params: {'type_id': 1, 'location_id': 2, 'employee_id': None, 'notes': '', 'is_decommissioned': 0}
+2025-11-07 09:08:47 WARNING src.database.database_controller:add_resource_asset:110 - result: {'status': 'success', 'rows_affected': 1}
+2025-11-07 09:08:47 INFO src.database.database_controller:add_resource_asset:115 - Item added to Database
+2025-11-07 09:08:47 TRACE src.database.database_controller:add_resource_asset:118 - New asset ID row: [{'new_id': 7}]
+2025-11-07 09:08:47 TRACE src.database.database_controller:add_resource_asset:125 - New asset ID: 7
+2025-11-07 09:08:47 TRACE src.database.database_controller:update_resource_id:421 - update_resource_id called
+2025-11-07 09:08:47 TRACE src.database.database_controller:update_resource_id:435 - Running query 
+    SELECT asset_type_name
+    FROM AssetTypes
+    WHERE id = :type_id;
+     with params: {'type_id': 1}
+2025-11-07 09:08:47 INFO src.database.database_controller:update_resource_id:456 - Successfully updated resource ID 7
+2025-11-07 09:08:47 TRACE src.database.database_controller:add_resource_asset:128 - Update result: True
+2025-11-07 09:08:47 INFO src.database.database_controller:add_resource_asset:133 - Successfully updated resource ID
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_add_resource_asset_creates_and_updates
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_add_resource_asset_creates_and_updates
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_delete_resource_updates_flag
+2025-11-07 09:08:47 TRACE src.database.database_controller:delete_resource:153 - delete_resource called
+2025-11-07 09:08:47 TRACE src.database.database_controller:delete_resource:170 - Running query 
+        UPDATE Asset
+        SET is_decommissioned = 1,
+            decommission_date = NOW()
+        WHERE id = :asset_id;
+         with params: {'asset_id': 10}
+2025-11-07 09:08:47 INFO src.database.database_controller:delete_resource:174 - Successfully deleted resource 10
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_delete_resource_updates_flag
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_delete_resource_updates_flag
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_update_resource_updates_fields
+2025-11-07 09:08:47 TRACE src.database.database_controller:update_resource:196 - update_resource called
+2025-11-07 09:08:47 TRACE src.database.database_controller:update_resource:221 - Running query 
+    UPDATE Asset
+    SET type_id = :type_id,
+        location_id = :location_id,
+        employee_id = :employee_id,
+        notes = :notes,
+        is_decommissioned = :is_decommissioned
+    WHERE id = :asset_id;
+     with params: {'type_id': 2, 'location_id': 3, 'employee_id': 4, 'notes': '', 'is_decommissioned': 0, 'asset_id': 1}
+2025-11-07 09:08:47 INFO src.database.database_controller:update_resource:225 - Successfully updated resource {'asset_id': 1, 'type_id': 2, 'location_id': 3, 'employee_id': 4, 'notes': '', 'is_decommissioned': 0}
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_update_resource_updates_fields
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_update_resource_updates_fields
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_get_resources_returns_tuple
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resources:241 - get_resources called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resources:243 - user_position: Role.MANAGER
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resources:250 - Running query SELECT * FROM Asset;
+2025-11-07 09:08:47 INFO src.database.database_controller:get_resources:254 - Successfully retrieved 1 resources
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_get_resources_returns_tuple
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_get_resources_returns_tuple
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller.py::test_get_resource_types_returns_tuple
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_types:273 - get_resource_types called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_types:280 - Running query SELECT * FROM AssetTypes;
+2025-11-07 09:08:47 INFO src.database.database_controller:get_resource_types:284 - Successfully retrieved 1 resource types
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller.py::test_get_resource_types_returns_tuple
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller.py::test_get_resource_types_returns_tuple
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_success
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_id:307 - get_resource_by_id called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_id:317 - Running query SELECT * FROM Asset WHERE id = :asset_id; with params: {'asset_id': 7}
+2025-11-07 09:08:47 INFO src.database.database_controller:get_resource_by_id:321 - Successfully retrieved 1 resources
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_success
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_success
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_success_employee
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_id:307 - get_resource_by_id called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_id:317 - Running query SELECT * FROM Asset WHERE id = :asset_id; with params: {'asset_id': 7}
+2025-11-07 09:08:47 INFO src.database.database_controller:get_resource_by_id:321 - Successfully retrieved 1 resources
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_success_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_success_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_not_found
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_id:307 - get_resource_by_id called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_id:317 - Running query SELECT * FROM Asset WHERE id = :asset_id; with params: {'asset_id': 42}
+2025-11-07 09:08:47 ERROR src.database.database_controller:get_resource_by_id:324 - Failed to retrieve resource by ID 42
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_not_found
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_not_found
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_not_found_employee
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_id:307 - get_resource_by_id called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_id:317 - Running query SELECT * FROM Asset WHERE id = :asset_id; with params: {'asset_id': 42}
+2025-11-07 09:08:47 ERROR src.database.database_controller:get_resource_by_id:324 - Failed to retrieve resource by ID 42
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_not_found_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_not_found_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_success
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:344 - get_resource_by_employee called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:346 - user_position: Role.MANAGER
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:356 - Running query SELECT * FROM Asset WHERE employee_id = :employee_id; with params: {'employee_id': 5}
+2025-11-07 09:08:47 INFO src.database.database_controller:get_resource_by_employee_id:360 - Successfully retrieved 2 resources
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_success
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_success
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_success_employee
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:344 - get_resource_by_employee called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:346 - user_position: Role.EMPLOYEE
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:356 - Running query SELECT * FROM Asset WHERE employee_id = :employee_id; with params: {'employee_id': 5}
+2025-11-07 09:08:47 INFO src.database.database_controller:get_resource_by_employee_id:360 - Successfully retrieved 2 resources
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_success_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_success_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_failure
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:344 - get_resource_by_employee called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:346 - user_position: Role.MANAGER
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:356 - Running query SELECT * FROM Asset WHERE employee_id = :employee_id; with params: {'employee_id': 5}
+2025-11-07 09:08:47 ERROR src.database.database_controller:get_resource_by_employee_id:362 - Failed to retrieve resources by employee ID 5
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_failure
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_failure
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_failure_employee
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:344 - get_resource_by_employee called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:346 - user_position: Role.EMPLOYEE
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_employee_id:356 - Running query SELECT * FROM Asset WHERE employee_id = :employee_id; with params: {'employee_id': 5}
+2025-11-07 09:08:47 ERROR src.database.database_controller:get_resource_by_employee_id:362 - Failed to retrieve resources by employee ID 5
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_failure_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_employee_id_failure_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_success
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_location_id:382 - get_resource_by_location_id called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_location_id:392 - Running query SELECT * FROM Asset WHERE location_id = :location_id; with params: {'location_id': 9}
+2025-11-07 09:08:47 INFO src.database.database_controller:get_resource_by_location_id:396 - Successfully retrieved 1 resources
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_success
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_success
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_success_employee
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_location_id:382 - get_resource_by_location_id called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_location_id:392 - Running query SELECT * FROM Asset WHERE location_id = :location_id; with params: {'location_id': 9}
+2025-11-07 09:08:47 INFO src.database.database_controller:get_resource_by_location_id:396 - Successfully retrieved 1 resources
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_success_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_success_employee
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_failure
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_location_id:382 - get_resource_by_location_id called
+2025-11-07 09:08:47 TRACE src.database.database_controller:get_resource_by_location_id:392 - Running query SELECT * FROM Asset WHERE location_id = :location_id; with params: {'location_id': 9}
+2025-11-07 09:08:47 ERROR src.database.database_controller:get_resource_by_location_id:399 - Failed to retrieve resources by location ID 9
+2025-11-07 09:08:47 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_failure
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_failure
+2025-11-07 09:08:47 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_failure_employee
+2025-11-07 09:08:48 TRACE src.database.database_controller:get_resource_by_location_id:382 - get_resource_by_location_id called
+2025-11-07 09:08:48 TRACE src.database.database_controller:get_resource_by_location_id:392 - Running query SELECT * FROM Asset WHERE location_id = :location_id; with params: {'location_id': 9}
+2025-11-07 09:08:48 ERROR src.database.database_controller:get_resource_by_location_id:399 - Failed to retrieve resources by location ID 9
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_failure_employee
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_location_id_failure_employee
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_denied_for_other_role
+2025-11-07 09:08:48 TRACE src.database.database_controller:get_resource_by_id:307 - get_resource_by_id called
+2025-11-07 09:08:48 TRACE src.database.database_controller:get_resource_by_id:310 - Returning error 401: user does not have read access
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_denied_for_other_role
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_get_resource_by_id_denied_for_other_role
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_add_resource_asset_failure_on_insert
+2025-11-07 09:08:48 TRACE src.database.database_controller:add_resource_asset:88 - add_resource_asset called
+2025-11-07 09:08:48 TRACE src.database.database_controller:add_resource_asset:108 - Running query 
+    INSERT INTO Asset (type_id, location_id, employee_id, notes, is_decommissioned)
+    VALUES (:type_id, :location_id, :employee_id, :notes, :is_decommissioned);
+     with params: {'type_id': 1, 'location_id': 2, 'employee_id': None, 'notes': '', 'is_decommissioned': 0}
+2025-11-07 09:08:48 WARNING src.database.database_controller:add_resource_asset:110 - result: None
+2025-11-07 09:08:48 ERROR src.database.database_controller:add_resource_asset:112 - Item not added to Database
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_add_resource_asset_failure_on_insert
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_add_resource_asset_failure_on_insert
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_add_resource_asset_failure_on_last_insert_id
+2025-11-07 09:08:48 TRACE src.database.database_controller:add_resource_asset:88 - add_resource_asset called
+2025-11-07 09:08:48 TRACE src.database.database_controller:add_resource_asset:108 - Running query 
+    INSERT INTO Asset (type_id, location_id, employee_id, notes, is_decommissioned)
+    VALUES (:type_id, :location_id, :employee_id, :notes, :is_decommissioned);
+     with params: {'type_id': 1, 'location_id': 2, 'employee_id': None, 'notes': '', 'is_decommissioned': 0}
+2025-11-07 09:08:48 WARNING src.database.database_controller:add_resource_asset:110 - result: {'status': 'success', 'rows_affected': 1}
+2025-11-07 09:08:48 INFO src.database.database_controller:add_resource_asset:115 - Item added to Database
+2025-11-07 09:08:48 TRACE src.database.database_controller:add_resource_asset:118 - New asset ID row: []
+2025-11-07 09:08:48 ERROR src.database.database_controller:add_resource_asset:121 - Error getting new asset ID
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_add_resource_asset_failure_on_last_insert_id
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_add_resource_asset_failure_on_last_insert_id
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_add_resource_asset_failure_on_update_resource_id
+2025-11-07 09:08:48 TRACE src.database.database_controller:add_resource_asset:88 - add_resource_asset called
+2025-11-07 09:08:48 TRACE src.database.database_controller:add_resource_asset:108 - Running query 
+    INSERT INTO Asset (type_id, location_id, employee_id, notes, is_decommissioned)
+    VALUES (:type_id, :location_id, :employee_id, :notes, :is_decommissioned);
+     with params: {'type_id': 2, 'location_id': 3, 'employee_id': None, 'notes': '', 'is_decommissioned': 0}
+2025-11-07 09:08:48 WARNING src.database.database_controller:add_resource_asset:110 - result: {'status': 'success', 'rows_affected': 1}
+2025-11-07 09:08:48 INFO src.database.database_controller:add_resource_asset:115 - Item added to Database
+2025-11-07 09:08:48 TRACE src.database.database_controller:add_resource_asset:118 - New asset ID row: [{'new_id': 5}]
+2025-11-07 09:08:48 TRACE src.database.database_controller:add_resource_asset:125 - New asset ID: 5
+2025-11-07 09:08:48 TRACE src.database.database_controller:update_resource_id:421 - update_resource_id called
+2025-11-07 09:08:48 TRACE src.database.database_controller:update_resource_id:435 - Running query 
+    SELECT asset_type_name
+    FROM AssetTypes
+    WHERE id = :type_id;
+     with params: {'type_id': 2}
+2025-11-07 09:08:48 ERROR src.database.database_controller:update_resource_id:458 - Failed to update resource ID 5
+2025-11-07 09:08:48 TRACE src.database.database_controller:add_resource_asset:128 - Update result: False
+2025-11-07 09:08:48 ERROR src.database.database_controller:add_resource_asset:131 - Error updating resource ID
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_add_resource_asset_failure_on_update_resource_id
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_add_resource_asset_failure_on_update_resource_id
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_update_resource_id_success
+2025-11-07 09:08:48 TRACE src.database.database_controller:update_resource_id:421 - update_resource_id called
+2025-11-07 09:08:48 TRACE src.database.database_controller:update_resource_id:435 - Running query 
+    SELECT asset_type_name
+    FROM AssetTypes
+    WHERE id = :type_id;
+     with params: {'type_id': 1}
+2025-11-07 09:08:48 INFO src.database.database_controller:update_resource_id:456 - Successfully updated resource ID 7
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_update_resource_id_success
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_update_resource_id_success
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/database/test_database_controller_unit.py::test_update_resource_id_failure_when_type_missing
+2025-11-07 09:08:48 TRACE src.database.database_controller:update_resource_id:421 - update_resource_id called
+2025-11-07 09:08:48 TRACE src.database.database_controller:update_resource_id:435 - Running query 
+    SELECT asset_type_name
+    FROM AssetTypes
+    WHERE id = :type_id;
+     with params: {'type_id': 9}
+2025-11-07 09:08:48 ERROR src.database.database_controller:update_resource_id:438 - Error getting asset type name
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/database/test_database_controller_unit.py::test_update_resource_id_failure_when_type_missing
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/database/test_database_controller_unit.py::test_update_resource_id_failure_when_type_missing
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_api.py::test_logger_methods_exist_and_accept_level
+2025-11-07 09:08:48 INFO test_logger_api:test_logger_methods_exist_and_accept_level:8 - hello-event
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_api.py::test_logger_methods_exist_and_accept_level
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_api.py::test_logger_methods_exist_and_accept_level
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_contract.py::test_event_and_security_emit
+2025-11-07 09:08:48 INFO test_logger_contract:test_event_and_security_emit:7 - hello-event
+2025-11-07 09:08:48 INFO test_logger_contract:test_event_and_security_emit:8 - asset created
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_contract.py::test_event_and_security_emit
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_contract.py::test_event_and_security_emit
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_levels_and_api.py::test_event_security_methods_exist
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_levels_and_api.py::test_event_security_methods_exist
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_levels_and_api.py::test_event_security_methods_exist
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/logger/test_logger_levels_and_api.py::test_logger_emits_messages_with_levels
+2025-11-07 09:08:48 INFO test_logger_levels_and_api:test_logger_emits_messages_with_levels:11 - asset created
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/logger/test_logger_levels_and_api.py::test_logger_emits_messages_with_levels
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/logger/test_logger_levels_and_api.py::test_logger_emits_messages_with_levels
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/query/test_builders.py::test_build_asset_search_query_basic
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/query/test_builders.py::test_build_asset_search_query_basic
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/query/test_builders.py::test_build_asset_search_query_basic
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/query/test_builders.py::test_build_asset_search_query_empty
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/query/test_builders.py::test_build_asset_search_query_empty
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/query/test_builders.py::test_build_asset_search_query_empty
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_auth_dependency.py::test_secure_unauthorized
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_auth_dependency.py::test_secure_unauthorized
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_auth_dependency.py::test_secure_unauthorized
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_auth_dependency.py::test_secure_authorized
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_auth_dependency.py::test_secure_authorized
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_auth_dependency.py::test_secure_authorized
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_decrypt_unit.py::test_valid_decryption
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_decrypt_unit.py::test_valid_decryption
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_decrypt_unit.py::test_valid_decryption
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_decrypt_unit.py::test_invalid_key_raises_invalidtoken
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_decrypt_unit.py::test_invalid_key_raises_invalidtoken
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_decrypt_unit.py::test_invalid_key_raises_invalidtoken
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_decrypt_unit.py::test_corrupted_message_raises_invalidtoken
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_decrypt_unit.py::test_corrupted_message_raises_invalidtoken
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_decrypt_unit.py::test_corrupted_message_raises_invalidtoken
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_decrypt_unit.py::test_empty_message_raises_invalidtoken
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_decrypt_unit.py::test_empty_message_raises_invalidtoken
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_decrypt_unit.py::test_empty_message_raises_invalidtoken
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_encrypt_unit.py::test_key_initialization_creates_file
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_encrypt_unit.py::test_key_initialization_creates_file
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_encrypt_unit.py::test_key_initialization_creates_file
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_encrypt_unit.py::test_key_initialization_returns_same_key
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_encrypt_unit.py::test_key_initialization_returns_same_key
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_encrypt_unit.py::test_key_initialization_returns_same_key
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_encrypt_unit.py::test_encrypt_and_decrypt_round_trip
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_encrypt_unit.py::test_encrypt_and_decrypt_round_trip
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_encrypt_unit.py::test_encrypt_and_decrypt_round_trip
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_encrypt_unit.py::test_invalid_existing_key_triggers_regeneration
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_encrypt_unit.py::test_invalid_existing_key_triggers_regeneration
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_encrypt_unit.py::test_invalid_existing_key_triggers_regeneration
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_encrypt_unit.py::test_encrypt_with_invalid_key_raises
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_encrypt_unit.py::test_encrypt_with_invalid_key_raises
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_encrypt_unit.py::test_encrypt_with_invalid_key_raises
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_sanitize_unit.py::test_sanitize_string_html_and_quotes
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_sanitize_unit.py::test_sanitize_string_html_and_quotes
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_sanitize_unit.py::test_sanitize_string_html_and_quotes
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_sanitize_unit.py::test_sanitize_dict_recursive
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_sanitize_unit.py::test_sanitize_dict_recursive
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_sanitize_unit.py::test_sanitize_dict_recursive
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_sanitize_unit.py::test_sanitize_list_recursive
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_sanitize_unit.py::test_sanitize_list_recursive
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_sanitize_unit.py::test_sanitize_list_recursive
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[123]
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[123]
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[123]
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[45.6]
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[45.6]
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[45.6]
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[True]
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[True]
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[True]
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[False]
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[False]
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[False]
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[None]
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[None]
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_sanitize_unit.py::test_sanitize_primitive_passthrough[None]
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:51 - TEST START :: tests/security/test_sanitize_unit.py::test_sanitize_error_fallback
+2025-11-07 09:08:48 INFO conftest:pytest_runtest_makereport:63 - TEST PASS  :: tests/security/test_sanitize_unit.py::test_sanitize_error_fallback
+2025-11-07 09:08:48 INFO conftest:_log_test_start_end:53 - TEST END   :: tests/security/test_sanitize_unit.py::test_sanitize_error_fallback

@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Team Blue — API Tester</title>
+
+  <style>
+    :root {
+      /* Light theme (defaults) */
+      --bg:#f5f7fa;
+      --bg-accent:#eef3f8;
+      --panel:#ffffff;
+      --panel-border:#e2e8f0;
+      --panel-shadow:0 2px 4px rgba(0,0,0,0.04),0 4px 18px -4px rgba(0,0,0,0.06);
+      --muted:#5b6474;
+      --text:#1e293b;
+      --accent:#0284c7;
+      --accent-2:#0ea5e9;
+      --success:#15803d;
+      --danger:#dc2626;
+      --chip-bg:#e2e8f0;
+      --chip-fg:#334155;
+      --log-bg:#f1f5f9;
+      --log-border:#d8e3ed;
+      --input-bg:#ffffff;
+      --input-border:#cbd5e1;
+      --output-bg:#ffffff; /* light output background now matches theme */
+      --output-border:#d5dbe3;
+      --code-fg:#0f172a;
+      --input-focus-bg:#f8fcff;
+      --focus-ring:rgba(2,132,199,0.25);
+      --ghost-bg:#ffffff;
+      --ghost-bg-hover:#f1f5f9;
+      --ghost-bg-active:#e2e8f0;
+      --ghost-border:#cbd5e1;
+      --divider:#e2e8f0;
+      --scroll-thumb:#334155;
+      --scroll-thumb-hover:#475569;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+      --radius:12px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* Dark theme overrides */
+    [data-theme="dark"] {
+      --bg:#0b1220;
+      --bg-accent:#101b2e;
+      --panel:#0f1724;
+      --panel-border:#1f2b3a;
+      --panel-shadow:0 4px 20px -4px rgba(0,0,0,0.55),0 2px 4px rgba(0,0,0,0.4);
+      --muted:#94a3b8;
+      --text:#e6eef6;
+      --accent:#0ea5b7;
+      --accent-2:#0369a1;
+      --success:#16a34a;
+      --danger:#ef4444;
+      --chip-bg:#1e293b;
+      --chip-fg:#cbd5e1;
+      --log-bg:#162232;
+      --log-border:#223248;
+      --input-bg:#1e293b;
+      --input-border:#2f4154;
+      --output-bg:#0b1626;
+      --output-border:#1f2b3a;
+      --code-fg:#f1f5f9;
+      --input-focus-bg:#112031;
+      --focus-ring:rgba(14,165,183,0.35);
+      --ghost-bg:#1e293b;
+      --ghost-bg-hover:#253242;
+      --ghost-bg-active:#2d3b4d;
+      --ghost-border:#2f4154;
+      --divider:#1f2b3a;
+      --scroll-thumb:#2f4154;
+      --scroll-thumb-hover:#40566d;
+    }
+
+    html, body { height:100%; margin:0; background:linear-gradient(180deg,var(--bg) 0%, var(--bg-accent) 70%); color:var(--text); -webkit-font-smoothing:antialiased; }
+    body { font-size:14px; line-height:1.4; }
+    .wrap { max-width:1220px; margin:28px auto 48px; padding:0 28px; box-sizing:border-box; }
+
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:22px; }
+    .brand { display:flex; gap:14px; align-items:center; }
+    h1 { font-size:22px; margin:0 0 2px; letter-spacing:-0.4px; font-weight:600; }
+    p.lead { margin:0; color:var(--muted); font-size:13px; }
+
+    .grid { display:grid; grid-template-columns: 1fr 430px; gap:22px; align-items:start; }
+
+    .panel { background:var(--panel); border:1px solid var(--panel-border); border-radius:var(--radius); padding:18px 18px 20px; box-shadow:var(--panel-shadow); }
+    .panel h3 { font-size:15px; font-weight:600; letter-spacing:-0.2px; color:var(--text); }
+
+    .row { display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+    label { font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); font-weight:600; display:block; margin-bottom:4px; }
+  input[type="text"], input[type="number"], textarea, select { background:var(--input-bg); border:1px solid var(--input-border); color:var(--text); padding:10px 12px; border-radius:8px; outline:none; width:100%; box-sizing:border-box; font-size:14px; transition:border-color .15s, box-shadow .15s, background .15s, color .15s; }
+  input:focus, textarea:focus, select:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--focus-ring); background:var(--input-focus-bg); }
+    textarea { resize:vertical; min-height:96px; font-family:var(--mono); line-height:1.35; }
+
+    .controls { display:flex; gap:8px; flex-wrap:wrap; }
+    .btn { background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#ffffff; border:none; padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:600; font-size:13px; letter-spacing:0.3px; box-shadow:0 2px 4px rgba(0,0,0,0.05), 0 4px 14px -6px rgba(2,132,199,0.55); display:inline-flex; align-items:center; gap:6px; transition:box-shadow .18s, transform .18s, filter .18s; }
+    .btn:hover { box-shadow:0 3px 6px rgba(0,0,0,0.08), 0 6px 18px -6px rgba(2,132,199,0.55); }
+    .btn:active { transform:translateY(1px); }
+    .btn:focus-visible { outline:2px solid var(--accent-2); outline-offset:2px; }
+  .btn.ghost { background:var(--ghost-bg); color:var(--accent); border:1px solid var(--ghost-border); box-shadow:none; }
+  .btn.ghost:hover { background:var(--ghost-bg-hover); }
+  .btn.ghost:active { background:var(--ghost-bg-active); }
+    .small { padding:7px 12px; font-size:12px; }
+
+  /* Remove numeric input spinners (Chrome, Safari, Edge) */
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin:0; }
+  /* Firefox */
+  input[type=number] { -moz-appearance: textfield; appearance:textfield; }
+
+    .out-wrap { display:flex; flex-direction:column; gap:16px; height:calc(100vh - 150px); }
+  .output { background:var(--output-bg); color:var(--code-fg); border-radius:10px; padding:14px 14px 16px; font-family:var(--mono); font-size:13px; line-height:1.4; overflow:auto; border:1px solid var(--output-border); flex:1; min-height:140px; max-height:400px; white-space:pre-wrap; }
+    .output:focus-visible { outline:2px solid var(--accent-2); outline-offset:2px; }
+    .output::-webkit-scrollbar { width:8px; }
+  .output::-webkit-scrollbar-thumb { background-color:var(--scroll-thumb); border-radius:8px; }
+  .output::-webkit-scrollbar-thumb:hover { background-color:var(--scroll-thumb-hover); }
+
+    .status { display:flex; align-items:center; gap:10px; color:var(--muted); font-size:12px; margin-bottom:10px; flex-wrap:wrap; }
+  .chip { padding:6px 10px; border-radius:999px; background:var(--chip-bg); color:var(--chip-fg); font-weight:600; font-size:12px; line-height:1; letter-spacing:0.5px; }
+
+    .logo-img { width:52px; height:52px; border-radius:14px; object-fit:cover; box-shadow:0 4px 14px rgba(0,0,0,0.15); }
+    .footer { margin-top:10px; color:var(--muted); font-size:12px; text-align:center; }
+
+    .flex { display:flex; gap:10px; align-items:center; }
+    .right { justify-content:flex-end; }
+
+  hr { border:none; border-top:1px solid var(--divider); margin:16px 0 14px; }
+
+    pre { margin:0; }
+    code { font-family:var(--mono); font-size:13px; }
+
+  #logArea { background:var(--log-bg); border:1px solid var(--log-border); border-radius:8px; padding:8px 10px; line-height:1.35; color:var(--muted); }
+    #logArea::-webkit-scrollbar { width:8px; }
+    #logArea::-webkit-scrollbar-thumb { background:#c3ccd6; border-radius:6px; }
+    #logArea::-webkit-scrollbar-thumb:hover { background:#9aa5b1; }
+
+  .panel strong { font-size:13px; font-weight:600; letter-spacing:0.3px; color:var(--text); }
+    .panel .hints { color:var(--muted); font-size:12.5px; line-height:1.45; }
+
+    @media (max-width:1080px) { .grid { grid-template-columns:1fr; } .out-wrap { height:auto; } }
+    @media (max-width:640px) { header { flex-direction:column; align-items:flex-start; } .brand { width:100%; } }
+
+    /* Status chip dynamic backgrounds will overwrite background color; ensure text stays readable */
+    #serverStatus { background:var(--chip-bg); color:var(--chip-fg); }
+    [data-theme="dark"] #serverStatus { color:var(--chip-fg); }
+    
+    /* Theme toggle button refinements */
+    .theme-toggle { position:relative; }
+    .theme-toggle .btn { background:linear-gradient(90deg,var(--accent-2),var(--accent)); padding:8px 14px; }
+  .theme-toggle .btn.ghost { background:var(--ghost-bg); color:var(--accent); }
+    
+    /* Smooth transitions */
+    body, .panel, .output, #logArea, .chip { transition: background-color .35s, color .35s, border-color .35s, box-shadow .35s; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="../assets/Logos/Action_Hero_Cotton_Swab.png" alt="Team Blue Logo" class="logo-img">
+        <div>
+          <h1>Team Blue — API Tester</h1>
+          <p class="lead">Quick interface for your inventory API — local testing only</p>
+        </div>
+      </div>
+
+      <div class="flex right">
+        <div class="chip" id="serverStatus">server: unknown</div>
+        <div class="theme-toggle">
+          <button class="btn ghost small" id="themeBtn" onclick="toggleTheme()" title="Toggle light/dark mode">Dark</button>
+        </div>
+        <button class="btn ghost small" onclick="pingRoot()">Ping</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- left: controls -->
+      <div>
+        <div class="panel">
+          <div style="display:flex; gap:12px; align-items:center;">
+            <div style="flex:1">
+              <label for="bearer">Bearer token</label>
+              <input id="bearer" type="text" placeholder="Paste token (without 'Bearer ')" />
+            </div>
+            <div style="width:120px;">
+              <label>&nbsp;</label>
+              <button class="btn small" onclick="resetPage()">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:12px;">
+          <h3 style="margin:0 0 10px 0;">Quick actions</h3>
+          <div class="row">
+            <div style="flex:1">
+              <label>Show all resources</label>
+              <div class="controls">
+                <button class="btn" onclick="callApi('/resources/')">Resources</button>
+                <button class="btn" onclick="callApi('/resources/types/')">Types</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px;">
+            <div style="flex:1">
+              <label>Get resource by ID</label>
+              <div class="controls">
+                <input id="getId" type="number" placeholder="ID" style="width:120px;" />
+                <button class="btn small" onclick="getById()">Get</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:8px;">
+            <div style="flex:1">
+              <label>Search by location</label>
+              <div class="controls">
+                <input id="locId" type="number" placeholder="Location ID" style="width:120px;" />
+                <button class="btn small" onclick="searchByLocation()">Search</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:8px;">
+            <div style="flex:1">
+              <label>Search by employee</label>
+              <div class="controls">
+                <input id="empId" type="number" placeholder="Employee ID" style="width:120px;" />
+                <button class="btn small" onclick="searchByEmployee()">Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:12px;">
+          <h3 style="margin:0 0 10px 0;">Create / Update</h3>
+
+          <label for="postBody" style="font-size:13px;color:var(--muted)">POST body (JSON)</label>
+          <textarea id="postBody" placeholder='{"type_id":4,"location_id":null,"employee_id":24,"notes":"HTML test","is_decommissioned":0}'>{"type_id":4,"location_id":null,"employee_id":24,"notes":"HTML test","is_decommissioned":0}</textarea>
+          <div class="row" style="margin-top:10px;">
+            <button class="btn" onclick="postResource()">POST</button>
+            <button class="btn ghost" onclick="validateJson('post')">Validate JSON</button>
+          </div>
+
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03); margin:12px 0;">
+
+          <label for="putId" style="font-size:13px;color:var(--muted)">PUT id</label>
+          <div class="row">
+            <input id="putId" type="number" placeholder="Resource ID" style="width:120px;" />
+            <!-- <button class="btn small" onclick="prefillForPut()">Prefill</button> -->
+          </div>
+          <label for="putBody" style="font-size:13px;color:var(--muted); margin-top:8px;">PUT body (JSON)</label>
+          <textarea id="putBody" placeholder='{"type_id":4,"location_id":null,"employee_id":24,"notes":"Update test","is_decommissioned":0}'>{"type_id":4,"location_id":null,"employee_id":24,"notes":"Update test","is_decommissioned":0}</textarea>
+          <div class="row" style="margin-top:8px;">
+            <button class="btn" onclick="putResource()">PUT</button>
+            <button class="btn ghost" onclick="validateJson('put')">Validate JSON</button>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:12px;">
+          <h3 style="margin:0 0 10px 0;">Delete</h3>
+          <div class="row">
+            <input id="delId" type="number" placeholder="Resource ID" style="width:120px;" />
+            <button class="btn" onclick="deleteResource()">DELETE</button>
+            <button class="btn ghost" onclick="callApi('/resources/')">Refresh</button>
+          </div>
+          <p style="margin-top:10px;color:var(--muted);font-size:13px;">Delete routes require manager permissions.</p>
+        </div>
+      </div>
+
+      <!-- right: outputs -->
+      <div class="out-wrap">
+        <div class="panel" style="padding:12px;">
+          <div class="status">
+            <div class="chip" id="httpStatus">idle</div>
+            <div style="flex:1;color:var(--muted);font-size:13px" id="statusText">Responses and logs appear here</div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn small" onclick="copyOutput()">Copy</button>
+              <button class="btn small ghost" onclick="clearOutput()">Clear</button>
+            </div>
+          </div>
+          <pre id="output" class="output">{ "message": "Ready" }</pre>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+          <div class="panel" style="flex:1; padding:12px;">
+            <strong style="display:block;margin-bottom:6px">Recent activity</strong>
+            <div id="logArea" style="font-family:ui-monospace,monospace; font-size:12px; color:var(--muted); max-height:120px; overflow:auto; white-space:pre-wrap;"></div>
+          </div>
+
+          <div class="panel" style="width:240px; padding:12px;">
+            <strong style="display:block;margin-bottom:6px">Hints</strong>
+            <div style="color:var(--muted); font-size:13px;">
+              • Make sure token is pasted without the leading "Bearer " prefix.<br><br>
+              • Use Validate JSON before POST/PUT.<br><br>
+              • If you see a 307, switch between trailing slash/no-slash on the URL.
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">Local tester — not for production. Keep tokens private.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://127.0.0.1:8000';
+    const outputEl = document.getElementById('output');
+    const statusChip = document.getElementById('httpStatus');
+    const statusText = document.getElementById('statusText');
+    const serverStatus = document.getElementById('serverStatus');
+    const logArea = document.getElementById('logArea');
+    const themeBtn = document.getElementById('themeBtn');
+
+    function applyTheme(theme){
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('themePref', theme);
+      if(themeBtn){ themeBtn.textContent = theme === 'dark' ? 'Light' : 'Dark'; }
+      // Adjust status chip readability if custom backgrounds set by status updates
+      if(statusChip.dataset.code){
+        // Re-run minimal style logic if needed later
+      }
+    }
+
+    function toggleTheme(){
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      applyTheme(current === 'light' ? 'dark' : 'light');
+    }
+
+    (function initTheme(){
+      const stored = localStorage.getItem('themePref');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = stored || (prefersDark ? 'dark' : 'light');
+      applyTheme(theme);
+    })();
+
+    function tokenHeader() {
+      const t = document.getElementById('bearer').value.trim();
+      if (!t) return {};
+      return { 'Authorization': 'Bearer ' + t };
+    }
+
+    function setStatus(code, text) {
+      statusChip.textContent = code;
+      statusText.textContent = text;
+      log(`${new Date().toLocaleTimeString()}  ${code} — ${text}`);
+      if (code >= 200 && code < 300) statusChip.style.background = 'linear-gradient(90deg, var(--success), #1f9d5b)';
+      else if (code >= 400 && code < 500) statusChip.style.background = 'linear-gradient(90deg, var(--danger), #ff7a7a)';
+      else if (code === 'idle' || code === 'loading') statusChip.style.background = '';
+      else statusChip.style.background = '';
+    }
+
+    function log(msg) {
+      logArea.textContent = msg + "\n" + logArea.textContent;
+    }
+
+    async function callApi(endpoint, opts = {}) {
+      const url = API_BASE + endpoint;
+      outputEl.textContent = 'Loading...';
+      setStatus('loading', `Calling ${endpoint}`);
+      try {
+        const res = await fetch(url, { headers: { ...tokenHeader(), ...(opts.headers||{}) }, method: opts.method||'GET', body: opts.body||null });
+        const text = await res.text();
+        let parsed;
+        try { parsed = JSON.parse(text); }
+        catch { parsed = text; }
+        outputEl.textContent = typeof parsed === 'string' ? parsed : JSON.stringify(parsed, null, 2);
+        setStatus(res.status, `${res.status} ${res.statusText}`);
+      } catch (err) {
+        outputEl.textContent = `Network error: ${err.message}`;
+        setStatus(0, 'Network error');
+      }
+    }
+
+    async function pingRoot() {
+      try {
+        const res = await fetch(API_BASE + '/', { method:'GET' });
+        serverStatus.textContent = res.ok ? 'server: online' : 'server: offline';
+        serverStatus.style.background = res.ok ? 'linear-gradient(90deg,#16a34a,#10b981)' : 'linear-gradient(90deg,#ef4444,#fb7185)';
+        log(`${new Date().toLocaleTimeString()}  ping ${res.status} ${res.statusText}`);
+      } catch (e) {
+        serverStatus.textContent = 'server: unreachable';
+        serverStatus.style.background = 'linear-gradient(90deg,#ef4444,#fb7185)';
+        log(`${new Date().toLocaleTimeString()}  ping failed`);
+      }
+    }
+
+    async function copyOutput() {
+      try {
+        await navigator.clipboard.writeText(outputEl.textContent);
+        setStatus('copied', 'Output copied to clipboard');
+      } catch (e) {
+        setStatus(0, 'Copy failed');
+      }
+    }
+
+    function clearOutput() { outputEl.textContent = ''; setStatus('idle','cleared'); }
+
+    function resetPage() {
+      document.getElementById('bearer').value = '';
+      document.getElementById('postBody').value = '{"type_id":4,"location_id":null,"employee_id":24,"notes":"HTML test","is_decommissioned":0}';
+      document.getElementById('putBody').value = '{"type_id":4,"location_id":null,"employee_id":24,"notes":"Update test","is_decommissioned":0}';
+      setStatus('ready','Page reset');
+    }
+
+    function validateJson(which) {
+      const id = which === 'post' ? 'postBody' : 'putBody';
+      const txt = document.getElementById(id).value;
+      try {
+        JSON.parse(txt);
+        setStatus('valid','JSON looks valid');
+      } catch (e) {
+        setStatus(400, 'Invalid JSON: ' + e.message);
+      }
+    }
+
+    async function postResource() {
+      try {
+        const b = JSON.parse(document.getElementById('postBody').value);
+        await callApi('/resources/', { method:'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(b) });
+      } catch (e) {
+        setStatus(400, 'Invalid JSON body');
+      }
+    }
+
+    async function putResource() {
+      const id = document.getElementById('putId').value;
+      if (!id) { setStatus(400,'Missing id'); return; }
+      try {
+        const b = JSON.parse(document.getElementById('putBody').value);
+        await callApi(`/resources/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(b) });
+      } catch (e) {
+        setStatus(400, 'Invalid JSON body');
+      }
+    }
+
+    async function deleteResource() {
+      const id = document.getElementById('delId').value;
+      if (!id) { setStatus(400,'Missing id'); return; }
+      if (!confirm(`Delete resource ${id}?`)) return;
+      await callApi(`/resources/${id}`, { method:'DELETE' });
+    }
+
+    async function getById() {
+      const id = document.getElementById('getId').value;
+      if (!id) { setStatus(400,'Missing id'); return; }
+      await callApi(`/resources/${id}`);
+    }
+
+    async function searchByLocation() {
+      const id = document.getElementById('locId').value;
+      if (!id) { setStatus(400,'Missing location id'); return; }
+      await callApi(`/resources/location/${id}`);
+    }
+
+    async function searchByEmployee() {
+      const id = document.getElementById('empId').value;
+      if (!id) { setStatus(400,'Missing employee id'); return; }
+      await callApi(`/resources/employee/${id}`);
+    }
+
+    // initial ping
+    pingRoot();
+  </script>
+</body>
+</html>
