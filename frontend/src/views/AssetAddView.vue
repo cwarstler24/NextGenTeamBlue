@@ -46,16 +46,36 @@
 
           <div class="form-group">
             <label for="employee_id">
-              Employee ID
+              Employee
               <span class="help-text-inline">(or Location ID above)</span>
             </label>
-            <input 
-              id="employee_id"
-              type="number" 
-              v-model.number="assetEmployeeID"
-              placeholder="Enter employee ID (or leave blank for location)"
-            />
-            <small class="help-text">Employee responsible for this asset</small>
+            <div class="employee-search">
+              <input 
+                id="employee_search"
+                type="text" 
+                v-model="employeeSearchQuery"
+                @input="searchEmployees"
+                @focus="showEmployeeDropdown = true"
+                placeholder="Search by name..."
+                autocomplete="off"
+              />
+              <div v-if="showEmployeeDropdown && filteredEmployees.length > 0" class="employee-dropdown">
+                <div 
+                  v-for="emp in filteredEmployees" 
+                  :key="emp.employee_id"
+                  @click="selectEmployee(emp)"
+                  class="employee-option"
+                >
+                  {{ emp.first_name }} {{ emp.last_name }} (ID: {{ emp.employee_id }})
+                </div>
+              </div>
+            </div>
+            <small class="help-text">
+              <span v-if="selectedEmployee">
+                Selected: {{ selectedEmployee.first_name }} {{ selectedEmployee.last_name }}
+              </span>
+              <span v-else>Search and select employee responsible for this asset</span>
+            </small>
           </div>
 
           <div class="form-group">
@@ -100,7 +120,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
@@ -114,6 +134,13 @@ export default {
     const assetNotes = ref('');
     const assetIsDecommissioned = ref(0);
     const router = useRouter();
+    
+    // Employee search functionality
+    const employeeSearchQuery = ref('');
+    const employees = ref([]);
+    const filteredEmployees = ref([]);
+    const selectedEmployee = ref(null);
+    const showEmployeeDropdown = ref(false);
 
     const addAsset = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -162,6 +189,56 @@ export default {
       router.push({ name: 'AssetList' });
     };
 
+    const fetchEmployees = async () => {
+      let token = localStorage.getItem('bearerToken');
+      if (!token) return;
+      if (!token.toLowerCase().startsWith('bearer ')) {
+        token = `Bearer ${token}`;
+      }
+      try {
+        const response = await axios.get(`${API_BASE}/resources/employees/`, {
+          headers: { Authorization: token },
+          params: { limit: 250 }
+        });
+        employees.value = response.data;
+      } catch (error) {
+        console.error('Error fetching employees:', error);
+      }
+    };
+
+    const searchEmployees = () => {
+      const query = employeeSearchQuery.value.toLowerCase().trim();
+      if (query === '') {
+        filteredEmployees.value = employees.value.slice(0, 20);
+      } else {
+        filteredEmployees.value = employees.value.filter(emp => {
+          const fullName = `${emp.first_name} ${emp.last_name}`.toLowerCase();
+          return fullName.includes(query) || emp.employee_id.toString().includes(query);
+        }).slice(0, 20);
+      }
+    };
+
+    const selectEmployee = (emp) => {
+      selectedEmployee.value = emp;
+      assetEmployeeID.value = emp.employee_id;
+      employeeSearchQuery.value = `${emp.first_name} ${emp.last_name}`;
+      showEmployeeDropdown.value = false;
+      // Clear location when employee is selected
+      assetLocation.value = null;
+    };
+
+    // Close dropdown when clicking outside
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.employee-search')) {
+        showEmployeeDropdown.value = false;
+      }
+    };
+
+    onMounted(() => {
+      fetchEmployees();
+      document.addEventListener('click', handleClickOutside);
+    });
+
     return { 
       assetType, 
       assetLocation, 
@@ -169,7 +246,14 @@ export default {
       assetNotes, 
       assetIsDecommissioned, 
       addAsset,
-      goBack 
+      goBack,
+      employeeSearchQuery,
+      employees,
+      filteredEmployees,
+      selectedEmployee,
+      showEmployeeDropdown,
+      searchEmployees,
+      selectEmployee
     };
   },
 };
@@ -314,6 +398,40 @@ export default {
 
 .btn-secondary:hover {
   background: var(--color-background-mute);
+}
+
+.employee-search {
+  position: relative;
+}
+
+.employee-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+  max-height: 240px;
+  overflow-y: auto;
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+}
+
+.employee-option {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.employee-option:last-child {
+  border-bottom: none;
+}
+
+.employee-option:hover {
+  background: var(--color-background-soft);
 }
 
 @media (max-width: 768px) {
