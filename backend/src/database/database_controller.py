@@ -458,7 +458,7 @@ def update_resource_id(
     logger.event(f"Failed to update resource ID {new_asset_id}", level="error")
     return False
 
-def get_employees_basic(user_role: str, q: str | None = None, limit: int = 250):
+def get_employees(user_role: str, q: str | None = None, limit: int = 250):
     """
     Return basic employee info (id, first_name, last_name).
     """
