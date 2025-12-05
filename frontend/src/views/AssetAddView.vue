@@ -19,12 +19,11 @@
               Type ID
               <span class="required">*</span>
             </label>
-            <select required v-model="selected" v-model.number="assetType" id="type_id">
+            <select required v-model.number="assetType" id="type_id">
               <option disabled value="">Please select one</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
+              <option v-for="type in assetTypes" :key="type.id" :value="type.id">
+                {{ type.id }}{{ type.type_name ? ` - ${type.type_name}` : '' }}
+              </option>
             </select>
             <small class="help-text">The category or type identifier for this asset</small>
           </div>
@@ -100,7 +99,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
@@ -113,7 +112,30 @@ export default {
     const assetEmployeeID = ref('');
     const assetNotes = ref('');
     const assetIsDecommissioned = ref(0);
+    const assetTypes = ref([]);
     const router = useRouter();
+
+    const fetchAssetTypes = async () => {
+      let token = localStorage.getItem('bearerToken');
+      if (!token) {
+        console.error('No bearer token set');
+        return;
+      }
+      if (!token.toLowerCase().startsWith('bearer ')) {
+        token = `Bearer ${token}`;
+      }
+      try {
+        const response = await axios.get(`${API_BASE}/resources/types/`, {
+          headers: { Authorization: token },
+        });
+        assetTypes.value = response.data;
+        console.log('Asset types loaded:', assetTypes.value);
+      } catch (error) {
+        console.error('Error fetching asset types:', error);
+      }
+    };
+
+    onMounted(fetchAssetTypes);
 
     const addAsset = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -167,7 +189,8 @@ export default {
       assetLocation, 
       assetEmployeeID, 
       assetNotes, 
-      assetIsDecommissioned, 
+      assetIsDecommissioned,
+      assetTypes,
       addAsset,
       goBack 
     };

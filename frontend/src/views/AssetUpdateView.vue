@@ -24,10 +24,9 @@
               <span class="required">*</span>
             </label>
             <select required v-model.number="assetType" id="type_id">
-              <option :value="1">1</option>
-              <option :value="2">2</option>
-              <option :value="3">3</option>
-              <option :value="4">4</option>
+              <option v-for="type in assetTypes" :key="type.id" :value="type.id">
+                {{ type.id }}{{ type.type_name ? ` - ${type.type_name}` : '' }}
+              </option>
             </select>
             <small class="help-text">The category or type identifier for this asset</small>
           </div>
@@ -122,10 +121,31 @@ export default {
     const assetEmployeeID = ref('');
     const assetNotes = ref('');
     const assetIsDecommissioned = ref(0);
+    const assetTypes = ref([]);
     const errorMsg = ref('');
     const router = useRouter();
     const route = useRoute();
     const isUpdating = ref(false);
+
+    const fetchAssetTypes = async () => {
+      let token = localStorage.getItem('bearerToken');
+      if (!token) {
+        console.error('No bearer token set');
+        return;
+      }
+      if (!token.toLowerCase().startsWith('bearer ')) {
+        token = `Bearer ${token}`;
+      }
+      try {
+        const response = await axios.get(`${API_BASE}/resources/types/`, {
+          headers: { Authorization: token },
+        });
+        assetTypes.value = response.data;
+        console.log('Asset types loaded:', assetTypes.value);
+      } catch (error) {
+        console.error('Error fetching asset types:', error);
+      }
+    };
 
     const fetchAsset = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -220,7 +240,10 @@ export default {
       router.push({ name: 'AssetView', params: { id: route.params.id } });
     };
 
-    onMounted(fetchAsset);
+    onMounted(() => {
+      fetchAsset();
+      fetchAssetTypes();
+    });
 
     return {
       asset,
@@ -229,6 +252,7 @@ export default {
       assetEmployeeID,
       assetNotes,
       assetIsDecommissioned,
+      assetTypes,
       errorMsg,
       updateAsset,
       goBack,
