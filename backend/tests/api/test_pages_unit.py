@@ -98,7 +98,7 @@ def test_logo_ok_uses_fileresponse(client, monkeypatch):
     monkeypatch.setattr(P, "FileResponse",
                          lambda p: JSONResponse({"ok": True, "path": p}), raising=True)
 
-    r = client.get("/Documentation/Logos/SwaB_Logo.png")
+    r = client.get("/assets/Logos/SwaB_Logo.png")
     assert r.status_code == 200
     body = r.json()
     assert body["ok"] is True
@@ -106,7 +106,7 @@ def test_logo_ok_uses_fileresponse(client, monkeypatch):
 
 def test_logo_missing_404(client, monkeypatch):
     monkeypatch.setattr(P.os_path, "exists", lambda p: False, raising=True)
-    r = client.get("/Documentation/Logos/SwaB_Logo.png")
+    r = client.get("/assets/Logos/SwaB_Logo.png")
     assert r.status_code == 404
     assert r.json()["detail"] == "Image not found"
 
@@ -114,13 +114,13 @@ def test_action_hero_logo_ok(client, monkeypatch):
     monkeypatch.setattr(P.os_path, "exists", lambda p: True, raising=True)
     monkeypatch.setattr(P, "FileResponse",
                          lambda p: JSONResponse({"ok": True, "path": p}), raising=True)
-    r = client.get("/Documentation/Logos/Action_Hero_Cotton_Swab.png")
+    r = client.get("/assets/Logos/Action_Hero_Cotton_Swab.png")
     assert r.status_code == 200
     assert r.json()["path"].endswith("Action_Hero_Cotton_Swab.png")
 
 def test_action_hero_logo_missing_404(client, monkeypatch):
     monkeypatch.setattr(P.os_path, "exists", lambda p: False, raising=True)
-    r = client.get("/Documentation/Logos/Action_Hero_Cotton_Swab.png")
+    r = client.get("/assets/Logos/Action_Hero_Cotton_Swab.png")
     assert r.status_code == 404
     assert r.json()["detail"] == "Image not found"
 

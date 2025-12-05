@@ -40,27 +40,39 @@ async def index_test_page():
     return HTMLResponse(content=htmlresponse.read())
 
 
-@router.get("/Documentation/Logos/SwaB_Logo.png")
+@router.get("/assets/Logos/SwaB_Logo.png")
 async def get_logo():
-    logger.event("GET /Documentation/Logos/SwaB_Logo.png")
+    logger.event("GET /assets/Logos/SwaB_Logo.png")
     image_path = os_path.join(os_path.dirname(__file__),
-                              "../../Documentation/Logos/SwaB_Logo.png")
+                              "../../assets/Logos/SwaB_Logo.png")
     if not os_path.exists(image_path):
-        logger.event("Image not found", level="warning")
+        msg = "Image not found at: " + image_path
+        logger.event(msg, level="warning")
         raise HTTPException(status_code=404, detail="Image not found")
     return FileResponse(image_path)
 
 
-@router.get("/Documentation/Logos/Action_Hero_Cotton_Swab.png")
+@router.get("/assets/Logos/Action_Hero_Cotton_Swab.png")
 async def get_action_hero_logo():
-    logger.event("GET /Documentation/Logos/Action_Hero_Cotton_Swab.png")
+    logger.event("GET /assets/Logos/Action_Hero_Cotton_Swab.png")
     image_path = os_path.join(os_path.dirname(__file__),
-                              "../../Documentation/Logos/Action_Hero_Cotton_Swab.png")
+                              "../../assets/Logos/Action_Hero_Cotton_Swab.png")
     if not os_path.exists(image_path):
-        logger.event("Image not found", level="warning")
+        msg = "Image not found at: " + image_path
+        logger.event(msg, level="warning")
         raise HTTPException(status_code=404, detail="Image not found")
     return FileResponse(image_path)
 
+@router.get("/favicon.ico")
+async def get_favicon():
+    logger.event("GET /favicon.ico")
+    image_path = os_path.join(os_path.dirname(__file__),
+                              "../../assets/Logos/favicon.ico")
+    if not os_path.exists(image_path):
+        msg = "Image not found at: " + image_path
+        logger.event(msg, level="warning")
+        raise HTTPException(status_code=404, detail="Image not found")
+    return FileResponse(image_path)
 
 @router.get("/index_test.html/")
 async def redirect_index_test_html():
