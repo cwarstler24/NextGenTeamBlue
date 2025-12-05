@@ -240,3 +240,46 @@ async def delete_resource(request: Request, id: int):
         message = "Database delete failed"
         logger.event(f"Returning error 400 {message}", level="error")
         raise HTTPException(status_code=400, detail=message)
+    
+    # --- GET /resources/employees ---
+@router.get("/employees/")
+async def get_employees(request: Request, q: str | None = None, limit: int = 250):
+    """
+    Returns a list of employees for dropdown menus.
+    Optional 'q' filters by name (case-insensitive substring match).
+    Optional 'limit' caps number of results (default 250).
+    """
+    logger.event("GET /resources/employees", level="info")
+
+    token = request.headers.get("Authorization")
+    logger.security(f"token: {token}", level="trace")
+    if not token:
+        logger.event("Returning error 401: no token", level="warning")
+        raise HTTPException(status_code=401, detail="Missing Authorization header")
+
+    await validate_request(request, token)
+    auth_result = await authenticate_request(request, token)
+    decoded = auth_result["decoded_payload"]
+    await authorize_request(request, decoded)
+
+    title = get_db_role(decoded.get("title", ""))
+
+    # Call to your teammate’s database layer
+    result = db.get_employees(title, q=q, limit=limit)
+
+    if result[0] == 200:
+        employees = convert_bytes_to_strings(result[1])
+        trimmed = [
+            {
+                "employee_id": e.get("id"),
+                "first_name": e.get("first_name"),
+                "last_name": e.get("last_name")
+            }
+            for e in employees
+        ]
+        logger.event(f"Returning {len(trimmed)} employees", level="info")
+        return JSONResponse(content=trimmed, status_code=status.HTTP_200_OK)
+
+    logger.event("Returning error 400", level="error")
+    raise HTTPException(status_code=400, detail="Database error")
+
