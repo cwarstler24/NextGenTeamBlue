@@ -28,11 +28,11 @@
 
       <div class="card mascot-card animate-in" style="animation-delay: 0.3s">
         <div class="mascot-image-container">
-          <img src="/mascot/mascot-portrait.png" alt="Team Leader" />
+          <img src="/mascot/SantaSwab.png" alt="Santa's Helper" />
         </div>
-        <h3>😎 Team Leader</h3>
-        <p>Leading Team Blue to victory in asset management!</p>
-        <span class="badge">Commander</span>
+        <h3>🎁 Santa's Helper</h3>
+        <p>Making sure all kids get their presents!</p>
+        <span class="badge">Jolly</span>
       </div>
     </div>
 
