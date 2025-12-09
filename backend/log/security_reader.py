@@ -33,8 +33,8 @@
 import os
 from rich import print as rich_print
 from cryptography.fernet import InvalidToken
-from backend.src.security.decrypt import decrypt_message
-from backend.src.security.encrypt import init_key
+from src.security.decrypt import decrypt_message
+from src.security.encrypt import init_key
 
 # Load the key
 key = init_key()

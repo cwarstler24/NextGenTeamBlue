@@ -18,9 +18,9 @@ Example usage:
 """
 
 import datetime
-from backend.src.database import database_connector
-from backend.src.logger import logger
-import backend.src.database.authorize as auth
+from src.database import database_connector
+from src.logger import logger
+import src.database.authorize as auth
 
 
 def add_resource_type(
@@ -457,3 +457,28 @@ def update_resource_id(
         return True
     logger.event(f"Failed to update resource ID {new_asset_id}", level="error")
     return False
+
+def get_employees(user_role: str, q: str | None = None, limit: int = 250):
+    """
+    Return basic employee info (id, first_name, last_name).
+    """
+    try:
+        query = """
+            SELECT id, first_name, last_name
+            FROM Employee
+        """
+        params = {}
+
+        if q:
+            query += " WHERE LOWER(first_name) LIKE :q OR LOWER(last_name) LIKE :q"
+            params["q"] = f"%{q.lower()}%"
+
+        query += " ORDER BY last_name, first_name LIMIT :limit"
+        params["limit"] = limit
+
+        rows = database_connector.execute_query(query, params)
+        return (200, rows)
+    except Exception as e:
+        # logger.event(f"DB error: {e}", level="error")
+        return (400, {"error": "DB failure"})
+

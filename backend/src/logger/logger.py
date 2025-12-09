@@ -8,8 +8,8 @@ import sys
 import configparser
 from typing import Any
 from loguru import logger as _logger
-from backend.src.security.encrypt import encrypt_message
-from backend.src.security.encrypt import init_key
+from src.security.encrypt import encrypt_message
+from src.security.encrypt import init_key
 
 
 KEY = None
@@ -31,7 +31,8 @@ def init_logger():
     KEY = init_key()
 
     config_file = configparser.ConfigParser()
-    config_file.read('./backend/config.ini')
+    config_file.read('./config.ini')
+    print(config_file.sections())
     global LOG_CONFIG
     LOG_CONFIG = config_file['log']
     event_log_config = config_file['event_log']

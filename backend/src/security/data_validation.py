@@ -37,7 +37,7 @@ Example
 
 import jsonschema
 from jsonschema import validate
-from backend.src.logger import logger
+from src.logger import logger
 
 
 def data_validation (data):

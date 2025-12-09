@@ -1,0 +1,75 @@
+# Production-grade Docker Compose configuration
+# For production deployment on servers or cloud platforms
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: teamblue-backend-prod
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /app/gcp-key.json
+      PYTHONUNBUFFERED: 1
+      LOG_LEVEL: WARNING
+    volumes:
+      - ${GCP_KEY_PATH}:/app/gcp-key.json:ro
+      - backend-logs:/app/logs
+    networks:
+      - teamblue-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 512M
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: teamblue-frontend-prod
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - teamblue-network
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+networks:
+  teamblue-network:
+    driver: bridge
+
+volumes:
+  backend-logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./logs/backend

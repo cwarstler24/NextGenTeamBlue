@@ -1,3 +1,20 @@
+# Virtual environment
+venv/
+
+# Python compiled bytecode
+__pycache__/
+
+# Config files
+.vscode
+.pylintrc
+
+# Logging files
+*.log
+.coverage
+
+# Environment files
+env/
+
 # Logs
 logs
 *.log
@@ -34,3 +51,6 @@ coverage
 
 # Vitest
 __screenshots__/
+env/gcp-key.json
+.env
+env/gcp-key.json

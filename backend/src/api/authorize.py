@@ -1,16 +1,7 @@
-from enum import Enum
 from fastapi import HTTPException, Request
-from backend.src.database.authorize import Role
-from backend.src.logger import logger
+from src.database.authorize import Role
+from src.logger import logger
 
-class EmployeeTitle(Enum):
-    MANAGER = "manager"
-    AIDE = "aide"
-    DEVELOPER = "developer"
-    SALESAGENT = "sales agent"
-
-class ManagerTitle(Enum):
-    MANAGER = "manager"
 
 async def authorize_request(request: Request, decoded_payload: dict):
     """
@@ -49,6 +40,8 @@ async def authorize_request(request: Request, decoded_payload: dict):
 def get_db_role(user_title: str = "") -> Role:
     """
     Returns the database role for the given user title.
+    Managers get full access, all other roles (Developer, Aide, Sales Agent, etc.) get employee access.
+    
     Args:
         user_title (str): The user's title.
 
@@ -58,16 +51,14 @@ def get_db_role(user_title: str = "") -> Role:
     logger.event(f"user_title: {user_title}", level="trace")
 
     user_title = user_title.lower()
-    role = Role.OTHER
+    
+    # Managers get manager role
     if user_title == "manager":
-        role = Role.MANAGER
-    elif user_title == "aide":
-        role = Role.AIDE
-    elif user_title == "developer":
-        role = Role.DEVELOPER
-    elif user_title == "sales agent":
-        role = Role.SALESAGENT
-
-
-
-    return role
+        return Role.MANAGER
+    
+    # All other roles (developer, aide, sales agent, etc.) get employee access
+    if user_title in ["aide", "developer", "sales agent"]:
+        return Role.EMPLOYEE
+    
+    # Unknown roles default to OTHER (no access)
+    return Role.OTHER
