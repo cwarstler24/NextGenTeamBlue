@@ -178,7 +178,9 @@ export default {
     const assetNotes = ref('');
     const assetIsDecommissioned = ref(0);
     const router = useRouter();
-<<<<<<< HEAD
+    const { assetTypes, getAssetTypeName, fetchAssetTypes } = useAssetTypes();
+    const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
+    const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
     
     // Employee search functionality
     const employeeSearchQuery = ref('');
@@ -186,12 +188,8 @@ export default {
     const filteredEmployees = ref([]);
     const selectedEmployee = ref(null);
     const showEmployeeDropdown = ref(false);
-=======
-    const { assetTypes, getAssetTypeName, fetchAssetTypes } = useAssetTypes();
-    const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
-    const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
+
     onMounted(fetchAssetTypes);
->>>>>>> fe7d5e40c0c25910f0dd01720cf13320b4de4ca2
 
     const addAsset = async () => {
       let token = localStorage.getItem('bearerToken');
