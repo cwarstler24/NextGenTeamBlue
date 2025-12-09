@@ -1,7 +1,6 @@
 import { ref } from 'vue';
 import axios from 'axios';
-
-const API_BASE = 'http://0.0.0.0:0000';
+import { API_BASE } from '../config/api';
 
 /**
  * Composable for managing asset locations

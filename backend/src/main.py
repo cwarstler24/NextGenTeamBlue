@@ -1,5 +1,4 @@
 import sqlalchemy
-from fastapi.middleware.cors import CORSMiddleware
 from src.app_factory import create_app
 from src.database.database_connector import get_db_connection
 from src.logger import logger
@@ -18,15 +17,6 @@ def employees_count():
         rows = db_conn.execute(sqlalchemy.text("SELECT 1")).fetchall()
     logger.security("employees_count accessed", level="info")
     return {"count": len(rows)}
-
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # For development only - restrict in production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 if __name__ == "__main__":
     # simple manual poke if you run `python -m src.main`

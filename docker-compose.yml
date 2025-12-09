@@ -29,8 +29,8 @@ services:
     networks:
       - teamblue-network
     restart: unless-stopped
-    depends_on:
-      - cloudsql-proxy
+    # depends_on:
+    #   - cloudsql-proxy
 
   # Frontend Service - Vue 3 + Nginx
   frontend:
