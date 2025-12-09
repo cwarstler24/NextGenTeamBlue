@@ -22,6 +22,9 @@ import { RouterLink, RouterView } from 'vue-router'
           <RouterLink to="/add-asset">
             Add Asset
           </RouterLink>
+          <RouterLink to="/employees">
+            Employees
+          </RouterLink>
         </nav>
       </div>
     </header>
