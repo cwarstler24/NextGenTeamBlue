@@ -1,46 +1,30 @@
 <template>
-  <div class="asset-add-view">
+  <div class="asset-update-view">
     <div class="page-header">
-      <button
-        class="btn-back"
-        @click="goBack"
-      >
+      <button class="btn-back" @click="goBack">
         ← Back to List
       </button>
     </div>
 
-    <div class="form-container">
+    <div v-if="errorMsg" class="error">
+      <strong>Error:</strong> {{ errorMsg }}
+    </div>
+
+    <div v-if="asset" class="form-container">
       <div class="form-header">
-        <h1>Add New Asset</h1>
-        <p>Fill in the details to register a new asset in the system</p>
+        <h1>Update Asset</h1>
+        <p>Modify the asset details and submit to save changes</p>
       </div>
 
-      <form
-        class="asset-form"
-        @submit.prevent="addAsset"
-      >
+      <form class="asset-form" @submit.prevent="updateAsset">
         <div class="form-grid">
           <div class="form-group">
             <label for="type_id">
               Type ID
               <span class="required">*</span>
             </label>
-            <select
-              id="type_id"
-              v-model.number="assetType"
-              required
-            >
-              <option
-                disabled
-                value=""
-              >
-                Please select one
-              </option>
-              <option
-                v-for="type in assetTypes"
-                :key="type.id"
-                :value="type.id"
-              >
+            <select id="type_id" v-model.number="assetType" required>
+              <option v-for="type in assetTypes" :key="type.id" :value="type.id">
                 {{ getAssetTypeName(type.id) }}
               </option>
             </select>
@@ -52,10 +36,7 @@
               Location ID
               <span class="help-text-inline">(or Employee ID below)</span>
             </label>
-            <select
-              id="location_id"
-              v-model.number="assetLocation"
-            >
+            <select id="location_id" v-model.number="assetLocation">
               <option :value="null">
                 Not assigned to location
               </option>
@@ -77,36 +58,16 @@
 
           <div class="form-group">
             <label for="employee_id">
-              Employee
+              Employee ID
               <span class="help-text-inline">(or Location ID above)</span>
             </label>
-            <div class="employee-search">
-              <input 
-                id="employee_search"
-                type="text" 
-                v-model="employeeSearchQuery"
-                @input="searchEmployees"
-                @focus="showEmployeeDropdown = true"
-                placeholder="Search by name..."
-                autocomplete="off"
-              />
-              <div v-if="showEmployeeDropdown && filteredEmployees.length > 0" class="employee-dropdown">
-                <div 
-                  v-for="emp in filteredEmployees" 
-                  :key="emp.employee_id"
-                  @click="selectEmployee(emp)"
-                  class="employee-option"
-                >
-                  {{ emp.first_name }} {{ emp.last_name }} (ID: {{ emp.employee_id }})
-                </div>
-              </div>
-            </div>
-            <small class="help-text">
-              <span v-if="selectedEmployee">
-                Selected: {{ selectedEmployee.first_name }} {{ selectedEmployee.last_name }}
-              </span>
-              <span v-else>Search and select employee responsible for this asset</span>
-            </small>
+            <input 
+              id="employee_id"
+              v-model.number="assetEmployeeID" 
+              type="number"
+              placeholder="Enter employee ID (or leave blank for location)"
+            >
+            <small class="help-text">Employee responsible for this asset</small>
           </div>
 
           <div class="form-group">
@@ -142,28 +103,26 @@
         </div>
 
         <div class="form-actions">
-          <button
-            type="submit"
-            class="btn-primary"
-          >
-            Add Asset
+          <button type="submit" class="btn-primary" :disabled="isUpdating">
+            {{ isUpdating ? 'Updating...' : 'Update Asset' }}
           </button>
-          <button
-            type="button"
-            class="btn-secondary"
-            @click="goBack"
-          >
+          <button type="button" class="btn-secondary" @click="goBack">
             Cancel
           </button>
         </div>
       </form>
+    </div>
+
+    <div v-else class="loading-state">
+      <div class="spinner" />
+      <p>Loading asset details...</p>
     </div>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { useAssetTypes } from '../composables/useAssetTypes';
 import { useAssetEmployees } from '../composables/useAssetEmployees';
@@ -172,28 +131,61 @@ import { API_BASE } from '../config/api';
 
 export default {
   setup() {
+    const asset = ref(null);
     const assetType = ref('');
-    const assetLocation = ref('');
+    const assetLocation = ref(null);
     const assetEmployeeID = ref('');
     const assetNotes = ref('');
     const assetIsDecommissioned = ref(0);
+    const errorMsg = ref('');
     const router = useRouter();
-<<<<<<< HEAD
-    
-    // Employee search functionality
-    const employeeSearchQuery = ref('');
-    const employees = ref([]);
-    const filteredEmployees = ref([]);
-    const selectedEmployee = ref(null);
-    const showEmployeeDropdown = ref(false);
-=======
+    const route = useRoute();
+    const isUpdating = ref(false);
     const { assetTypes, getAssetTypeName, fetchAssetTypes } = useAssetTypes();
     const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
     const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
-    onMounted(fetchAssetTypes);
->>>>>>> fe7d5e40c0c25910f0dd01720cf13320b4de4ca2
 
-    const addAsset = async () => {
+    const fetchAsset = async () => {
+      let token = localStorage.getItem('bearerToken');
+      if (!token) {
+        errorMsg.value = 'No bearer token set. Go to Home and save one first.';
+        return;
+      }
+      if (!token.toLowerCase().startsWith('bearer ')) {
+        token = `Bearer ${token}`;
+      }
+      try {
+        const response = await axios.get(`${API_BASE}/resources/${route.params.id}`, {
+          headers: { Authorization: token },
+        });
+        asset.value = response.data;
+        
+        // Populate form fields with asset data
+        assetType.value = asset.value.type_id;
+        assetLocation.value = asset.value.location_id || null;
+        assetEmployeeID.value = asset.value.employee_id || '';
+        assetNotes.value = asset.value.notes || '';
+        
+        // Convert binary is_decommissioned to proper boolean/number
+        if (asset.value.is_decommissioned !== null && asset.value.is_decommissioned !== undefined) {
+          if (typeof asset.value.is_decommissioned === 'object') {
+            assetIsDecommissioned.value = asset.value.is_decommissioned[0] === 1 ? 1 : 0;
+          } else if (typeof asset.value.is_decommissioned === 'number') {
+            assetIsDecommissioned.value = asset.value.is_decommissioned === 1 ? 1 : 0;
+          } else if (typeof asset.value.is_decommissioned === 'string') {
+            assetIsDecommissioned.value = (asset.value.is_decommissioned === '1' || 
+                                             asset.value.is_decommissioned.charCodeAt(0) === 1) ? 1 : 0;
+          }
+        }
+        
+        console.log('Asset loaded for update:', asset.value);
+      } catch (error) {
+        console.error('Error fetching asset:', error);
+        errorMsg.value = error?.response?.data?.detail || 'Failed to fetch asset details';
+      }
+    };
+
+    const updateAsset = async () => {
       let token = localStorage.getItem('bearerToken');
       if (!token) {
         alert('⚠️ No bearer token set. Go to Home and save one first.');
@@ -202,20 +194,24 @@ export default {
       if (!token.toLowerCase().startsWith('bearer ')) {
         token = `Bearer ${token}`;
       }
+      
+      isUpdating.value = true;
+      
       try {
-        // Build payload - only include location_id OR employee_id, never both as nulls
+        // Build payload with updated values
         const payload = {
           type_id: assetType.value,
           is_decommissioned: assetIsDecommissioned.value,
         };
         
-        // Add either location_id or employee_id (exactly one must be set)
+        // Add either location_id or employee_id (exactly one should be set)
         if (assetLocation.value) {
           payload.location_id = assetLocation.value;
         } else if (assetEmployeeID.value) {
           payload.employee_id = assetEmployeeID.value;
         } else {
           alert('Please assign the asset to either a location or an employee.');
+          isUpdating.value = false;
           return;
         }
         
@@ -224,96 +220,49 @@ export default {
           payload.notes = assetNotes.value;
         }
         
-        await axios.post(`${API_BASE}/resources/`, payload, {
+        await axios.put(`${API_BASE}/resources/${route.params.id}`, payload, {
           headers: { Authorization: token },
         });
         
-        alert('Asset added successfully!');
-        router.push({ name: 'AssetList' });
+        alert('Asset updated successfully!');
+        router.push({ name: 'AssetView', params: { id: route.params.id } });
       } catch (error) {
-        console.error('Error adding asset:', error);
-        alert((error?.response?.data?.detail || 'Failed to add asset'));
+        console.error('Error updating asset:', error);
+        alert((error?.response?.data?.detail || 'Failed to update asset'));
+      } finally {
+        isUpdating.value = false;
       }
     };
 
     const goBack = () => {
-      router.push({ name: 'AssetList' });
-    };
-
-    const fetchEmployees = async () => {
-      let token = localStorage.getItem('bearerToken');
-      if (!token) return;
-      if (!token.toLowerCase().startsWith('bearer ')) {
-        token = `Bearer ${token}`;
-      }
-      try {
-        const response = await axios.get(`${API_BASE}/resources/employees/`, {
-          headers: { Authorization: token },
-          params: { limit: 250 }
-        });
-        employees.value = response.data;
-      } catch (error) {
-        console.error('Error fetching employees:', error);
-      }
-    };
-
-    const searchEmployees = () => {
-      const query = employeeSearchQuery.value.toLowerCase().trim();
-      if (query === '') {
-        filteredEmployees.value = employees.value.slice(0, 20);
-      } else {
-        filteredEmployees.value = employees.value.filter(emp => {
-          const fullName = `${emp.first_name} ${emp.last_name}`.toLowerCase();
-          return fullName.includes(query) || emp.employee_id.toString().includes(query);
-        }).slice(0, 20);
-      }
-    };
-
-    const selectEmployee = (emp) => {
-      selectedEmployee.value = emp;
-      assetEmployeeID.value = emp.employee_id;
-      employeeSearchQuery.value = `${emp.first_name} ${emp.last_name}`;
-      showEmployeeDropdown.value = false;
-      // Clear location when employee is selected
-      assetLocation.value = null;
-    };
-
-    // Close dropdown when clicking outside
-    const handleClickOutside = (event) => {
-      if (!event.target.closest('.employee-search')) {
-        showEmployeeDropdown.value = false;
-      }
+      router.push({ name: 'AssetView', params: { id: route.params.id } });
     };
 
     onMounted(() => {
-      fetchEmployees();
-      document.addEventListener('click', handleClickOutside);
+      fetchAsset();
+      fetchAssetTypes();
     });
 
-    return { 
-      assetType, 
-      assetLocation, 
-      assetEmployeeID, 
-      assetNotes, 
+    return {
+      asset,
+      assetType,
+      assetLocation,
+      assetEmployeeID,
+      assetNotes,
       assetIsDecommissioned,
       assetTypes,
       getAssetTypeName,
-      addAsset,
+      errorMsg,
+      updateAsset,
       goBack,
-      employeeSearchQuery,
-      employees,
-      filteredEmployees,
-      selectedEmployee,
-      showEmployeeDropdown,
-      searchEmployees,
-      selectEmployee
+      isUpdating,
     };
   },
 };
 </script>
 
 <style scoped>
-.asset-add-view {
+.asset-update-view {
   max-width: 800px;
   margin: 0 auto;
 }
@@ -432,13 +381,18 @@ export default {
 
 .btn-primary {
   flex: 1;
-  background: var(--color-success);
+  background: var(--color-primary);
   padding: 0.875rem 1.5rem;
   font-size: 1rem;
 }
 
-.btn-primary:hover {
-  background: #059669;
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .btn-secondary {
@@ -453,38 +407,29 @@ export default {
   background: var(--color-background-mute);
 }
 
-.employee-search {
-  position: relative;
+.loading-state {
+  text-align: center;
+  padding: 4rem 2rem;
 }
 
-.employee-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-top: none;
-  border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
-  max-height: 240px;
-  overflow-y: auto;
-  box-shadow: var(--shadow-md);
-  z-index: 10;
+.spinner {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+  border: 4px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
 }
 
-.employee-option {
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.15s;
-  border-bottom: 1px solid var(--color-border-light);
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.employee-option:last-child {
-  border-bottom: none;
-}
-
-.employee-option:hover {
-  background: var(--color-background-soft);
+.loading-state p {
+  color: var(--color-text-muted);
 }
 
 @media (max-width: 768px) {

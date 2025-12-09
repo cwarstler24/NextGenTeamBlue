@@ -1,7 +1,7 @@
 <template>
   <div class="asset-view">
     <div class="page-header">
-      <button @click="goBack" class="btn-back">
+      <button class="btn-back" @click="goBack">
         ← Back to List
       </button>
     </div>
@@ -36,8 +36,8 @@
               <span class="value">{{ asset.resource_id || 'Not set' }}</span>
             </div>
             <div class="detail-row">
-              <span class="label">Type ID:</span>
-              <span class="value">{{ asset.type_id }}</span>
+              <span class="label">Type:</span>
+              <span class="value">{{ getAssetTypeName(asset.type_id) }}</span>
             </div>
             <div class="detail-row">
               <span class="label">Date Added:</span>
@@ -76,19 +76,32 @@
 
         <div v-if="asset.notes" class="detail-card notes-card">
           <h3>Notes</h3>
-          <p class="notes-content">{{ asset.notes }}</p>
+          <p class="notes-content">
+            {{ asset.notes }}
+          </p>
         </div>
       </div>
 
       <div class="action-buttons">
-        <button @click="goBack" class="btn-secondary">
+        <button class="btn-secondary" @click="goBack">
           ← Back to List
+        </button>
+        <button class="btn-secondary" @click="updateAsset">
+          Update Asset
+        </button>
+        <button 
+          v-if="!asset.is_decommissioned"
+          class="btn-danger" 
+          :disabled="isDecommissioning"
+          @click="decommissionAsset"
+        >
+          {{ isDecommissioning ? 'Decommissioning...' : 'Decommission Asset' }}
         </button>
       </div>
     </div>
 
     <div v-else-if="!errorMsg" class="loading-state">
-      <div class="spinner"></div>
+      <div class="spinner" />
       <p>Loading asset details...</p>
     </div>
   </div>
@@ -98,8 +111,10 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-
-const API_BASE = 'http://127.0.0.1:8000';
+import { useAssetTypes } from '../composables/useAssetTypes';
+import { useAssetEmployees } from '../composables/useAssetEmployees';
+import { useAssetLocations } from '../composables/useAssetLocations';
+import { API_BASE } from '../config/api';
 
 export default {
   setup() {
@@ -107,6 +122,10 @@ export default {
     const errorMsg = ref('');
     const route = useRoute();
     const router = useRouter();
+    const { getAssetTypeName, fetchAssetTypes } = useAssetTypes();
+    const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
+    const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
+    const isDecommissioning = ref(false);
 
     const fetchAsset = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -117,6 +136,10 @@ export default {
       if (!token.toLowerCase().startsWith('bearer ')) {
         token = `Bearer ${token}`;
       }
+      
+      // Fetch asset types first
+      await fetchAssetTypes();
+      
       try {
         const response = await axios.get(`${API_BASE}/resources/${route.params.id}`, {
           headers: { Authorization: token },
@@ -138,7 +161,6 @@ export default {
         }
         
         console.log('Asset details:', response.data);
-        console.log('is_decommissioned (normalized):', asset.value.is_decommissioned);
       } catch (error) {
         console.error('Error fetching asset:', error);
         errorMsg.value = error?.response?.data?.detail || 'Failed to fetch asset details';
@@ -147,6 +169,51 @@ export default {
 
     const goBack = () => {
       router.push({ name: 'AssetList' });
+    };
+    
+    const updateAsset = () => {
+      router.push({ name: 'AssetUpdate', params: { id: asset.value.id } });
+    };
+
+    const decommissionAsset = async () => {
+      const confirmed = window.confirm(
+        `Are you sure you want to decommission "${asset.value.resource_id || `Asset #${asset.value.id}`}"?\n\nThis action will mark the asset as decommissioned.`
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      isDecommissioning.value = true;
+
+      let token = localStorage.getItem('bearerToken');
+      if (!token.toLowerCase().startsWith('bearer ')) {
+        token = `Bearer ${token}`;
+      }
+
+      try {
+        const response = await axios.put(
+          `${API_BASE}/resources/${asset.value.id}`,
+          {
+            ...asset.value,
+            is_decommissioned: 1,
+          },
+          {
+            headers: { Authorization: token },
+          }
+        );
+
+        console.log('Decommission response:', response);
+
+        // Refresh the asset to show updated status
+        await fetchAsset();
+      } catch (error) {
+        console.error('Error decommissioning asset:', error);
+        errorMsg.value = error?.response?.data?.detail || 'Failed to decommission asset';
+        alert((error?.response?.data?.detail || 'Failed to decommission asset'));
+      } finally {
+        isDecommissioning.value = false;
+      }
     };
 
     const formatDate = (dateString) => {
@@ -163,7 +230,7 @@ export default {
 
     onMounted(fetchAsset);
 
-    return { asset, errorMsg, goBack, formatDate };
+    return { asset, errorMsg, goBack, updateAsset, decommissionAsset, formatDate, getAssetTypeName, isDecommissioning };
   },
 };
 </script>
@@ -199,6 +266,21 @@ export default {
 
 .btn-secondary:hover {
   background: var(--color-background-mute);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .asset-details {
@@ -327,6 +409,19 @@ export default {
   gap: 1rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--color-border);
+  justify-content: space-between;
+}
+
+.action-buttons .btn-secondary:first-child {
+  flex: 0 0 auto;
+}
+
+.action-buttons .btn-secondary:nth-child(2) {
+  flex: 0 0 auto;
+}
+
+.action-buttons .btn-danger {
+  flex: 0 0 auto;
 }
 
 .loading-state {

@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import AssetView from '../views/AssetView.vue'
 import AssetAddView from '../views/AssetAddView.vue'
 import AssetListView from '../views/AssetListView.vue'
+import AssetUpdateView from '../views/AssetUpdateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/assets/:id',
       name: 'AssetView',
       component: AssetView,
+    },
+    {
+      path : '/assets/:id/update',
+      name: 'AssetUpdate',
+      component: AssetUpdateView,
     },
     {
       path: '/add-asset',

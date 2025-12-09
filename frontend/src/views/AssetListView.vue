@@ -3,9 +3,11 @@
     <div class="page-header">
       <div>
         <h1>Asset Inventory</h1>
-        <p class="subtitle">Browse and manage all system assets</p>
+        <p class="subtitle">
+          Browse and manage all system assets
+        </p>
       </div>
-      <button @click="goToAddAsset" class="btn-add">
+      <button class="btn-add" @click="goToAddAsset">
         Add New Asset
       </button>
     </div>
@@ -14,18 +16,61 @@
       <strong>Error:</strong> {{ errorMsg }}
     </div>
 
-    <div v-if="assets.length === 0 && !errorMsg" class="empty-state">
+    <div class="filter-section">
+      <div class="filter-controls">
+        <div class="filter-group">
+          <label for="employeeIdFilter">Employee ID:</label>
+          <input 
+            id="employeeIdFilter"
+            v-model.trim="filterEmployeeId" 
+            type="text" 
+            placeholder="Enter employee ID"
+            class="filter-input"
+            @keyup.enter="applyFilters"
+          >
+        </div>
+        <div class="filter-group">
+          <label for="typeIdFilter">Type ID:</label>
+          <input 
+            id="typeIdFilter"
+            v-model.trim="filterTypeId" 
+            type="text" 
+            placeholder="Enter type ID"
+            class="filter-input"
+            @keyup.enter="applyFilters"
+          >
+        </div>
+        <div class="filter-buttons">
+          <button class="btn-filter" @click="applyFilters">
+            Search
+          </button>
+          <button class="btn-clear" @click="clearFilters">
+            Clear
+          </button>
+        </div>
+      </div>
+      <div v-if="activeFilters" class="active-filters">
+        <span class="filter-tag">
+          Filtered Results
+          <span class="result-count">({{ filteredAssets.length }})</span>
+        </span>
+      </div>
+    </div>
+
+    <div v-if="displayedAssets.length === 0 && !errorMsg" class="empty-state">
       <h2>No Assets Found</h2>
       <p>Get started by adding your first asset to the system.</p>
-      <button @click="goToAddAsset" class="btn-primary">Add First Asset</button>
+      <button class="btn-primary" @click="goToAddAsset">
+        Add First Asset
+      </button>
     </div>
 
     <div v-else class="asset-grid">
       <div 
-        v-for="asset in assets" 
+        v-for="asset in displayedAssets" 
         :key="asset.id" 
-        @click="viewAsset(asset)"
         class="asset-card"
+        @click="viewAsset(asset)"
       >
         <div class="asset-header">
           <h3>{{ asset.resource_id || `Asset #${asset.id}` }}</h3>
@@ -43,7 +88,7 @@
           <div class="asset-meta">
             <div class="meta-item">
               <span class="meta-label">Type:</span>
-              <span class="meta-value">{{ asset.type_id }}</span>
+              <span class="meta-value">{{ getAssetTypeName(asset.type_id) }}</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Added:</span>
@@ -60,17 +105,26 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-
-const API_BASE = 'http://127.0.0.1:8000';
+import { useAssetTypes } from '../composables/useAssetTypes';
+import { useAssetEmployees } from '../composables/useAssetEmployees';
+import { useAssetLocations } from '../composables/useAssetLocations';
+import { API_BASE } from '../config/api';
 
 export default {
   setup() {
     const assets = ref([]);
+    const filteredAssets = ref([]);
     const router = useRouter();
     const errorMsg = ref('');
+    const filterEmployeeId = ref('');
+    const filterTypeId = ref('');
+    const activeFilters = ref(false);
+    const { getAssetTypeName, fetchAssetTypes } = useAssetTypes();
+    const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
+    const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
 
     const fetchAssets = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -82,6 +136,10 @@ export default {
       if (!token.toLowerCase().startsWith('bearer ')) {
         token = `Bearer ${token}`;
       }
+      
+      // Fetch asset types first
+      await fetchAssetTypes();
+      
       try {
         const response = await axios.get(`${API_BASE}/resources/`, {
           headers: { Authorization: token },
@@ -103,7 +161,6 @@ export default {
         });
         
         console.log('Assets received from API:', response.data);
-        console.log('First asset is_decommissioned:', assets.value[0]?.is_decommissioned);
         errorMsg.value = '';
       } catch (error) {
         console.error('Error fetching assets:', error);
@@ -132,7 +189,51 @@ export default {
 
     onMounted(fetchAssets);
 
-    return { assets, viewAsset, goToAddAsset, errorMsg, formatDate };
+    const applyFilters = () => {
+      if (!filterEmployeeId.value && !filterTypeId.value) {
+        activeFilters.value = false;
+        filteredAssets.value = [];
+        return;
+      }
+
+      filteredAssets.value = assets.value.filter(asset => {
+        const matchesEmployee = !filterEmployeeId.value || 
+          (asset.employee_id && asset.employee_id.toString().includes(filterEmployeeId.value));
+        const matchesType = !filterTypeId.value || 
+          (asset.type_id && asset.type_id.toString().includes(filterTypeId.value));
+        
+        return matchesEmployee && matchesType;
+      });
+
+      activeFilters.value = true;
+    };
+
+    const clearFilters = () => {
+      filterEmployeeId.value = '';
+      filterTypeId.value = '';
+      filteredAssets.value = [];
+      activeFilters.value = false;
+    };
+
+    const displayedAssets = computed(() => {
+      return activeFilters.value ? filteredAssets.value : assets.value;
+    });
+
+    return { 
+      assets, 
+      displayedAssets,
+      viewAsset, 
+      goToAddAsset, 
+      errorMsg, 
+      formatDate,
+      getAssetTypeName,
+      filterEmployeeId,
+      filterTypeId,
+      applyFilters,
+      clearFilters,
+      activeFilters,
+      filteredAssets
+    };
   },
 };
 </script>
@@ -179,6 +280,111 @@ export default {
 
 .btn-add .icon {
   font-size: 1rem;
+}
+
+.filter-section {
+  background: var(--color-background-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.filter-input {
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: 0.9375rem;
+  background: var(--color-background);
+  color: var(--color-text);
+  transition: border-color 0.2s ease;
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-filter {
+  background: var(--color-primary);
+  color: white;
+  padding: 0.625rem 1.5rem;
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-filter:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn-clear {
+  background: var(--color-background);
+  color: var(--color-text);
+  padding: 0.625rem 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-clear:hover {
+  background: var(--color-border);
+  border-color: var(--color-text-muted);
+}
+
+.active-filters {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-primary);
+  color: white;
+  padding: 0.375rem 0.875rem;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.result-count {
+  opacity: 0.9;
 }
 
 .empty-state {
@@ -316,6 +522,23 @@ export default {
   .btn-add {
     width: 100%;
     justify-content: center;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+  }
+
+  .filter-group {
+    min-width: unset;
+  }
+
+  .filter-buttons {
+    width: 100%;
+  }
+
+  .btn-filter,
+  .btn-clear {
+    flex: 1;
   }
 
   .asset-grid {
