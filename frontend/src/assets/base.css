@@ -1,29 +1,31 @@
-/* Mascot-inspired color palette - Action Hero Spoon Theme */
+/* Christmas Holiday Theme - Santa Swab Edition 🎄 */
 :root {
   /* Base colors */
   --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f9fa;
-  --vt-c-white-mute: #f1f3f5;
+  --vt-c-white-soft: #fffef7;
+  --vt-c-white-mute: #faf9f0;
 
   --vt-c-black: #1a1a1a;
   --vt-c-black-soft: #2d2d2d;
   --vt-c-black-mute: #3a3a3a;
 
-  /* Primary brand colors - Teal/Blue Mascot theme */
-  --vt-c-primary: #14b8a6; /* Teal from mascot */
-  --vt-c-primary-dark: #0f766e;
-  --vt-c-primary-light: #2dd4bf;
+  /* Primary brand colors - Christmas theme */
+  --vt-c-primary: #c41e3a; /* Christmas red */
+  --vt-c-primary-dark: #8b0000;
+  --vt-c-primary-light: #e63946;
   
-  /* Accent colors - Action theme */
-  --vt-c-success: #10b981;
-  --vt-c-warning: #f97316; /* Orange from explosions */
-  --vt-c-danger: #dc2626; /* Red bandana accent */
-  --vt-c-info: #06b6d4;
+  /* Accent colors - Holiday theme */
+  --vt-c-success: #165b33; /* Christmas green */
+  --vt-c-warning: #d4af37; /* Gold */
+  --vt-c-danger: #dc2626; /* Bright red */
+  --vt-c-info: #4a90e2; /* Winter blue */
   
-  /* Military/Action colors */
-  --vt-c-military: #4a5525; /* Olive green */
-  --vt-c-action-orange: #fb923c; /* Explosion orange */
-  --vt-c-sky: #0ea5e9; /* Sky blue */
+  /* Christmas colors */
+  --vt-c-christmas-green: #0f5132; /* Deep green */
+  --vt-c-christmas-gold: #ffd700; /* Bright gold */
+  --vt-c-snow: #e8f4f8; /* Snow white-blue */
+  --vt-c-holly: #228b22; /* Holly green */
+  --vt-c-cranberry: #9d2235; /* Cranberry red */
 
   /* Neutral colors */
   --vt-c-gray-50: #f9fafb;
@@ -109,7 +111,8 @@
 body {
   min-height: 100vh;
   color: var(--color-text);
-  background: var(--color-background);
+  background: linear-gradient(to bottom, #fffef7 0%, #faf9f0 50%, #fff5e6 100%);
+  background-attachment: fixed;
   transition:
     color 0.5s,
     background-color 0.5s;

@@ -21,13 +21,13 @@ import { RouterLink, RouterView } from 'vue-router'
             🏠 Home
           </RouterLink>
           <RouterLink to="/mascot-theme">
-            🎖️ Our Hero
+            🎅 Santa Swab
           </RouterLink>
           <RouterLink to="/login">
             🔐 Login
           </RouterLink>
           <RouterLink to="/assets">
-            📦 Assets
+            🎁 Assets
           </RouterLink>
           <RouterLink to="/add-asset">
             ➕ Add Asset
@@ -41,14 +41,22 @@ import { RouterLink, RouterView } from 'vue-router'
 
     <main>
       <div class="mascot-watermark"></div>
+      <div class="snowflakes" aria-hidden="true">
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+      </div>
       <RouterView />
     </main>
     
     <footer class="app-footer">
       <div class="footer-mascot">
-        <img src="/mascot/mascot-hero.png" alt="Team Blue Hero" />
+        <img src="/mascot/SantaSwab.png" alt="Santa Swab" />
       </div>
-      <p>Team Blue Asset Management System - Secured by our Action Hero</p>
+      <p>🎄 Team Blue Asset Management System - Ho Ho Ho! Merry Christmas! 🎅</p>
     </footer>
   </div>
 </template>
@@ -62,13 +70,13 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 
 header {
-  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 50%, #0ea5e9 100%);
+  background: linear-gradient(135deg, #c41e3a 0%, #165b33 50%, #c41e3a 100%);
   color: white;
-  box-shadow: 0 4px 20px rgba(20, 184, 166, 0.3);
+  box-shadow: 0 4px 20px rgba(196, 30, 58, 0.4);
   padding: 1.5rem 2rem;
   position: relative;
   overflow: hidden;
-  border-bottom: 3px solid #fb923c;
+  border-bottom: 4px solid #ffd700;
 }
 
 .mascot-background {
@@ -78,9 +86,16 @@ header {
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(circle at 20% 50%, rgba(251, 146, 60, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.05) 10px, rgba(255, 255, 255, 0.05) 20px);
   pointer-events: none;
+  animation: snowfall 20s linear infinite;
+}
+
+@keyframes snowfall {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100px; }
 }
 
 .header-content {
@@ -107,16 +122,26 @@ header {
   height: 60px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid #fb923c;
-  box-shadow: 0 0 20px rgba(251, 146, 60, 0.5);
+  border: 4px solid #ffd700;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), 0 0 15px rgba(196, 30, 58, 0.4);
   transition: all 0.3s ease;
   background: white;
+  animation: christmasGlow 2s ease-in-out infinite;
+}
+
+@keyframes christmasGlow {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), 0 0 15px rgba(196, 30, 58, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(255, 215, 0, 0.8), 0 0 25px rgba(22, 91, 51, 0.6);
+  }
 }
 
 .mascot-logo:hover {
   transform: rotate(360deg) scale(1.1);
-  border-color: #f97316;
-  box-shadow: 0 0 30px rgba(251, 146, 60, 0.8);
+  border-color: #c41e3a;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.9), 0 0 30px rgba(196, 30, 58, 0.7);
 }
 
 .mascot-icon {
@@ -166,18 +191,18 @@ nav a {
 }
 
 nav a:hover {
-  background-color: rgba(251, 146, 60, 0.3);
-  border-color: #fb923c;
+  background-color: rgba(255, 215, 0, 0.25);
+  border-color: #ffd700;
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(196, 30, 58, 0.3);
 }
 
 nav a.router-link-exact-active {
-  background-color: #fb923c;
-  border-color: #f97316;
+  background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+  border-color: #ffd700;
   color: white;
-  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
 }
 
 main {
@@ -196,24 +221,49 @@ main {
   right: 20px;
   width: 120px;
   height: 120px;
-  background-image: url('/mascot/mascot-portrait.png');
+  background-image: url('/mascot/SantaSwab.png');
   background-size: cover;
   background-position: center;
-  opacity: 0.08;
+  opacity: 0.12;
   pointer-events: none;
   border-radius: 50%;
   z-index: 0;
   animation: float 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+}
+
+.mascot-watermark::before {
+  content: '❄️';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  font-size: 2rem;
+  animation: snowflakeSpin 4s linear infinite;
+}
+
+@keyframes snowflakeSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .app-footer {
-  background: linear-gradient(to top, #0f766e 0%, #14b8a6 100%);
+  background: linear-gradient(to top, #165b33 0%, #c41e3a 100%);
   color: white;
   padding: 2rem;
   text-align: center;
-  border-top: 3px solid #fb923c;
+  border-top: 4px solid #ffd700;
   position: relative;
   overflow: hidden;
+}
+
+.app-footer::before {
+  content: '🎄 ❄️ 🎁 ⭐ 🔔 ❄️ 🎄';
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  opacity: 0.6;
 }
 
 .footer-mascot {
@@ -222,8 +272,9 @@ main {
   margin: 0 auto 1rem;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid #fb923c;
-  box-shadow: 0 0 20px rgba(251, 146, 60, 0.5);
+  border: 4px solid #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  animation: christmasGlow 2s ease-in-out infinite;
 }
 
 .footer-mascot img {
@@ -275,6 +326,80 @@ main {
   }
   50% {
     transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+/* Christmas snowflakes ❄️ */
+.snowflakes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  top: -10%;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.5rem;
+  animation: snowfall-anim 10s linear infinite;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.snowflake:nth-child(1) {
+  left: 10%;
+  animation-duration: 12s;
+  animation-delay: 0s;
+  font-size: 1.2rem;
+}
+
+.snowflake:nth-child(2) {
+  left: 30%;
+  animation-duration: 10s;
+  animation-delay: 2s;
+  font-size: 1.8rem;
+}
+
+.snowflake:nth-child(3) {
+  left: 50%;
+  animation-duration: 14s;
+  animation-delay: 1s;
+  font-size: 1.5rem;
+}
+
+.snowflake:nth-child(4) {
+  left: 70%;
+  animation-duration: 11s;
+  animation-delay: 3s;
+  font-size: 1.3rem;
+}
+
+.snowflake:nth-child(5) {
+  left: 85%;
+  animation-duration: 13s;
+  animation-delay: 0.5s;
+  font-size: 1.6rem;
+}
+
+.snowflake:nth-child(6) {
+  left: 20%;
+  animation-duration: 15s;
+  animation-delay: 2.5s;
+  font-size: 1.4rem;
+}
+
+@keyframes snowfall-anim {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0.5;
   }
 }
 

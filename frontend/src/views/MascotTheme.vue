@@ -2,8 +2,8 @@
   <div class="mascot-showcase">
     <div class="hero-section animate-in">
       <div class="hero-content">
-        <h1>🎖️ Meet Our Hero</h1>
-        <p>Protecting assets with style and courage!</p>
+        <h1>🎅 Meet Santa Swab!</h1>
+        <p>Delivering asset management joy this holiday season! 🎄</p>
       </div>
     </div>
 
@@ -37,29 +37,29 @@
     </div>
 
     <div class="theme-preview animate-in" style="animation-delay: 0.4s">
-      <h2>🎨 Theme Colors</h2>
+      <h2>🎄 Christmas Theme Colors</h2>
       <div class="color-palette">
-        <div class="color-swatch teal">
+        <div class="color-swatch red">
           <div class="swatch"></div>
-          <span>Mascot Teal</span>
+          <span>Christmas Red</span>
         </div>
-        <div class="color-swatch orange">
+        <div class="color-swatch green">
           <div class="swatch"></div>
-          <span>Action Orange</span>
+          <span>Christmas Green</span>
         </div>
-        <div class="color-swatch sky">
+        <div class="color-swatch gold">
           <div class="swatch"></div>
-          <span>Sky Blue</span>
+          <span>Festive Gold</span>
         </div>
-        <div class="color-swatch danger">
+        <div class="color-swatch snow">
           <div class="swatch"></div>
-          <span>Danger Red</span>
+          <span>Snow White</span>
         </div>
       </div>
     </div>
 
     <div class="button-showcase animate-in" style="animation-delay: 0.5s">
-      <h2>🎯 Action Buttons</h2>
+      <h2>🎁 Holiday Buttons</h2>
       <div class="button-grid">
         <button>Standard Button</button>
         <button class="action-button">Action Button</button>
@@ -109,15 +109,16 @@
   margin: 0 auto 1.5rem;
   border-radius: 50%;
   overflow: hidden;
-  border: 4px solid #fb923c;
-  box-shadow: 0 8px 16px rgba(251, 146, 60, 0.3);
+  border: 5px solid #ffd700;
+  box-shadow: 0 8px 16px rgba(196, 30, 58, 0.3), 0 0 20px rgba(255, 215, 0, 0.4);
   transition: all 0.3s ease;
+  background: white;
 }
 
 .mascot-image-container:hover {
   transform: scale(1.1) rotate(5deg);
-  border-color: #14b8a6;
-  box-shadow: 0 12px 24px rgba(20, 184, 166, 0.4);
+  border-color: #c41e3a;
+  box-shadow: 0 12px 24px rgba(255, 215, 0, 0.6), 0 0 30px rgba(22, 91, 51, 0.5);
 }
 
 .mascot-image-container img {
@@ -127,13 +128,14 @@
 }
 
 .mascot-card h3 {
-  color: #0f766e;
+  color: #c41e3a;
   margin: 1rem 0 0.5rem 0;
   font-size: 1.25rem;
+  text-shadow: 1px 1px 2px rgba(255, 215, 0, 0.3);
 }
 
 .mascot-card p {
-  color: #6b7280;
+  color: #4b5563;
   margin-bottom: 1rem;
   line-height: 1.6;
 }
@@ -144,10 +146,11 @@
   padding: 2rem;
   margin: 2rem 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ffd700;
 }
 
 .theme-preview h2 {
-  color: #0f766e;
+  color: #c41e3a;
   margin: 0 0 1.5rem 0;
   text-align: center;
 }
@@ -176,20 +179,25 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-.color-swatch.teal .swatch {
-  background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
+.color-swatch.red .swatch {
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+  box-shadow: 0 4px 8px rgba(196, 30, 58, 0.3);
 }
 
-.color-swatch.orange .swatch {
-  background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+.color-swatch.green .swatch {
+  background: linear-gradient(135deg, #165b33 0%, #0f5132 100%);
+  box-shadow: 0 4px 8px rgba(22, 91, 51, 0.3);
 }
 
-.color-swatch.sky .swatch {
-  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+.color-swatch.gold .swatch {
+  background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+  box-shadow: 0 4px 8px rgba(255, 215, 0, 0.4);
 }
 
-.color-swatch.danger .swatch {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+.color-swatch.snow .swatch {
+  background: linear-gradient(135deg, #ffffff 0%, #e8f4f8 100%);
+  border: 2px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .color-swatch span {
@@ -204,10 +212,11 @@
   padding: 2rem;
   margin: 2rem 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ffd700;
 }
 
 .button-showcase h2 {
-  color: #0f766e;
+  color: #165b33;
   margin: 0 0 1.5rem 0;
   text-align: center;
 }
