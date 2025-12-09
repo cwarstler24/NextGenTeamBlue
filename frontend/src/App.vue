@@ -5,33 +5,51 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <div id="app">
     <header>
+      <div class="mascot-background"></div>
       <div class="header-content">
         <div class="brand">
-          <h1>Team Blue Asset Management</h1>
+          <div class="mascot-logo">
+            <img src="/mascot/mascot-action.png" alt="Team Blue Mascot" class="mascot-icon" />
+          </div>
+          <div class="brand-text">
+            <h1>Team Blue</h1>
+            <span class="subtitle">Asset Management</span>
+          </div>
         </div>
         <nav>
           <RouterLink to="/">
-            Home
+            🏠 Home
+          </RouterLink>
+          <RouterLink to="/mascot-theme">
+            🎖️ Our Hero
           </RouterLink>
           <RouterLink to="/login">
-            Login
+            🔐 Login
           </RouterLink>
           <RouterLink to="/assets">
-            Assets
+            📦 Assets
           </RouterLink>
           <RouterLink to="/add-asset">
-            Add Asset
+            ➕ Add Asset
           </RouterLink>
           <RouterLink to="/employees">
-            Employees
+            👥 Employees
           </RouterLink>
         </nav>
       </div>
     </header>
 
     <main>
+      <div class="mascot-watermark"></div>
       <RouterView />
     </main>
+    
+    <footer class="app-footer">
+      <div class="footer-mascot">
+        <img src="/mascot/mascot-hero.png" alt="Team Blue Hero" />
+      </div>
+      <p>Team Blue Asset Management System - Secured by our Action Hero</p>
+    </footer>
   </div>
 </template>
 
@@ -40,13 +58,29 @@ import { RouterLink, RouterView } from 'vue-router'
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
 }
 
 header {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 50%, #0ea5e9 100%);
   color: white;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 20px rgba(20, 184, 166, 0.3);
   padding: 1.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid #fb923c;
+}
+
+.mascot-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(251, 146, 60, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .header-content {
@@ -57,37 +91,93 @@ header {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.mascot-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #fb923c;
+  box-shadow: 0 0 20px rgba(251, 146, 60, 0.5);
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.mascot-logo:hover {
+  transform: rotate(360deg) scale(1.1);
+  border-color: #f97316;
+  box-shadow: 0 0 30px rgba(251, 146, 60, 0.8);
+}
+
+.mascot-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
 }
 
 .brand h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.75rem;
+  font-weight: 800;
   margin: 0;
   color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 nav {
   display: flex;
   gap: 0.5rem;
+  animation: slideInRight 0.6s ease-out;
 }
 
 nav a {
-  color: rgba(255, 255, 255, 0.9);
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius-sm);
-  font-weight: 500;
-  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.95);
+  padding: 0.625rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
   font-size: 0.9rem;
+  border: 2px solid transparent;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 nav a:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(251, 146, 60, 0.3);
+  border-color: #fb923c;
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 nav a.router-link-exact-active {
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: #fb923c;
+  border-color: #f97316;
   color: white;
+  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.4);
 }
 
 main {
@@ -96,6 +186,96 @@ main {
   max-width: 1280px;
   margin: 0 auto;
   width: 100%;
+  position: relative;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.mascot-watermark {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 120px;
+  height: 120px;
+  background-image: url('/mascot/mascot-portrait.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.08;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 0;
+  animation: float 6s ease-in-out infinite;
+}
+
+.app-footer {
+  background: linear-gradient(to top, #0f766e 0%, #14b8a6 100%);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  border-top: 3px solid #fb923c;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-mascot {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #fb923c;
+  box-shadow: 0 0 20px rgba(251, 146, 60, 0.5);
+}
+
+.footer-mascot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.app-footer p {
+  margin: 0;
+  font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
 }
 
 @media (max-width: 768px) {
@@ -110,7 +290,17 @@ main {
   }
 
   .brand h1 {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+  }
+
+  .mascot-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .mascot-watermark {
+    width: 80px;
+    height: 80px;
   }
 }
 </style>

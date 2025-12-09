@@ -1,4 +1,4 @@
-/* Presentation-friendly color palette */
+/* Mascot-inspired color palette - Action Hero Spoon Theme */
 :root {
   /* Base colors */
   --vt-c-white: #ffffff;
@@ -9,16 +9,21 @@
   --vt-c-black-soft: #2d2d2d;
   --vt-c-black-mute: #3a3a3a;
 
-  /* Primary brand colors - Blue theme */
-  --vt-c-primary: #2563eb;
-  --vt-c-primary-dark: #1e40af;
-  --vt-c-primary-light: #3b82f6;
+  /* Primary brand colors - Teal/Blue Mascot theme */
+  --vt-c-primary: #14b8a6; /* Teal from mascot */
+  --vt-c-primary-dark: #0f766e;
+  --vt-c-primary-light: #2dd4bf;
   
-  /* Accent colors */
+  /* Accent colors - Action theme */
   --vt-c-success: #10b981;
-  --vt-c-warning: #f59e0b;
-  --vt-c-danger: #ef4444;
+  --vt-c-warning: #f97316; /* Orange from explosions */
+  --vt-c-danger: #dc2626; /* Red bandana accent */
   --vt-c-info: #06b6d4;
+  
+  /* Military/Action colors */
+  --vt-c-military: #4a5525; /* Olive green */
+  --vt-c-action-orange: #fb923c; /* Explosion orange */
+  --vt-c-sky: #0ea5e9; /* Sky blue */
 
   /* Neutral colors */
   --vt-c-gray-50: #f9fafb;
