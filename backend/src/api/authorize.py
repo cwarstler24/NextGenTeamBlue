@@ -1,4 +1,3 @@
-from enum import Enum
 from fastapi import HTTPException, Request
 from src.database.authorize import Role
 from src.logger import logger
