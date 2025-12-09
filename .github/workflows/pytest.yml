@@ -33,4 +33,5 @@ jobs:
 
       - name: Run tests
         run: |
-          PYTHONPATH=$PYTHONPATH:$(pwd) pytest -v --cov --junitxml=pytest-results.xml
+          cd backend
+          PYTHONPATH=$(pwd) pytest -v --cov --junitxml=pytest-results.xml
