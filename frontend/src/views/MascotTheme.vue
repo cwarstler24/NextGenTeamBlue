@@ -17,13 +17,14 @@
         <span class="badge">Hero Mode</span>
       </div>
 
-      <div class="card mascot-card animate-in" style="animation-delay: 0.2s">
+      <div class="card mascot-card animate-in" style="animation-delay: 0.2s; cursor: pointer;" @click="showVideo = true">
         <div class="mascot-image-container">
           <img src="/mascot/mascot-action.png" alt="Action Hero" />
         </div>
         <h3>💥 Action Ready</h3>
         <p>Armed with the best asset management tools!</p>
         <span class="badge action">Combat Ready</span>
+        <p class="click-hint">👆 Click to watch the action!</p>
       </div>
 
       <div class="card mascot-card animate-in" style="animation-delay: 0.3s">
@@ -66,11 +67,25 @@
         <button disabled>Disabled Button</button>
       </div>
     </div>
+
+    <!-- Video Modal -->
+    <div v-if="showVideo" class="video-modal" @click="showVideo = false">
+      <div class="video-container" @click.stop>
+        <button class="close-button" @click="showVideo = false">✕</button>
+        <h2>🎬 Swab The Savior</h2>
+        <video controls autoplay>
+          <source src="/mascot/SwabTheSavior.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// Mascot showcase component
+import { ref } from 'vue'
+
+const showVideo = ref(false)
 </script>
 
 <style scoped>
@@ -226,6 +241,86 @@
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.click-hint {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #ffd700;
+  font-weight: 600;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Video Modal */
+.video-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.video-container {
+  position: relative;
+  background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 90vw;
+  max-height: 90vh;
+  box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3);
+  border: 3px solid #ffd700;
+}
+
+.video-container h2 {
+  color: white;
+  text-align: center;
+  margin: 0 0 1rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.video-container video {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 8px;
+  display: block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #c41e3a;
+  color: white;
+  border: 2px solid #ffd700;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-button:hover {
+  background: #ffd700;
+  color: #1a1a1a;
+  transform: rotate(90deg);
 }
 
 @media (max-width: 768px) {
