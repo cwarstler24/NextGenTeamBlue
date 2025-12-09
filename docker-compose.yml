@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Backend Service - FastAPI
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: teamblue-backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Google Cloud credentials
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/gcp-key.json
+      # Database configuration
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - INSTANCE_CONNECTION_NAME=${INSTANCE_CONNECTION_NAME}
+      # Logging
+      - LOG_PATH=/app/logs
+    volumes:
+      # Mount GCP service account key
+      - ${GCP_KEY_PATH}:/app/gcp-key.json:ro
+      # Mount logs directory
+      - ./logs/backend:/app/logs
+      # Mount config file
+      - ./backend/config.ini:/app/config.ini:ro
+    networks:
+      - teamblue-network
+    restart: unless-stopped
+    depends_on:
+      - cloudsql-proxy
+
+  # Frontend Service - Vue 3 + Nginx
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: teamblue-frontend
+    ports:
+      - "80:80"
+    environment:
+      - VITE_API_BASE=http://backend:8000
+    networks:
+      - teamblue-network
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  # Cloud SQL Proxy (optional - for local development)
+  # Uncomment if running locally without direct access to Cloud SQL
+  # cloudsql-proxy:
+  #   image: gcr.io/cloudsql-docker/cloud-sql-proxy:latest
+  #   container_name: teamblue-cloudsql-proxy
+  #   command: "-instances=${INSTANCE_CONNECTION_NAME}=tcp:0.0.0.0:3306"
+  #   volumes:
+  #     - ${GCP_KEY_PATH}:/config/key.json:ro
+  #   environment:
+  #     - GOOGLE_APPLICATION_CREDENTIALS=/config/key.json
+  #   ports:
+  #     - "3306:3306"
+  #   networks:
+  #     - teamblue-network
+  #   restart: unless-stopped
+
+networks:
+  teamblue-network:
+    driver: bridge
+
+volumes:
+  backend-logs:
+    driver: local

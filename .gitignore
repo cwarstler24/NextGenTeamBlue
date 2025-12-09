@@ -13,7 +13,7 @@ __pycache__/
 .coverage
 
 # Environment files
-env/
+# env/
 
 # Logs
 logs
