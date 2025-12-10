@@ -113,12 +113,12 @@ function parseContent(text: string) {
   // Extract mission statement
   const missionMatch = text.match(/Mission Statement:\s*"([^"]+)"/s)
   if (missionMatch) {
-    missionStatement.value = missionMatch[1].trim().replace(/\s+/g, ' ')
+    missionStatement.value = missionMatch[1]!.trim().replace(/\s+/g, ' ')
   } else {
     // Fallback: try to extract without quotes
     const altMatch = text.match(/Mission Statement:\s*\n(.+?)(?=\n\n|Development Team:)/s)
     if (altMatch) {
-      missionStatement.value = altMatch[1].trim().replace(/\s+/g, ' ').replace(/^"|"$/g, '')
+      missionStatement.value = altMatch[1]!.trim().replace(/\s+/g, ' ').replace(/^"|"$/g, '')
     }
   }
 
@@ -126,7 +126,7 @@ function parseContent(text: string) {
   const teamSection = text.match(/Development Team:(.*?)(?=Copyright Statement:|$)/s)
   if (teamSection) {
     const teamText = teamSection[1]
-    const memberLines = teamText.split('\n').filter(line => line.includes(':'))
+    const memberLines = teamText!.split('\n').filter(line => line.includes(':'))
     
     teamMembers.value = memberLines.map(line => {
       const [title, name] = line.split(':').map(s => s.trim())
@@ -144,7 +144,7 @@ function parseContent(text: string) {
   // Extract copyright
   const copyrightMatch = text.match(/Copyright Statement:(.*)/s)
   if (copyrightMatch) {
-    copyright.value = copyrightMatch[1].trim()
+    copyright.value = copyrightMatch[1]!.trim()
   }
 }
 
