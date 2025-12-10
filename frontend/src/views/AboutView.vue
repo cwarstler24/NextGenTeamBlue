@@ -8,7 +8,7 @@
     </div>
 
     <div v-if="loading" class="loading">
-      <div class="spinner"></div>
+      <div class="spinner" />
       <p>Loading team info...</p>
     </div>
 
@@ -20,26 +20,38 @@
     <div v-else class="content-wrapper animate-in">
       <!-- Mission Statement -->
       <section v-if="missionStatement" class="card mission-card">
-        <div class="card-icon">🎯</div>
+        <div class="card-icon">
+          🎯
+        </div>
         <h2>Our Mission</h2>
-        <p class="mission-text">{{ missionStatement }}</p>
+        <p class="mission-text">
+          {{ missionStatement }}
+        </p>
       </section>
 
       <!-- Development Team -->
       <section v-if="teamMembers.length" class="team-section">
-        <h2 class="section-title">🎅 Development Team</h2>
+        <h2 class="section-title">
+          🎅 Development Team
+        </h2>
         <div class="team-grid">
           <div v-for="member in teamMembers" :key="member.title" class="card team-card">
-            <div class="member-emoji">{{ member.emoji }}</div>
+            <div class="member-emoji">
+              {{ member.emoji }}
+            </div>
             <h3>{{ member.name }}</h3>
-            <p class="member-title">{{ member.title }}</p>
+            <p class="member-title">
+              {{ member.title }}
+            </p>
           </div>
         </div>
       </section>
 
       <!-- Copyright -->
       <section v-if="copyright" class="card copyright-card">
-        <div class="card-icon">⚖️</div>
+        <div class="card-icon">
+          ⚖️
+        </div>
         <h2>Copyright & License</h2>
         <div class="copyright-content">
           <pre>{{ copyright }}</pre>
@@ -49,7 +61,9 @@
       <!-- Festive Footer -->
       <div class="festive-footer">
         <p>🎁 Built with ❤️ by Team Blue 🎄</p>
-        <p class="year">{{ new Date().getFullYear() }}</p>
+        <p class="year">
+          {{ new Date().getFullYear() }}
+        </p>
       </div>
     </div>
   </div>

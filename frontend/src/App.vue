@@ -35,11 +35,11 @@ onUnmounted(() => {
 <template>
   <div id="app">
     <header>
-      <div class="mascot-background"></div>
+      <div class="mascot-background" />
       <div class="header-content">
         <div class="brand">
           <div class="mascot-logo">
-            <img src="/mascot/mascot-action.png" alt="Team Blue Mascot" class="mascot-icon" />
+            <img src="/mascot/mascot-action.png" alt="Team Blue Mascot" class="mascot-icon">
           </div>
           <div class="brand-text">
             <h1>Team Blue</h1>
@@ -73,14 +73,26 @@ onUnmounted(() => {
     </header>
 
     <main>
-      <div class="mascot-watermark"></div>
+      <div class="mascot-watermark" />
       <div class="snowflakes" aria-hidden="true">
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
+        <div class="snowflake">
+          ❅
+        </div>
+        <div class="snowflake">
+          ❆
+        </div>
+        <div class="snowflake">
+          ❅
+        </div>
+        <div class="snowflake">
+          ❆
+        </div>
+        <div class="snowflake">
+          ❅
+        </div>
+        <div class="snowflake">
+          ❆
+        </div>
       </div>
       
       <!-- Sleigh Cursor Follower -->
@@ -89,7 +101,7 @@ onUnmounted(() => {
         :style="{ left: (sleighX - 40) + 'px', top: (sleighY + 40) + 'px' }"
         aria-hidden="true"
       >
-        <img src="/mascot/SwabRidingSleigh.png" alt="Santa Swab on Sleigh" />
+        <img src="/mascot/SwabRidingSleigh.png" alt="Santa Swab on Sleigh">
       </div>
       
       <!-- Music Player -->
@@ -97,7 +109,7 @@ onUnmounted(() => {
         <source src="/Music/Buble.mp3" type="audio/mpeg">
       </audio>
       
-      <button class="music-toggle" @click="toggleMusic" :class="{ playing: isPlaying }">
+      <button class="music-toggle" :class="{ playing: isPlaying }" @click="toggleMusic">
         <span v-if="isPlaying">🎵</span>
         <span v-else>🔇</span>
       </button>
@@ -107,7 +119,7 @@ onUnmounted(() => {
     
     <footer class="app-footer">
       <div class="footer-mascot">
-        <img src="/mascot/SantaSwab.png" alt="Santa Swab" />
+        <img src="/mascot/SantaSwab.png" alt="Santa Swab">
       </div>
       <p>🎄 Team Blue Asset Management System - Ho Ho Ho! Merry Christmas! 🎅</p>
     </footer>

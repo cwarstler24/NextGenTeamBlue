@@ -10,32 +10,38 @@
     <div class="mascot-gallery">
       <div class="card mascot-card animate-in" style="animation-delay: 0.1s; cursor: pointer;" @click="showHeroVideo = true">
         <div class="mascot-image-container">
-          <img src="/mascot/mascot-hero.png" alt="Helicopter Rescue Hero" />
+          <img src="/mascot/mascot-hero.png" alt="Helicopter Rescue Hero">
         </div>
         <h3>🚁 Rescue Operations</h3>
         <p>Always ready to save the day and secure your assets!</p>
         <span class="badge">Hero Mode</span>
-        <p class="click-hint">👆 Click to watch the rescue!</p>
+        <p class="click-hint">
+          👆 Click to watch the rescue!
+        </p>
       </div>
 
       <div class="card mascot-card animate-in" style="animation-delay: 0.2s; cursor: pointer;" @click="showVideo = true">
         <div class="mascot-image-container">
-          <img src="/mascot/mascot-action.png" alt="Action Hero" />
+          <img src="/mascot/mascot-action.png" alt="Action Hero">
         </div>
         <h3>💥 Action Ready</h3>
         <p>Armed with the best asset management tools!</p>
         <span class="badge action">Combat Ready</span>
-        <p class="click-hint">👆 Click to watch the action!</p>
+        <p class="click-hint">
+          👆 Click to watch the action!
+        </p>
       </div>
 
       <div class="card mascot-card animate-in" style="animation-delay: 0.3s; cursor: pointer;" @click="showSantaVideo = true">
         <div class="mascot-image-container">
-          <img src="/mascot/SantaSwab.png" alt="Santa's Helper" />
+          <img src="/mascot/SantaSwab.png" alt="Santa's Helper">
         </div>
         <h3>🎁 Santa's Helper</h3>
         <p>Making sure all kids get their presents!</p>
         <span class="badge">Jolly</span>
-        <p class="click-hint">👆 Click to see the magic!</p>
+        <p class="click-hint">
+          👆 Click to see the magic!
+        </p>
       </div>
     </div>
 
@@ -43,19 +49,19 @@
       <h2>🎄 Christmas Theme Colors</h2>
       <div class="color-palette">
         <div class="color-swatch red">
-          <div class="swatch"></div>
+          <div class="swatch" />
           <span>Christmas Red</span>
         </div>
         <div class="color-swatch green">
-          <div class="swatch"></div>
+          <div class="swatch" />
           <span>Christmas Green</span>
         </div>
         <div class="color-swatch gold">
-          <div class="swatch"></div>
+          <div class="swatch" />
           <span>Festive Gold</span>
         </div>
         <div class="color-swatch snow">
-          <div class="swatch"></div>
+          <div class="swatch" />
           <span>Snow White</span>
         </div>
       </div>
@@ -65,15 +71,21 @@
       <h2>🎁 Holiday Buttons</h2>
       <div class="button-grid">
         <button>Standard Button</button>
-        <button class="action-button">Action Button</button>
-        <button disabled>Disabled Button</button>
+        <button class="action-button">
+          Action Button
+        </button>
+        <button disabled>
+          Disabled Button
+        </button>
       </div>
     </div>
 
     <!-- Video Modal - Action Hero -->
     <div v-if="showVideo" class="video-modal" @click="showVideo = false">
       <div class="video-container" @click.stop>
-        <button class="close-button" @click="showVideo = false">✕</button>
+        <button class="close-button" @click="showVideo = false">
+          ✕
+        </button>
         <h2>🎬 Swab The Leader</h2>
         <video controls autoplay>
           <source src="/mascot/SwabTheLeader.mp4" type="video/mp4">
@@ -85,7 +97,9 @@
     <!-- Video Modal - Helicopter Hero -->
     <div v-if="showHeroVideo" class="video-modal" @click="showHeroVideo = false">
       <div class="video-container" @click.stop>
-        <button class="close-button" @click="showHeroVideo = false">✕</button>
+        <button class="close-button" @click="showHeroVideo = false">
+          ✕
+        </button>
         <h2>🚁 Swab The Savior</h2>
         <video controls autoplay>
           <source src="/mascot/SwabTheSavior.mp4" type="video/mp4">
@@ -97,7 +111,9 @@
     <!-- Video Modal - Santa's Helper -->
     <div v-if="showSantaVideo" class="video-modal" @click="showSantaVideo = false">
       <div class="video-container" @click.stop>
-        <button class="close-button" @click="showSantaVideo = false">✕</button>
+        <button class="close-button" @click="showSantaVideo = false">
+          ✕
+        </button>
         <h2>🎅 Swab The Giver</h2>
         <video controls autoplay>
           <source src="/mascot/SwabTheGiver.mp4" type="video/mp4">
