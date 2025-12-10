@@ -4,10 +4,23 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const sleighX = ref(0)
 const sleighY = ref(0)
+const isPlaying = ref(false)
+const audioPlayer = ref<HTMLAudioElement | null>(null)
 
 function handleMouseMove(event: MouseEvent) {
   sleighX.value = event.clientX
   sleighY.value = event.clientY
+}
+
+function toggleMusic() {
+  if (audioPlayer.value) {
+    if (isPlaying.value) {
+      audioPlayer.value.pause()
+    } else {
+      audioPlayer.value.play()
+    }
+    isPlaying.value = !isPlaying.value
+  }
 }
 
 onMounted(() => {
@@ -78,6 +91,16 @@ onUnmounted(() => {
       >
         <img src="/mascot/SwabRidingSleigh.png" alt="Santa Swab on Sleigh" />
       </div>
+      
+      <!-- Music Player -->
+      <audio ref="audioPlayer" loop>
+        <source src="/Music/Buble.mp3" type="audio/mpeg">
+      </audio>
+      
+      <button class="music-toggle" @click="toggleMusic" :class="{ playing: isPlaying }">
+        <span v-if="isPlaying">🎵</span>
+        <span v-else>🔇</span>
+      </button>
       
       <RouterView />
     </main>
@@ -301,6 +324,46 @@ main {
   }
   50% {
     transform: translateY(-3px) rotate(-5deg);
+  }
+}
+
+/* Music Toggle Button */
+.music-toggle {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+  border: 3px solid #ffd700;
+  color: white;
+  font-size: 1.75rem;
+  cursor: pointer;
+  z-index: 9998;
+  box-shadow: 0 4px 12px rgba(196, 30, 58, 0.4), 0 0 20px rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.music-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(196, 30, 58, 0.5), 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+.music-toggle.playing {
+  animation: musicPulse 1s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.4), 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 6px 16px rgba(196, 30, 58, 0.6), 0 0 30px rgba(255, 215, 0, 0.6);
   }
 }
 

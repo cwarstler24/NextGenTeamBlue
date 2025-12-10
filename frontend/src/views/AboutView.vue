@@ -69,7 +69,8 @@ const teamEmojiMap: Record<string, string> = {
   'travis': '🚀',
   'ethan': '🔒',
   'clayton': '🧙',
-  'oluwasegun': '🧪'
+  'oluwasegun': '🧪',
+  'nate': '🗡️'
 }
 
 async function fetchAboutUs() {
