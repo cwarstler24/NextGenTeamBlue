@@ -35,6 +35,9 @@ import { RouterLink, RouterView } from 'vue-router'
           <RouterLink to="/employees">
             👥 Employees
           </RouterLink>
+          <RouterLink to="/about">
+            🎄 About Us
+          </RouterLink>
         </nav>
       </div>
     </header>
