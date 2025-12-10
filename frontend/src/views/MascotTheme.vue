@@ -8,13 +8,14 @@
     </div>
 
     <div class="mascot-gallery">
-      <div class="card mascot-card animate-in" style="animation-delay: 0.1s">
+      <div class="card mascot-card animate-in" style="animation-delay: 0.1s; cursor: pointer;" @click="showHeroVideo = true">
         <div class="mascot-image-container">
           <img src="/mascot/mascot-hero.png" alt="Helicopter Rescue Hero" />
         </div>
         <h3>🚁 Rescue Operations</h3>
         <p>Always ready to save the day and secure your assets!</p>
         <span class="badge">Hero Mode</span>
+        <p class="click-hint">👆 Click to watch the rescue!</p>
       </div>
 
       <div class="card mascot-card animate-in" style="animation-delay: 0.2s; cursor: pointer;" @click="showVideo = true">
@@ -73,7 +74,19 @@
     <div v-if="showVideo" class="video-modal" @click="showVideo = false">
       <div class="video-container" @click.stop>
         <button class="close-button" @click="showVideo = false">✕</button>
-        <h2>🎬 Swab The Savior</h2>
+        <h2>🎬 Swab The Leader</h2>
+        <video controls autoplay>
+          <source src="/mascot/SwabTheLeader.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+
+    <!-- Video Modal - Helicopter Hero -->
+    <div v-if="showHeroVideo" class="video-modal" @click="showHeroVideo = false">
+      <div class="video-container" @click.stop>
+        <button class="close-button" @click="showHeroVideo = false">✕</button>
+        <h2>🚁 Swab The Savior</h2>
         <video controls autoplay>
           <source src="/mascot/SwabTheSavior.mp4" type="video/mp4">
           Your browser does not support the video tag.
@@ -99,6 +112,7 @@
 import { ref } from 'vue'
 
 const showVideo = ref(false)
+const showHeroVideo = ref(false)
 const showSantaVideo = ref(false)
 </script>
 
