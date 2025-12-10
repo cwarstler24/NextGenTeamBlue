@@ -80,14 +80,16 @@ function saveToken() {
 
 .hero h1 {
   font-size: 2.5rem;
-  color: var(--color-heading);
+  color: #c41e3a;
   margin-bottom: 0.75rem;
   font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.3);
 }
 
 .hero p {
   font-size: 1.125rem;
-  color: var(--color-text-muted);
+  color: #165b33;
+  font-weight: 500;
 }
 
 .token-section {
