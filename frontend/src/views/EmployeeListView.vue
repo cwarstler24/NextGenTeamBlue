@@ -276,7 +276,7 @@ onMounted(() => {
 }
 
 .employee-table tbody tr:hover {
-  background: var(--color-background-soft);
+  background: linear-gradient(90deg, rgba(196, 30, 58, 0.08) 0%, rgba(255, 215, 0, 0.08) 50%, rgba(22, 91, 51, 0.08) 100%);
 }
 
 .employee-table td {
