@@ -149,15 +149,17 @@ onMounted(() => {
 
 .page-header h1 {
   font-size: 2rem;
-  color: var(--color-heading);
+  color: #c41e3a;
   margin: 0 0 0.5rem 0;
   font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(255, 215, 0, 0.3);
 }
 
 .subtitle {
-  color: var(--color-text-muted);
+  color: #165b33;
   margin: 0;
   font-size: 1rem;
+  font-weight: 500;
 }
 
 .search-container {
@@ -211,8 +213,9 @@ onMounted(() => {
 }
 
 .loading-state p {
-  color: var(--color-text-muted);
+  color: #165b33;
   font-size: 0.9375rem;
+  font-weight: 600;
 }
 
 .empty-state {
@@ -225,13 +228,14 @@ onMounted(() => {
 
 .empty-state h2 {
   font-size: 1.5rem;
-  color: var(--color-heading);
+  color: #c41e3a;
   margin: 0 0 0.75rem 0;
 }
 
 .empty-state p {
-  color: var(--color-text-muted);
+  color: #4b5563;
   margin: 0;
+  font-weight: 500;
 }
 
 .employee-table-container {
@@ -256,7 +260,7 @@ onMounted(() => {
   padding: 1rem;
   text-align: left;
   font-weight: 600;
-  color: var(--color-heading);
+  color: white;
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -277,17 +281,19 @@ onMounted(() => {
 
 .employee-table td {
   padding: 1rem;
-  color: var(--color-text);
+  color: #1f2937;
+  font-weight: 500;
 }
 
 .employee-id {
   font-family: 'Courier New', monospace;
-  color: var(--color-primary);
-  font-weight: 600;
+  color: #c41e3a;
+  font-weight: 700;
 }
 
 .full-name {
-  font-weight: 500;
+  font-weight: 600;
+  color: #165b33;
 }
 
 .table-footer {
@@ -298,8 +304,9 @@ onMounted(() => {
 
 .result-count {
   margin: 0;
-  color: var(--color-text-muted);
+  color: #4b5563;
   font-size: 0.875rem;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
