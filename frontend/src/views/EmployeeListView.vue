@@ -252,8 +252,8 @@ onMounted(() => {
 }
 
 .employee-table thead {
-  background: var(--color-background-soft);
-  border-bottom: 2px solid var(--color-border);
+  background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+  border-bottom: 2px solid #ffd700;
 }
 
 .employee-table th {
@@ -276,7 +276,9 @@ onMounted(() => {
 }
 
 .employee-table tbody tr:hover {
-  background: linear-gradient(90deg, rgba(196, 30, 58, 0.08) 0%, rgba(255, 215, 0, 0.08) 50%, rgba(22, 91, 51, 0.08) 100%);
+  background: rgba(255, 215, 0, 0.15);
+  transform: scale(1.002);
+  box-shadow: 0 2px 8px rgba(196, 30, 58, 0.1);
 }
 
 .employee-table td {
