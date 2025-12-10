@@ -1,5 +1,22 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const sleighX = ref(0)
+const sleighY = ref(0)
+
+function handleMouseMove(event: MouseEvent) {
+  sleighX.value = event.clientX
+  sleighY.value = event.clientY
+}
+
+onMounted(() => {
+  window.addEventListener('mousemove', handleMouseMove)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('mousemove', handleMouseMove)
+})
 </script>
 
 <template>
@@ -52,6 +69,16 @@ import { RouterLink, RouterView } from 'vue-router'
         <div class="snowflake">❅</div>
         <div class="snowflake">❆</div>
       </div>
+      
+      <!-- Sleigh Cursor Follower -->
+      <div 
+        class="sleigh-cursor" 
+        :style="{ left: (sleighX - 40) + 'px', top: (sleighY + 40) + 'px' }"
+        aria-hidden="true"
+      >
+        <img src="/mascot/SwabRidingSleigh.png" alt="Santa Swab on Sleigh" />
+      </div>
+      
       <RouterView />
     </main>
     
@@ -247,6 +274,34 @@ main {
 @keyframes snowflakeSpin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Sleigh Cursor Follower */
+.sleigh-cursor {
+  position: fixed;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: left 0.15s ease-out, top 0.15s ease-out;
+}
+
+.sleigh-cursor img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+  animation: sleighBounce 0.5s ease-in-out infinite;
+}
+
+@keyframes sleighBounce {
+  0%, 100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(-5deg);
+  }
 }
 
 .app-footer {
