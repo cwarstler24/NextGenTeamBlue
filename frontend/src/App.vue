@@ -21,7 +21,7 @@ import { RouterLink, RouterView } from 'vue-router'
             🏠 Home
           </RouterLink>
           <RouterLink to="/mascot-theme">
-            🎅 Santa Swab
+            🎖️ Our Hero
           </RouterLink>
           <RouterLink to="/login">
             🔐 Login

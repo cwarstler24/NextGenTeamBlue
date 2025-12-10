@@ -2,7 +2,7 @@
   <div class="mascot-showcase">
     <div class="hero-section animate-in">
       <div class="hero-content">
-        <h1>🎅 Meet Santa Swab!</h1>
+        <h1>😎 Meet Swab!</h1>
         <p>Delivering asset management joy this holiday season! 🎄</p>
       </div>
     </div>
