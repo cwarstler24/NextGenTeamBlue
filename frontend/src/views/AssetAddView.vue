@@ -74,19 +74,19 @@
             <div class="employee-search">
               <input 
                 id="employee_search"
-                type="text" 
-                v-model="employeeSearchQuery"
-                @input="searchEmployees"
-                @focus="showEmployeeDropdown = true"
+                v-model="employeeSearchQuery" 
+                type="text"
                 placeholder="Search by name..."
                 autocomplete="off"
-              />
+                @input="searchEmployees"
+                @focus="showEmployeeDropdown = true"
+              >
               <div v-if="showEmployeeDropdown && filteredEmployees.length > 0" class="employee-dropdown">
                 <div 
                   v-for="emp in filteredEmployees" 
                   :key="emp.employee_id"
-                  @click="selectEmployee(emp)"
                   class="employee-option"
+                  @click="selectEmployee(emp)"
                 >
                   {{ emp.first_name }} {{ emp.last_name }} (ID: {{ emp.employee_id }})
                 </div>
