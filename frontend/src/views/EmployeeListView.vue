@@ -276,14 +276,14 @@ onMounted(() => {
 }
 
 .employee-table tbody tr:hover {
-  background: rgba(255, 215, 0, 0.15);
+  background: rgba(248, 247, 247, 0.856);
   transform: scale(1.002);
-  box-shadow: 0 2px 8px rgba(196, 30, 58, 0.1);
+  box-shadow: 0 2px 8px rgba(190, 125, 136, 0.1);
 }
 
 .employee-table td {
   padding: 1rem;
-  color: #1f2937;
+  color: #c41e3a;
   font-weight: 500;
 }
 
