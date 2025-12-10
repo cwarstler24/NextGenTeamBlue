@@ -59,17 +59,8 @@
               <option :value="null">
                 Not assigned to location
               </option>
-              <option :value="1">
-                1
-              </option>
-              <option :value="2">
-                2
-              </option>
-              <option :value="3">
-                3
-              </option>
-              <option :value="4">
-                4
+              <option v-for="location in assetLocations" :key="location.id" :value="location.id">
+                {{ location.asset_location_name }}
               </option>
             </select>
             <small class="help-text">Where this asset is physically located</small>
@@ -83,19 +74,19 @@
             <div class="employee-search">
               <input 
                 id="employee_search"
-                type="text" 
-                v-model="employeeSearchQuery"
-                @input="searchEmployees"
-                @focus="showEmployeeDropdown = true"
+                v-model="employeeSearchQuery" 
+                type="text"
                 placeholder="Search by name..."
                 autocomplete="off"
-              />
+                @input="searchEmployees"
+                @focus="showEmployeeDropdown = true"
+              >
               <div v-if="showEmployeeDropdown && filteredEmployees.length > 0" class="employee-dropdown">
                 <div 
                   v-for="emp in filteredEmployees" 
                   :key="emp.employee_id"
-                  @click="selectEmployee(emp)"
                   class="employee-option"
+                  @click="selectEmployee(emp)"
                 >
                   {{ emp.first_name }} {{ emp.last_name }} (ID: {{ emp.employee_id }})
                 </div>
@@ -179,7 +170,7 @@ export default {
     const assetIsDecommissioned = ref(0);
     const router = useRouter();
     const { assetTypes, getAssetTypeName, fetchAssetTypes } = useAssetTypes();
-    const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
+    const { assetLocations, getAssetLocationName, assetLocationCityCountryMap, fetchAssetLocations } = useAssetLocations();
     const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
     
     // Employee search functionality
@@ -283,8 +274,12 @@ export default {
       }
     };
 
-    onMounted(() => {
-      fetchEmployees();
+    onMounted(async () => {
+      await Promise.all([
+        fetchEmployees(),
+        fetchAssetTypes(),
+        fetchAssetLocations(),
+      ]);
       document.addEventListener('click', handleClickOutside);
     });
 
@@ -295,6 +290,8 @@ export default {
       assetNotes, 
       assetIsDecommissioned,
       assetTypes,
+      assetLocations,
+      assetLocationCityCountryMap,
       getAssetTypeName,
       addAsset,
       goBack,

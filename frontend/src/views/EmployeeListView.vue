@@ -3,7 +3,9 @@
     <div class="page-header">
       <div>
         <h1>Employee Directory</h1>
-        <p class="subtitle">Browse all employees in the system</p>
+        <p class="subtitle">
+          Browse all employees in the system
+        </p>
       </div>
       <div class="search-container">
         <input 
@@ -12,7 +14,7 @@
           placeholder="Search by name..."
           class="search-input"
           @input="handleSearch"
-        />
+        >
       </div>
     </div>
 
@@ -21,14 +23,18 @@
     </div>
 
     <div v-if="isLoading" class="loading-state">
-      <div class="spinner"></div>
+      <div class="spinner" />
       <p>Loading employees...</p>
     </div>
 
     <div v-else-if="employees.length === 0 && !errorMsg" class="empty-state">
       <h2>No Employees Found</h2>
-      <p v-if="searchQuery">Try adjusting your search query.</p>
-      <p v-else>No employees are currently in the system.</p>
+      <p v-if="searchQuery">
+        Try adjusting your search query.
+      </p>
+      <p v-else>
+        No employees are currently in the system.
+      </p>
     </div>
 
     <div v-else class="employee-table-container">
@@ -47,10 +53,14 @@
             :key="employee.employee_id"
             class="employee-row"
           >
-            <td class="employee-id">{{ employee.employee_id }}</td>
+            <td class="employee-id">
+              {{ employee.employee_id }}
+            </td>
             <td>{{ employee.first_name }}</td>
             <td>{{ employee.last_name }}</td>
-            <td class="full-name">{{ employee.first_name }} {{ employee.last_name }}</td>
+            <td class="full-name">
+              {{ employee.first_name }} {{ employee.last_name }}
+            </td>
           </tr>
         </tbody>
       </table>

@@ -40,17 +40,8 @@
               <option :value="null">
                 Not assigned to location
               </option>
-              <option :value="1">
-                1
-              </option>
-              <option :value="2">
-                2
-              </option>
-              <option :value="3">
-                3
-              </option>
-              <option :value="4">
-                4
+              <option v-for="location in assetLocations" :key="location.id" :value="location.id">
+                {{ location.asset_location_name }}
               </option>
             </select>
             <small class="help-text">Where this asset is physically located</small>
@@ -142,7 +133,7 @@ export default {
     const route = useRoute();
     const isUpdating = ref(false);
     const { assetTypes, getAssetTypeName, fetchAssetTypes } = useAssetTypes();
-    const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
+    const { assetLocations, getAssetLocationName, assetLocationCityCountryMap, fetchAssetLocations } = useAssetLocations();
     const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
 
     const fetchAsset = async () => {
@@ -238,9 +229,12 @@ export default {
       router.push({ name: 'AssetView', params: { id: route.params.id } });
     };
 
-    onMounted(() => {
-      fetchAsset();
-      fetchAssetTypes();
+    onMounted(async () => {
+      await Promise.all([
+        fetchAsset(),
+        fetchAssetTypes(),
+        fetchAssetLocations(),
+      ]);
     });
 
     return {
@@ -251,6 +245,8 @@ export default {
       assetNotes,
       assetIsDecommissioned,
       assetTypes,
+      assetLocations,
+      assetLocationCityCountryMap,
       getAssetTypeName,
       errorMsg,
       updateAsset,

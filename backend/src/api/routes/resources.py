@@ -283,3 +283,45 @@ async def get_employees(request: Request, q: str | None = None, limit: int = 250
     logger.event("Returning error 400", level="error")
     raise HTTPException(status_code=400, detail="Database error")
 
+# --- GET /resources/locations ---
+@router.get("/locations/")
+async def get_locations(request: Request):
+    """
+    Returns a list of locations for dropdown menus.
+    """
+    logger.event("GET /resources/locations", level="info")
+
+    token = request.headers.get("Authorization")
+    logger.security(f"token: {token}", level="trace")
+    if not token:
+        logger.event("Returning error 401: no token", level="warning")
+        raise HTTPException(status_code=401, detail="Missing Authorization header")
+
+    await validate_request(request, token)
+    auth_result = await authenticate_request(request, token)
+    decoded = auth_result["decoded_payload"]
+    await authorize_request(request, decoded)
+
+    title = get_db_role(decoded.get("title", ""))
+
+    # Call to your teammate’s database layer
+    result = db.get_resource_locations(title)
+
+    if result[0] == 200:
+        locations = convert_bytes_to_strings(result[1])
+        trimmed = [
+            {
+                "id": loc.get("id"),
+                "asset_location_name": f"{loc.get('city', 'Unknown')}, {loc.get('country', 'Unknown')}",
+                "city": loc.get("city"),
+                "country": loc.get("country"),
+                "street": loc.get("street"),
+                "phone": loc.get("phone"),
+            }
+            for loc in locations
+        ]
+        logger.event(f"Returning {len(trimmed)} locations", level="info")
+        return JSONResponse(content=trimmed, status_code=status.HTTP_200_OK)
+
+    logger.event("Returning error 400", level="error")
+    raise HTTPException(status_code=400, detail="Database error")
