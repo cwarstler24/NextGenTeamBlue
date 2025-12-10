@@ -287,6 +287,35 @@ def get_resource_types(
     logger.event("Failed to retrieve resource types", level="error")
     return 400, []
 
+def get_resource_locations(
+        user_position: auth.Role = auth.Role.OTHER
+        ) -> tuple[int, list]:
+    """
+    Retrieves all resource locations from the database.
+    Args:
+        user_position (Role): The user's role.
+
+    Returns:
+        tuple: (status code, list of resource types)
+            - status code: 200 if successful, 400 if failed
+            - list: List of resource type dictionaries
+    """
+    logger.event("get_resource_locations called", level="trace")
+
+    if not auth.can_read(user_position):
+        logger.event("Returning error 401: user does not have read access", level="trace")
+        return 401
+
+    select_query = "SELECT * FROM Locations;"
+    logger.event(f"Running query {select_query}", level="trace")
+    results = database_connector.execute_query(select_query)
+
+    if results is not None:
+        logger.event(f"Successfully retrieved {len(results)} resource locations", level="info")
+        return 200, results
+
+    logger.event("Failed to retrieve resource locations", level="error")
+    return 400, []
 
 def get_resource_by_id(
         resource_id: int,

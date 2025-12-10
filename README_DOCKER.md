@@ -397,7 +397,7 @@ docker compose down
 docker compose logs -f backend
 
 # REBUILD
-docker compose build backend && docker compose up -d backend
+docker compose build && docker compose up -d 
 
 # STATUS
 docker compose ps
