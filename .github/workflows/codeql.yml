@@ -11,9 +11,7 @@
 #
 name: "CodeQL Advanced"
 
-on:
-  push:
-  pull_request:
+on: [push]
 
 jobs:
   analyze:
