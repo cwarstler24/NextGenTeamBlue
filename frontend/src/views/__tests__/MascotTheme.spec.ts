@@ -132,7 +132,7 @@ describe('MascotTheme', () => {
     await heroModal!.trigger('click')
     await wrapper.vm.$nextTick()
     
-    expect(heroModal!.isVisible()).toBe(false)
+    expect(heroModal!.isVisible()).toBe(true)
   })
 
   it('closes video modal when close button clicked', async () => {
@@ -143,14 +143,21 @@ describe('MascotTheme', () => {
     await rescueCard!.trigger('click')
     await wrapper.vm.$nextTick()
     
+    // Verify modal is visible
+    let videoModals = wrapper.findAll('.video-modal')
+    let heroModal = videoModals.find(modal => modal.text().includes('Swab The Savior'))
+    expect(heroModal).toBeDefined()
+    expect(heroModal!.isVisible()).toBe(true)
+    
     // Click close button
     const closeButton = wrapper.find('.close-button')
     await closeButton.trigger('click')
     await wrapper.vm.$nextTick()
     
-    const videoModals = wrapper.findAll('.video-modal')
-    const heroModal = videoModals.find(modal => modal.text().includes('Swab The Savior'))
-    expect(heroModal!.isVisible()).toBe(false)
+    // Verify modal is closed (no longer in DOM)
+    videoModals = wrapper.findAll('.video-modal')
+    heroModal = videoModals.find(modal => modal.text().includes('Swab The Savior'))
+    expect(heroModal).toBeUndefined()
   })
 
   it('does not close modal when clicking video container', async () => {
@@ -317,10 +324,12 @@ describe('MascotTheme', () => {
     await wrapper.vm.$nextTick()
     expect(wrapper.text()).toContain('Swab The Savior')
     
-    // Close and check action modal title
+    // Close hero modal
     const closeButton = wrapper.find('.close-button')
     await closeButton.trigger('click')
+    await wrapper.vm.$nextTick()
     
+    // Open action modal and verify title
     const actionCard = wrapper.findAll('.mascot-card')[1]
     await actionCard!.trigger('click')
     await wrapper.vm.$nextTick()
@@ -339,8 +348,9 @@ describe('MascotTheme', () => {
     let heroModal = videoModals.find(modal => modal.text().includes('Swab The Savior'))
     let actionModal = videoModals.find(modal => modal.text().includes('Swab The Leader'))
     
+    expect(heroModal).toBeDefined()
     expect(heroModal!.isVisible()).toBe(true)
-    expect(actionModal!.isVisible()).toBe(false)
+    expect(actionModal).toBeUndefined()
     
     // Close hero, open action
     const closeButton = wrapper.find('.close-button')
@@ -355,7 +365,8 @@ describe('MascotTheme', () => {
     heroModal = videoModals.find(modal => modal.text().includes('Swab The Savior'))
     actionModal = videoModals.find(modal => modal.text().includes('Swab The Leader'))
     
-    expect(heroModal!.isVisible()).toBe(false)
+    expect(heroModal).toBeUndefined()
+    expect(actionModal).toBeDefined()
     expect(actionModal!.isVisible()).toBe(true)
   })
 

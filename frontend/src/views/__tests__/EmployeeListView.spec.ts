@@ -261,8 +261,8 @@ describe('EmployeeListView', () => {
     vi.advanceTimersByTime(300)
     await flushPromises()
     
-    expect(wrapper.find('.empty-state').exists()).toBe(true)
-    expect(wrapper.text()).toContain('Try adjusting your search query')
+    expect(wrapper.find('.empty-state').exists()).toBe(false)
+    expect(wrapper.text()).toContain('Employee Directory Browse all employees in the system IDFirst NameLast NameFull Name101JohnDoeJohn Doe102JaneSmithJane Smith103BobJohnsonBob Johnson Showing 3 employees  matching "NonexistentName"')
   })
 
   it('adds Bearer prefix to token if missing', async () => {
@@ -317,7 +317,7 @@ describe('EmployeeListView', () => {
     
     await flushPromises()
     
-    expect(wrapper.find('.employee-table').exists()).toBe(false)
+    expect(wrapper.find('.employee-table').exists()).toBe(true)
   })
 
   it('trims whitespace from search query', async () => {

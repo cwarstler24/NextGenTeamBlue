@@ -36,10 +36,8 @@
               Location ID
               <span class="help-text-inline">(or Employee ID below)</span>
             </label>
-            <select id="location_id" v-model.number="assetLocation">
-              <option :value="null">
-                Not assigned to location
-              </option>
+            <select id="location_id" v-model.number="assetLocation" @change="onLocationChange">
+              <option :value="null" />
               <option v-for="location in assetLocations" :key="location.id" :value="location.id">
                 {{ location.asset_location_name }}
               </option>
@@ -57,6 +55,7 @@
               v-model.number="assetEmployeeID" 
               type="number"
               placeholder="Enter employee ID (or leave blank for location)"
+              @input="onEmployeeInput"
             >
             <small class="help-text">Employee responsible for this asset</small>
           </div>
@@ -124,7 +123,7 @@ export default {
   setup() {
     const asset = ref(null);
     const assetType = ref('');
-    const assetLocation = ref(null);
+  const assetLocation = ref(undefined);
     const assetEmployeeID = ref('');
     const assetNotes = ref('');
     const assetIsDecommissioned = ref(0);
@@ -135,6 +134,8 @@ export default {
     const { assetTypes, getAssetTypeName, fetchAssetTypes } = useAssetTypes();
     const { assetLocations, getAssetLocationName, assetLocationCityCountryMap, fetchAssetLocations } = useAssetLocations();
     const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
+  const locationTouched = ref(false);
+  const employeeTouched = ref(false);
 
     const fetchAsset = async () => {
       let token = localStorage.getItem('bearerToken');
@@ -151,9 +152,9 @@ export default {
         });
         asset.value = response.data;
         
-          // Pre-populate form fields with existing asset values (tests expect these populated)
-          assetType.value = asset.value.type_id;
-          assetLocation.value = asset.value.location_id || null;
+        // Autofill form with current asset attributes
+        assetType.value = asset.value.type_id || '';
+        assetLocation.value = asset.value.location_id || null;
         assetEmployeeID.value = asset.value.employee_id || '';
         assetNotes.value = asset.value.notes || '';
         
@@ -176,7 +177,10 @@ export default {
       }
     };
 
-    const updateAsset = async () => {
+  const onLocationChange = () => { locationTouched.value = true; };
+  const onEmployeeInput = () => { employeeTouched.value = true; };
+
+  const updateAsset = async () => {
       let token = localStorage.getItem('bearerToken');
       if (!token) {
         alert('⚠️ No bearer token set. Go to Home and save one first.');
@@ -250,6 +254,8 @@ export default {
       getAssetTypeName,
       errorMsg,
       updateAsset,
+      onLocationChange,
+      onEmployeeInput,
       goBack,
       isUpdating,
     };

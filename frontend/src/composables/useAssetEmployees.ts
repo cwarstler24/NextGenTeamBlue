@@ -31,7 +31,7 @@ export function useAssetEmployees() {
     }
 
     try {
-      const response = await axios.get(`${API_BASE}//`, {
+      const response = await axios.get(`${API_BASE}/resources/employees/`, {
         headers: { Authorization: token },
       });
 

@@ -99,7 +99,7 @@ describe('useAssetLocations', () => {
 
     expect(mockedAxiosGet).toHaveBeenCalledTimes(1)
     const [url, options] = mockedAxiosGet.mock.calls[0]
-    expect(url).toBe('https://api.test/resources/locations/') // note the double slash in your composablee
+    expect(url).toBe('https://api.test/resources/locations/')
     expect(options).toMatchObject({
       headers: { Authorization: 'Bearer abc123' },
     })

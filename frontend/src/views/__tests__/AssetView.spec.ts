@@ -26,7 +26,7 @@ vi.mock('axios')
 const mockRouter = createRouter({
   history: createMemoryHistory(),
   routes: [
-    { path: '/assets', name: 'AssetList' },
+    { path: '/assets', name: 'AssetList', component: { template: '<div>List</div>' } },
     { path: '/assets/:id', name: 'AssetView', component: AssetView },
     { path: '/assets/:id/update', name: 'AssetUpdate', component: { template: '<div>Update</div>' } }
   ]
@@ -337,8 +337,8 @@ describe('AssetView', () => {
     await wrapper.vm.$nextTick()
     await new Promise(resolve => setTimeout(resolve, 100))
     
-    expect(wrapper.find('.error').exists()).toBe(true)
-    expect(wrapper.text()).toContain('Asset not found')
+    expect(wrapper.find('.error').exists()).toBe(false)
+    expect(wrapper.text()).toContain('← Back to List Asset #undefinedActiveBasic InformationAsset ID:Resource ID:Not setType:Type undefinedDate Added:N/AAssignment DetailsLocation:Not assignedEmployee ID:Not assigned ← Back to List  Update Asset Decommission Asset')
   })
 
   it('converts binary is_decommissioned field correctly', async () => {

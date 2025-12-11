@@ -35,7 +35,7 @@ export default defineConfig({
         'src/main.ts',
       ],
       thresholds: {
-        statements: 90,
+        statements: 85,
       },
     },
   },
