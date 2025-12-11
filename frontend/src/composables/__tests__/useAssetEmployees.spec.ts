@@ -28,6 +28,7 @@ const localStorageMock = (() => {
   }
 })()
 
+
 Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock, writable: true })
 
 describe('useAssetEmployees', () => {
@@ -41,6 +42,8 @@ describe('useAssetEmployees', () => {
     vi.spyOn(console, 'log').mockImplementation(() => {})
     vi.spyOn(console, 'error').mockImplementation(() => {})
   })
+
+
 
   /**
    * @function initial state is correct
@@ -60,6 +63,8 @@ describe('useAssetEmployees', () => {
     expect(error.value).toBeNull()
   })
 
+
+
   /**
    * @function returns error when no bearer token set and does not call API
    * @description Verifies that fetchAssetEmployees returns an error when no bearer token is present in localStorage.
@@ -73,6 +78,8 @@ describe('useAssetEmployees', () => {
     expect(isLoading.value).toBe(false)
     expect(mockedAxiosGet).not.toHaveBeenCalled()
   })
+
+
 
   /**
    * @function adds "Bearer " prefix when token does not start with bearer
@@ -99,6 +106,8 @@ describe('useAssetEmployees', () => {
     })
   })
 
+
+
   /**
    * @function does NOT add prefix when token already starts with "bearer "
    * @description Verifies that tokens already containing "bearer " are not modified when passed to the API.
@@ -118,6 +127,8 @@ describe('useAssetEmployees', () => {
       headers: { Authorization: 'bearer xyz' },
     })
   })
+
+
 
   /**
    * @function successful fetch populates assetEmployees and assetEmployeeMap
@@ -155,6 +166,8 @@ describe('useAssetEmployees', () => {
     expect(getAssetEmployeeName(999)).toBe('Employee 999')
   })
 
+
+
   /**
    * @function sets meaningful error message on failed fetch (with detail)
    * @description Verifies that API errors with detail messages are properly captured and exposed.
@@ -174,6 +187,8 @@ describe('useAssetEmployees', () => {
     expect(isLoading.value).toBe(false)
   })
 
+
+
   /**
    * @function sets generic error message on failed fetch (no detail)
    * @description Verifies that a generic error message is displayed when the API error lacks detail information.
@@ -191,6 +206,8 @@ describe('useAssetEmployees', () => {
     expect(isLoading.value).toBe(false)
   })
 
+
+  
   /**
    * @function isLoading toggles correctly during request
    * @description Verifies that the isLoading flag is properly set during the fetch lifecycle.
