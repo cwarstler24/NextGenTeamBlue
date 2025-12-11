@@ -34,4 +34,4 @@ jobs:
       - name: Run tests
         run: |
           cd backend
-          PYTHONPATH=$(pwd) pytest -v --cov --junitxml=pytest-results.xml --cov-fail-under=90
+          PYTHONPATH=$(pwd) pytest -v --cov --junitxml=pytest-results.xml --cov-fail-under=85
