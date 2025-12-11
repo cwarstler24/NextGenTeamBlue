@@ -17,6 +17,8 @@ services:
       - INSTANCE_CONNECTION_NAME=${INSTANCE_CONNECTION_NAME}
       # Logging
       - LOG_PATH=/app/logs
+      # RocketPop SSO endpoint (reachable from container via host.docker.internal)
+      - SSO_SERVER_URL=http://host.docker.internal:42068/login
     volumes:
       # Mount GCP service account key
       - ${GCP_KEY_PATH}:/app/gcp-key.json:ro
@@ -24,6 +26,9 @@ services:
       - ./logs/backend:/app/logs
       # Mount config file
       - ./backend/config.ini:/app/config.ini:ro
+    extra_hosts:
+      # Ensure host.docker.internal resolves to the host gateway on Linux
+      - "host.docker.internal:host-gateway"
     networks:
       - teamblue-network
     restart: unless-stopped

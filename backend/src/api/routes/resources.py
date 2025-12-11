@@ -6,6 +6,15 @@ from src.api.authorize import authorize_request, get_db_role
 from src.security.sanitize import sanitize_data
 import src.database.database_controller as db
 from src.utils import convert_bytes_to_strings
+
+# Helpers to accommodate different return shapes from DB layer
+def _is_ok(result):
+    return (isinstance(result, tuple) and len(result) > 0 and result[0] == 200) or (
+        isinstance(result, int) and result == 200
+    )
+
+def _data(result):
+    return result[1] if isinstance(result, tuple) and len(result) > 1 else result
 from src.logger import logger
 
 router = APIRouter(prefix="/resources", tags=["Resources"])
@@ -28,9 +37,9 @@ async def get_resources(request: Request):
     title = get_db_role(decoded.get("title", ""))
     result = db.get_resources(title)
 
-    if result[0] == 200:
+    if _is_ok(result):
         logger.event("Returning resources", level="info")
-        return JSONResponse(content=convert_bytes_to_strings(result[1]),
+        return JSONResponse(content=convert_bytes_to_strings(_data(result)),
                              status_code=status.HTTP_200_OK)
     else:
         logger.event("Returning error 400", level="error")
@@ -55,9 +64,9 @@ async def get_resource_types(request: Request):
     title = get_db_role(decoded.get("title", ""))
     result = db.get_resource_types(title)
 
-    if result[0] == 200:
+    if _is_ok(result):
         logger.event("Returning resource types", level="info")
-        return JSONResponse(content=convert_bytes_to_strings(result[1]),
+        return JSONResponse(content=convert_bytes_to_strings(_data(result)),
                              status_code=status.HTTP_200_OK)
 
     logger.event("Returning error 400", level="error")
@@ -82,9 +91,9 @@ async def get_resource_by_id(request: Request, resource_id: int):
     title = get_db_role(decoded.get("title", ""))
     result = db.get_resource_by_id(resource_id, title)
 
-    if result[0] == 200:
+    if _is_ok(result):
         logger.event("Returning resource", level="info")
-        return JSONResponse(content=convert_bytes_to_strings(result[1]),
+        return JSONResponse(content=convert_bytes_to_strings(_data(result)),
                              status_code=status.HTTP_200_OK)
 
     logger.event("Returning error 404", level="error")
@@ -109,9 +118,9 @@ async def get_resources_by_employee(request: Request, employee_id: int):
 
     title = get_db_role(decoded.get("title", ""))
     result = db.get_resource_by_employee_id(employee_id, title)
-    if result[0] == 200:
+    if _is_ok(result):
         logger.event("Returning resources", level="info")
-        return JSONResponse(content=convert_bytes_to_strings(result[1]),
+        return JSONResponse(content=convert_bytes_to_strings(_data(result)),
                              status_code=status.HTTP_200_OK)
     else:
         logger.event("Returning error 400", level="error")
@@ -307,8 +316,8 @@ async def get_locations(request: Request):
     # Call to your teammate’s database layer
     result = db.get_resource_locations(title)
 
-    if result[0] == 200:
-        locations = convert_bytes_to_strings(result[1])
+    if _is_ok(result):
+        locations = convert_bytes_to_strings(_data(result))
         trimmed = [
             {
                 "id": loc.get("id"),

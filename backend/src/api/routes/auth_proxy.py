@@ -1,12 +1,15 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import httpx
+import os
 from src.logger import logger
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
-# SSO server configuration
-SSO_SERVER_URL = "http://localhost:42068/login"
+# SSO server configuration (read from environment, with sane default)
+# Default points to host.docker.internal to reach services running on the host.
+# On Linux, we rely on compose extra_hosts: host.docker.internal:host-gateway
+SSO_SERVER_URL = os.getenv("SSO_SERVER_URL", "http://host.docker.internal:42068/login")
 
 class LoginRequest(BaseModel):
     username: str

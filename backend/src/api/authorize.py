@@ -53,11 +53,11 @@ def get_db_role(user_title: str = "") -> Role:
     user_title = user_title.lower()
     
     # Managers get manager role
-    if user_title == "manager":
+    if user_title in ["manager", "admin", "administrator"]:
         return Role.MANAGER
     
     # All other roles (developer, aide, sales agent, etc.) get employee access
-    if user_title in ["aide", "developer", "sales agent"]:
+    if user_title in ["aide", "developer", "sales agent", "employee", "user"]:
         return Role.EMPLOYEE
     
     # Unknown roles default to OTHER (no access)
