@@ -6,7 +6,7 @@ from src.logger import logger
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
 # SSO server configuration
-SSO_SERVER_URL = "http://localhost:42068/users/login"
+SSO_SERVER_URL = "http://localhost:42068/login"
 
 class LoginRequest(BaseModel):
     username: str
