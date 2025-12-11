@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { encryptPassword } from '../router/encryption.js'
 
 const router = useRouter()
 const username = ref('')
@@ -26,14 +27,17 @@ async function handleLogin() {
   successMessage.value = ''
 
   try {
+    // Encrypt the password before sending
+    const encrypted = encryptPassword(username.value, password.value)
+
     const response = await fetch(apiUrl.value, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: username.value,
-        password: password.value,
+        username: encrypted.username,
+        password: encrypted.password,
       }),
     })
 
