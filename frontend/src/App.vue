@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 
+const router = useRouter()
 const sleighX = ref(0)
 const sleighY = ref(0)
 const isPlaying = ref(false)
 const audioPlayer = ref<HTMLAudioElement | null>(null)
+const username = ref<string | null>(null)
+
+const isLoggedIn = computed(() => !!username.value)
 
 function handleMouseMove(event: MouseEvent) {
   sleighX.value = event.clientX
@@ -23,12 +27,27 @@ function toggleMusic() {
   }
 }
 
+function logout() {
+  localStorage.removeItem('bearerToken')
+  localStorage.removeItem('username')
+  username.value = null
+  router.push('/login')
+}
+
+function checkAuth() {
+  username.value = localStorage.getItem('username')
+}
+
 onMounted(() => {
   window.addEventListener('mousemove', handleMouseMove)
+  checkAuth()
+  // Check auth on storage changes (e.g., login in another tab)
+  window.addEventListener('storage', checkAuth)
 })
 
 onUnmounted(() => {
   window.removeEventListener('mousemove', handleMouseMove)
+  window.removeEventListener('storage', checkAuth)
 })
 </script>
 
@@ -53,9 +72,15 @@ onUnmounted(() => {
           <RouterLink to="/mascot-theme">
             🎖️ Our Hero
           </RouterLink>
-          <RouterLink to="/login">
+          <RouterLink v-if="!isLoggedIn" to="/login">
             🔐 Login
           </RouterLink>
+          <div v-if="isLoggedIn" class="user-info">
+            <span class="username">👤 {{ username }}</span>
+            <button class="logout-btn" @click="logout">
+              🚪 Logout
+            </button>
+          </div>
           <RouterLink to="/assets">
             🎁 Assets
           </RouterLink>
@@ -268,6 +293,46 @@ nav a.router-link-exact-active {
   border-color: #ffd700;
   color: white;
   box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+}
+
+.username {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+  color: white;
+  border: 2px solid #ffd700;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(139, 0, 0, 0.4);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
 }
 
 main {
@@ -559,6 +624,16 @@ main {
   .mascot-watermark {
     width: 80px;
     height: 80px;
+  }
+
+  .user-info {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .logout-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
   }
 }
 </style>

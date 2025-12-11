@@ -59,8 +59,9 @@ async function handleLogin() {
     // Ensure the token has the Bearer prefix
     const prefixed = token.toLowerCase().startsWith('bearer ') ? token : `Bearer ${token}`
     
-    // Save to localStorage
+    // Save token and username to localStorage
     localStorage.setItem('bearerToken', prefixed)
+    localStorage.setItem('username', username.value)
     
     successMessage.value = 'Login successful! Redirecting...'
     
