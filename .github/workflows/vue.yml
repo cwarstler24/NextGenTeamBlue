@@ -2,11 +2,7 @@ name: Vue.js
 permissions:
   contents: read
 
-on:
-  push:
-    branches: [dev]
-  pull_request:
-    branches: [dev]
+on: [push]
 
 jobs:
   npm-build:

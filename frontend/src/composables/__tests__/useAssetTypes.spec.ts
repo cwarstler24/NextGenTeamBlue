@@ -1,3 +1,9 @@
+/**
+ * Unit Tests for useAssetTypes Composable
+ * 
+ * Tests the useAssetTypes composable which manages asset type data fetching,
+ * caching, and provides helper functions for asset type lookups.
+ */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
@@ -31,7 +37,7 @@ const localStorageMock = (() => {
 Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock, writable: true })
 
 describe('useAssetTypes', () => {
-  const mockedAxiosGet = (axios as { get: ReturnType<typeof vi.fn> }).get
+  const mockedAxiosGet = axios.get as ReturnType<typeof vi.fn>
 
   beforeEach(() => {
     // Clean localStorage and reset mocks between tests

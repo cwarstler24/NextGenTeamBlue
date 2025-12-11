@@ -49,9 +49,13 @@
         <div class="detail-card">
           <h3>Assignment Details</h3>
           <div class="detail-rows">
-            <div class="detail-row">
-              <span class="label">Location ID:</span>
-              <span class="value">{{ asset.location_id || 'Not assigned' }}</span>
+            <div v-if="asset.location_id" class="detail-row">
+              <span class="label">Location:</span>
+              <span class="value">{{ getAssetLocationName(asset.location_id) }}</span>
+            </div>
+            <div v-else class="detail-row">
+              <span class="label">Location:</span>
+              <span class="value">Not assigned</span>
             </div>
             <div class="detail-row">
               <span class="label">Employee ID:</span>
@@ -123,7 +127,7 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const { getAssetTypeName, fetchAssetTypes } = useAssetTypes();
-    const { getAssetLocationName, fetchAssetLocations } = useAssetLocations();
+    const { assetLocations, getAssetLocationName, assetLocationCityCountryMap, fetchAssetLocations } = useAssetLocations();
     const { getAssetEmployeeName, fetchAssetEmployees } = useAssetEmployees();
     const isDecommissioning = ref(false);
 
@@ -139,6 +143,7 @@ export default {
       
       // Fetch asset types first
       await fetchAssetTypes();
+      await fetchAssetLocations();
       
       try {
         const response = await axios.get(`${API_BASE}/resources/${route.params.id}`, {
@@ -230,7 +235,7 @@ export default {
 
     onMounted(fetchAsset);
 
-    return { asset, errorMsg, goBack, updateAsset, decommissionAsset, formatDate, getAssetTypeName, isDecommissioning };
+    return { asset, errorMsg, goBack, updateAsset, decommissionAsset, formatDate, getAssetTypeName, getAssetLocationName, assetLocations, assetLocationCityCountryMap, isDecommissioning };
   },
 };
 </script>

@@ -9,6 +9,8 @@ import { API_BASE } from '../config/api';
 export function useAssetLocations() {
   const assetLocations = ref<any[]>([]);
   const assetLocationMap = ref<{ [key: number]: string }>({});
+  // Map location ID to { city, country }
+  const assetLocationCityCountryMap = ref<{ [key: number]: { city: string; country: string } }>({});
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
@@ -31,18 +33,24 @@ export function useAssetLocations() {
     }
 
     try {
-      const response = await axios.get(`${API_BASE}//`, {
+      const response = await axios.get(`${API_BASE}/resources/locations/`, {
         headers: { Authorization: token },
       });
 
       assetLocations.value = response.data;
 
-      // Build lookup map for type names
-      const map: { [key: number]: string } = {};
-      response.data.forEach((type: any) => {
-        map[type.id] = type.asset_location_name;
+      // Build lookup map for location names
+      const nameMap: { [key: number]: string } = {};
+      const cityCountryMap: { [key: number]: { city: string; country: string } } = {};
+      response.data.forEach((location: any) => {
+        nameMap[location.id] = location.asset_location_name;
+        cityCountryMap[location.id] = {
+          city: location.city,
+          country: location.country,
+        };
       });
-      assetLocationMap.value = map;
+      assetLocationMap.value = nameMap;
+      assetLocationCityCountryMap.value = cityCountryMap;
 
       console.log('Asset Locations loaded:', assetLocations.value);
     } catch (err: any) {
@@ -61,11 +69,12 @@ export function useAssetLocations() {
   };
 
   return {
-    assetLocations,
-    assetLocationMap,
-    isLoading,
-    error,
-    fetchAssetLocations,
-    getAssetLocationName,
+  assetLocations,
+  assetLocationMap,
+  assetLocationCityCountryMap,
+  isLoading,
+  error,
+  fetchAssetLocations,
+  getAssetLocationName,
   };
 }

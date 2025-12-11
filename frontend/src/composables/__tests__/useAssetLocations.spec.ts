@@ -1,3 +1,9 @@
+/**
+ * Unit Tests for useAssetLocations Composable
+ * 
+ * Tests the useAssetLocations composable which manages location data fetching,
+ * caching, and provides helper functions for location lookups.
+ */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
@@ -31,7 +37,7 @@ const localStorageMock = (() => {
 Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock, writable: true })
 
 describe('useAssetLocations', () => {
-  const mockedAxiosGet = (axios as { get: ReturnType<typeof vi.fn> }).get
+  const mockedAxiosGet = axios.get as ReturnType<typeof vi.fn>
 
   beforeEach(() => {
     // Clean localStorage and reset mocks between tests
@@ -93,7 +99,7 @@ describe('useAssetLocations', () => {
 
     expect(mockedAxiosGet).toHaveBeenCalledTimes(1)
     const [url, options] = mockedAxiosGet.mock.calls[0]
-    expect(url).toBe('https://api.test//') // note the double slash in your composable
+    expect(url).toBe('https://api.test/resources/locations/') // note the double slash in your composablee
     expect(options).toMatchObject({
       headers: { Authorization: 'Bearer abc123' },
     })

@@ -21,6 +21,11 @@ export default [
       "vue/html-closing-bracket-newline": "off"
     },
     languageOptions: {
+      parserOptions: {
+        parser: '@typescript-eslint/parser',
+        extraFileExtensions: ['.vue'],
+        ecmaVersion: 2024,
+      },
       sourceType: 'module',
       globals: {
         ...globals.browser

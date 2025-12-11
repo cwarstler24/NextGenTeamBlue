@@ -1,3 +1,9 @@
+/**
+ * Unit Tests for useAssetEmployees Composable
+ * 
+ * Tests the useAssetEmployees composable which manages employee data fetching,
+ * caching, and provides helper functions for employee lookups.
+ */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
@@ -32,7 +38,7 @@ const localStorageMock = (() => {
 Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock, writable: true })
 
 describe('useAssetEmployees', () => {
-  const mockedAxiosGet = (axios as { get: ReturnType<typeof vi.fn> }).get
+  const mockedAxiosGet = axios.get as ReturnType<typeof vi.fn>
 
   beforeEach(() => {
     // Clean localStorage and reset mocks between tests
@@ -207,7 +213,7 @@ describe('useAssetEmployees', () => {
   })
 
 
-  
+
   /**
    * @function isLoading toggles correctly during request
    * @description Verifies that the isLoading flag is properly set during the fetch lifecycle.

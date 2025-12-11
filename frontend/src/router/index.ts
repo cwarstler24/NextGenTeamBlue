@@ -6,6 +6,8 @@ import AssetAddView from '../views/AssetAddView.vue'
 import AssetListView from '../views/AssetListView.vue'
 import AssetUpdateView from '../views/AssetUpdateView.vue'
 import EmployeeListView from '../views/EmployeeListView.vue'
+import MascotTheme from '../views/MascotTheme.vue'
+import AboutView from '../views/AboutView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +46,16 @@ const router = createRouter({
       path: '/employees',
       name: 'EmployeeList',
       component: EmployeeListView,
+    },
+    {
+      path: '/mascot-theme',
+      name: 'MascotTheme',
+      component: MascotTheme,
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: AboutView,
     },
   ],
 })
