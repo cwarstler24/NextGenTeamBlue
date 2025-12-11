@@ -6,7 +6,7 @@ import { encryptPassword } from '../router/encryption.js'
 const router = useRouter()
 const username = ref('')
 const password = ref('')
-const apiUrl = ref('http://localhost:5000/api/auth/login') // Default API endpoint
+const apiUrl = ref('http://127.0.0.1:8000/api/auth/login') // Backend proxy endpoint
 const isLoading = ref(false)
 const errorMessage = ref('')
 const successMessage = ref('')
@@ -93,7 +93,7 @@ async function handleLogin() {
               id="api-url"
               v-model="apiUrl" 
               type="text" 
-              placeholder="http://localhost:5000/api/auth/login"
+              placeholder="http://127.0.0.1:8000/api/auth/login"
               class="form-input"
               :disabled="isLoading"
             >

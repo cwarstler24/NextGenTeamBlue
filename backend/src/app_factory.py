@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.assets import router as assets_router
 from src.api.health import router as health_router
 from src.api.routes import resources
+from src.api.routes.auth_proxy import router as auth_proxy_router
 from src.api.pages import router as pages
 
 def create_app() -> FastAPI:
@@ -23,6 +24,7 @@ def create_app() -> FastAPI:
     )
     
     app.include_router(health_router)
+    app.include_router(auth_proxy_router)
     app.include_router(assets_router)
     app.include_router(resources.router)
     app.include_router(pages)
