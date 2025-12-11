@@ -36,6 +36,14 @@ function logout() {
 
 function checkAuth() {
   username.value = localStorage.getItem('username')
+  console.log('Auth check - username:', username.value, 'token exists:', !!localStorage.getItem('bearerToken'))
+  
+  // If we have a token but no username, it means user logged in before the update
+  // We should clear everything to force a fresh login
+  if (localStorage.getItem('bearerToken') && !username.value) {
+    console.log('Found token without username - clearing for fresh login')
+    localStorage.removeItem('bearerToken')
+  }
 }
 
 onMounted(() => {
@@ -43,6 +51,11 @@ onMounted(() => {
   checkAuth()
   // Check auth on storage changes (e.g., login in another tab)
   window.addEventListener('storage', checkAuth)
+  
+  // Also check when route changes (in case user logs in)
+  router.afterEach(() => {
+    checkAuth()
+  })
 })
 
 onUnmounted(() => {
