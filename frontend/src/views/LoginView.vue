@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { encryptPassword } from '../router/encryption.js'
 
 const router = useRouter()
 const username = ref('')
@@ -26,14 +27,17 @@ async function handleLogin() {
   successMessage.value = ''
 
   try {
+    // Encrypt the password before sending
+    const encrypted = encryptPassword(username.value, password.value)
+
     const response = await fetch(apiUrl.value, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: username.value,
-        password: password.value,
+        username: encrypted.username,
+        password: encrypted.password,
       }),
     })
 
@@ -82,7 +86,7 @@ async function handleLogin() {
           <p>Enter your credentials to access the Asset Management System</p>
         </div>
 
-        <form @submit.prevent="handleLogin" class="login-form">
+        <form class="login-form" @submit.prevent="handleLogin">
           <div class="form-group">
             <label for="api-url">API URL</label>
             <input 
@@ -92,7 +96,7 @@ async function handleLogin() {
               placeholder="http://localhost:5000/api/auth/login"
               class="form-input"
               :disabled="isLoading"
-            />
+            >
             <small class="help-text">The endpoint to send login credentials to</small>
           </div>
 
@@ -106,7 +110,7 @@ async function handleLogin() {
               class="form-input"
               :disabled="isLoading"
               autocomplete="username"
-            />
+            >
           </div>
 
           <div class="form-group">
@@ -119,22 +123,28 @@ async function handleLogin() {
               class="form-input"
               :disabled="isLoading"
               autocomplete="current-password"
-            />
+            >
           </div>
 
           <div v-if="errorMessage" class="alert alert-error">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            <svg
+              xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" 
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
             {{ errorMessage }}
           </div>
 
           <div v-if="successMessage" class="alert alert-success">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            <svg
+              xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" 
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
             </svg>
             {{ successMessage }}
           </div>
@@ -142,7 +152,7 @@ async function handleLogin() {
           <button type="submit" class="btn-primary btn-full" :disabled="isLoading">
             <span v-if="!isLoading">Login</span>
             <span v-else class="loading">
-              <span class="spinner"></span>
+              <span class="spinner" />
               Logging in...
             </span>
           </button>
