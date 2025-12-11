@@ -112,23 +112,23 @@ onUnmounted(() => {
             🎄 About Us
           </RouterLink>
         </nav>
-        
-        <!-- Profile Dropdown Button -->
-        <div v-if="isLoggedIn" class="profile-container">
-          <button class="profile-btn" @click="toggleProfileDropdown">
-            <span class="profile-icon">👤</span>
-          </button>
-          <div v-if="showProfileDropdown" class="profile-dropdown">
-            <div class="profile-header">
-              <span class="profile-username">{{ username }}</span>
-            </div>
-            <button class="dropdown-logout-btn" @click="logout">
-              🚪 Logout
-            </button>
-          </div>
-        </div>
       </div>
     </header>
+
+    <!-- Profile Dropdown Button (Fixed Position) -->
+    <div v-if="isLoggedIn" class="profile-container">
+      <button class="profile-btn" @click="toggleProfileDropdown">
+        <span class="profile-icon">👤</span>
+      </button>
+      <div v-if="showProfileDropdown" class="profile-dropdown">
+        <div class="profile-header">
+          <span class="profile-username">{{ username }}</span>
+        </div>
+        <button class="dropdown-logout-btn" @click="logout">
+          🚪 Logout
+        </button>
+      </div>
+    </div>
 
     <main>
       <div class="mascot-watermark" />
@@ -329,18 +329,20 @@ nav a.router-link-exact-active {
 }
 
 .profile-container {
-  position: relative;
-  z-index: 1000;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
 }
 
 .profile-btn {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
   border: 3px solid #ffd700;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -718,9 +720,14 @@ main {
   }
 
   .profile-btn {
-    width: 45px;
-    height: 45px;
-    font-size: 1.3rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+  }
+
+  .profile-container {
+    top: 15px;
+    right: 15px;
   }
 
   .profile-dropdown {
