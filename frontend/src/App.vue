@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 
 const router = useRouter()
 const sleighX = ref(0)
@@ -8,6 +8,7 @@ const sleighY = ref(0)
 const isPlaying = ref(false)
 const audioPlayer = ref<HTMLAudioElement | null>(null)
 const username = ref<string | null>(null)
+const showProfileDropdown = ref(false)
 
 const isLoggedIn = computed(() => !!username.value)
 
@@ -31,7 +32,12 @@ function logout() {
   localStorage.removeItem('bearerToken')
   localStorage.removeItem('username')
   username.value = null
+  showProfileDropdown.value = false
   router.push('/login')
+}
+
+function toggleProfileDropdown() {
+  showProfileDropdown.value = !showProfileDropdown.value
 }
 
 function checkAuth() {
@@ -45,6 +51,11 @@ function checkAuth() {
     localStorage.removeItem('bearerToken')
   }
 }
+
+// Watch for route changes to update auth immediately
+watch(() => router.currentRoute.value.path, () => {
+  checkAuth()
+})
 
 onMounted(() => {
   window.addEventListener('mousemove', handleMouseMove)
@@ -88,12 +99,6 @@ onUnmounted(() => {
           <RouterLink v-if="!isLoggedIn" to="/login">
             🔐 Login
           </RouterLink>
-          <div v-if="isLoggedIn" class="user-info">
-            <span class="username">👤 {{ username }}</span>
-            <button class="logout-btn" @click="logout">
-              🚪 Logout
-            </button>
-          </div>
           <RouterLink to="/assets">
             🎁 Assets
           </RouterLink>
@@ -107,6 +112,21 @@ onUnmounted(() => {
             🎄 About Us
           </RouterLink>
         </nav>
+        
+        <!-- Profile Dropdown Button -->
+        <div v-if="isLoggedIn" class="profile-container">
+          <button class="profile-btn" @click="toggleProfileDropdown">
+            <span class="profile-icon">👤</span>
+          </button>
+          <div v-if="showProfileDropdown" class="profile-dropdown">
+            <div class="profile-header">
+              <span class="profile-username">{{ username }}</span>
+            </div>
+            <button class="dropdown-logout-btn" @click="logout">
+              🚪 Logout
+            </button>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -308,44 +328,102 @@ nav a.router-link-exact-active {
   box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
 }
 
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  border: 2px solid rgba(255, 215, 0, 0.5);
+.profile-container {
+  position: relative;
+  z-index: 1000;
 }
 
-.username {
+.profile-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+  border: 3px solid #ffd700;
   color: white;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.logout-btn {
-  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
-  color: white;
-  border: 2px solid #ffd700;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(196, 30, 58, 0.4), 0 0 20px rgba(255, 215, 0, 0.3);
+  animation: christmasGlow 2s ease-in-out infinite;
+}
+
+.profile-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(196, 30, 58, 0.5), 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+.profile-icon {
+  line-height: 1;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 200px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border: 3px solid #ffd700;
+  overflow: hidden;
+  animation: dropdownSlide 0.3s ease-out;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile-header {
+  padding: 1rem;
+  background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+  border-bottom: 2px solid #ffd700;
+}
+
+.profile-username {
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profile-username::before {
+  content: '👤';
+  font-size: 1.2rem;
+}
+
+.dropdown-logout-btn {
+  width: 100%;
+  background: white;
+  color: #c41e3a;
+  border: none;
+  padding: 0.875rem 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dropdown-logout-btn:hover {
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+  color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.logout-btn:hover {
-  background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(139, 0, 0, 0.4);
-}
-
-.logout-btn:active {
-  transform: translateY(0);
 }
 
 main {
@@ -639,14 +717,15 @@ main {
     height: 80px;
   }
 
-  .user-info {
-    width: 100%;
-    justify-content: space-between;
+  .profile-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
   }
 
-  .logout-btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
+  .profile-dropdown {
+    right: 0;
+    min-width: 180px;
   }
 }
 </style>
