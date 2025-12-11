@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 
+const router = useRouter()
 const sleighX = ref(0)
 const sleighY = ref(0)
 const isPlaying = ref(false)
 const audioPlayer = ref<HTMLAudioElement | null>(null)
+const username = ref<string | null>(null)
+const showProfileDropdown = ref(false)
+
+const isLoggedIn = computed(() => !!username.value)
 
 function handleMouseMove(event: MouseEvent) {
   sleighX.value = event.clientX
@@ -23,12 +28,50 @@ function toggleMusic() {
   }
 }
 
+function logout() {
+  localStorage.removeItem('bearerToken')
+  localStorage.removeItem('username')
+  username.value = null
+  showProfileDropdown.value = false
+  router.push('/login')
+}
+
+function toggleProfileDropdown() {
+  showProfileDropdown.value = !showProfileDropdown.value
+}
+
+function checkAuth() {
+  username.value = localStorage.getItem('username')
+  console.log('Auth check - username:', username.value, 'token exists:', !!localStorage.getItem('bearerToken'))
+  
+  // If we have a token but no username, it means user logged in before the update
+  // We should clear everything to force a fresh login
+  if (localStorage.getItem('bearerToken') && !username.value) {
+    console.log('Found token without username - clearing for fresh login')
+    localStorage.removeItem('bearerToken')
+  }
+}
+
+// Watch for route changes to update auth immediately
+watch(() => router.currentRoute.value.path, () => {
+  checkAuth()
+})
+
 onMounted(() => {
   window.addEventListener('mousemove', handleMouseMove)
+  checkAuth()
+  // Check auth on storage changes (e.g., login in another tab)
+  window.addEventListener('storage', checkAuth)
+  
+  // Also check when route changes (in case user logs in)
+  router.afterEach(() => {
+    checkAuth()
+  })
 })
 
 onUnmounted(() => {
   window.removeEventListener('mousemove', handleMouseMove)
+  window.removeEventListener('storage', checkAuth)
 })
 </script>
 
@@ -53,7 +96,7 @@ onUnmounted(() => {
           <RouterLink to="/mascot-theme">
             🎖️ Our Hero
           </RouterLink>
-          <RouterLink to="/login">
+          <RouterLink v-if="!isLoggedIn" to="/login">
             🔐 Login
           </RouterLink>
           <RouterLink to="/assets">
@@ -71,6 +114,21 @@ onUnmounted(() => {
         </nav>
       </div>
     </header>
+
+    <!-- Profile Dropdown Button (Fixed Position) -->
+    <div v-if="isLoggedIn" class="profile-container">
+      <button class="profile-btn" @click="toggleProfileDropdown">
+        <span class="profile-icon">👤</span>
+      </button>
+      <div v-if="showProfileDropdown" class="profile-dropdown">
+        <div class="profile-header">
+          <span class="profile-username">{{ username }}</span>
+        </div>
+        <button class="dropdown-logout-btn" @click="logout">
+          🚪 Logout
+        </button>
+      </div>
+    </div>
 
     <main>
       <div class="mascot-watermark" />
@@ -268,6 +326,106 @@ nav a.router-link-exact-active {
   border-color: #ffd700;
   color: white;
   box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
+}
+
+.profile-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+}
+
+.profile-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+  border: 3px solid #ffd700;
+  color: white;
+  font-size: 1.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(196, 30, 58, 0.4), 0 0 20px rgba(255, 215, 0, 0.3);
+  animation: christmasGlow 2s ease-in-out infinite;
+}
+
+.profile-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(196, 30, 58, 0.5), 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+.profile-icon {
+  line-height: 1;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 200px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border: 3px solid #ffd700;
+  overflow: hidden;
+  animation: dropdownSlide 0.3s ease-out;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile-header {
+  padding: 1rem;
+  background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+  border-bottom: 2px solid #ffd700;
+}
+
+.profile-username {
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profile-username::before {
+  content: '👤';
+  font-size: 1.2rem;
+}
+
+.dropdown-logout-btn {
+  width: 100%;
+  background: white;
+  color: #c41e3a;
+  border: none;
+  padding: 0.875rem 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dropdown-logout-btn:hover {
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 main {
@@ -559,6 +717,22 @@ main {
   .mascot-watermark {
     width: 80px;
     height: 80px;
+  }
+
+  .profile-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+  }
+
+  .profile-container {
+    top: 15px;
+    right: 15px;
+  }
+
+  .profile-dropdown {
+    right: 0;
+    min-width: 180px;
   }
 }
 </style>
