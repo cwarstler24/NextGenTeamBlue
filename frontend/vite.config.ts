@@ -34,6 +34,9 @@ export default defineConfig({
         'eslint.config.js',
         'src/main.ts',
       ],
+      thresholds: {
+        statements: 90,
+      },
     },
   },
 })

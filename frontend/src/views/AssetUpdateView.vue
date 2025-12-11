@@ -151,9 +151,9 @@ export default {
         });
         asset.value = response.data;
         
-        // Populate form fields with asset data
-        assetType.value = asset.value.type_id;
-        assetLocation.value = asset.value.location_id || null;
+          // Pre-populate form fields with existing asset values (tests expect these populated)
+          assetType.value = asset.value.type_id;
+          assetLocation.value = asset.value.location_id || null;
         assetEmployeeID.value = asset.value.employee_id || '';
         assetNotes.value = asset.value.notes || '';
         
