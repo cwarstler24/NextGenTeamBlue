@@ -38,8 +38,8 @@ jobs:
         working-directory: frontend
         run: |
           if [ -f package-lock.json ]; then 
-            echo "Using npm ci (lockfile present)";
-            npm ci;
+            echo "Lockfile found; trying npm ci (will fallback to npm install on failure)";
+            npm ci || npm install;
           else
             echo "package-lock.json not found; using npm install";
             npm install;
