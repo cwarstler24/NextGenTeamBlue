@@ -19,6 +19,21 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    coverage: { reporter: ['text', 'html'] },
+    setupFiles: ['./src/__tests__/setup.ts'],
+    coverage: { 
+      provider: 'v8',
+      reporter: ['text', 'html', 'json'],
+      include: ['src/**/*.{js,ts,vue}'],
+      exclude: [
+        'node_modules/',
+        'src/__tests__/',
+        'src/**/__tests__/',
+        '**/*.spec.ts',
+        '**/*.test.ts',
+        'vite.config.ts',
+        'eslint.config.js',
+        'src/main.ts',
+      ],
+    },
   },
 })
