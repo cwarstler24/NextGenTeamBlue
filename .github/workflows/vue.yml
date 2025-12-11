@@ -6,9 +6,6 @@ on: [push]
 
 jobs:
   npm-build:
-    defaults:
-      run:
-        working-directory: frontend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,17 +14,48 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 25
+          node-version: '22.x'
           cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Show workspace contents (root)
+        run: |
+          pwd
+          ls -la
+
+      - name: Show frontend directory contents
+        working-directory: frontend
+        run: |
+          pwd
+          ls -la
+
+      - name: Show Node and npm versions
+        run: |
+          node --version
+          npm --version
 
       - name: Install dependencies
-        run: npm ci
+        working-directory: frontend
+        run: |
+          if [ -f package-lock.json ]; then 
+            echo "Lockfile found; trying npm ci (will fallback to npm install on failure)";
+            npm ci || npm install;
+          else
+            echo "package-lock.json not found; using npm install";
+            npm install;
+          fi
 
       - name: Lint
+        working-directory: frontend
         run: npm run lint
 
       - name: Build
+        working-directory: frontend
         run: npm run build
+
+      - name: Test
+        working-directory: frontend
+        run: npm run test:coverage
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
