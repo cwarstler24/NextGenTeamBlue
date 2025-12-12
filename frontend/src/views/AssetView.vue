@@ -360,13 +360,22 @@ export default {
   background: rgba(239, 68, 68, 0.02);
 }
 
+.decommission-card h3 {
+  color: #c41e3a;
+}
+
+.decommission-card .detail-row .label,
+.decommission-card .detail-row .value {
+  color: #1f2937;
+}
+
 .notes-card {
   grid-column: 1 / -1;
 }
 
 .detail-card h3 {
   font-size: 1.125rem;
-  color: #165b33;
+  color: var(--color-heading);
   margin: 0 0 1rem 0;
   font-weight: 600;
   padding-bottom: 0.75rem;
@@ -387,13 +396,13 @@ export default {
 }
 
 .detail-row .label {
-  color: #1f2937;
+  color: var(--color-text-muted);
   font-weight: 500;
   font-size: 0.875rem;
 }
 
 .detail-row .value {
-  color: #1f2937;
+  color: var(--color-text);
   font-weight: 500;
   text-align: right;
 }
