@@ -366,7 +366,7 @@ export default {
 
 .detail-card h3 {
   font-size: 1.125rem;
-  color: var(--color-heading);
+  color: #165b33;
   margin: 0 0 1rem 0;
   font-weight: 600;
   padding-bottom: 0.75rem;
@@ -387,13 +387,13 @@ export default {
 }
 
 .detail-row .label {
-  color: var(--color-text-muted);
+  color: #1f2937;
   font-weight: 500;
   font-size: 0.875rem;
 }
 
 .detail-row .value {
-  color: var(--color-text);
+  color: #1f2937;
   font-weight: 500;
   text-align: right;
 }
