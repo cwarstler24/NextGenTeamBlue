@@ -255,15 +255,17 @@ export default {
 
 .page-header h1 {
   font-size: 2rem;
-  color: var(--color-heading);
+  color: #c41e3a;
   margin: 0 0 0.25rem 0;
   font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.3);
 }
 
 .subtitle {
-  color: var(--color-text-muted);
+  color: #165b33;
   margin: 0;
   font-size: 0.9375rem;
+  font-weight: 500;
 }
 
 .btn-add {
